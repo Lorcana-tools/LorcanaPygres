@@ -32,6 +32,5 @@ dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 [project.urls]
 Homepage = "https://github.com/Lorcana-tools/LorcanaPygress"
 
-
 [project.scripts]
 realpython = "reader.__main__:main"
