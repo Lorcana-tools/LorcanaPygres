@@ -24,7 +24,7 @@ jobs:
       run: echo "{name}={value}" >> $GITHUB_OUTPUT
     - name: Update version in setup.py
       run: >-
-        sed -i "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.$GITHUB_OUTPUT }}/g" setup.py
+        sed -i "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g" setup.py
     - name: Build a binary wheel
       run: >-
         python setup.py sdist bdist_wheel
