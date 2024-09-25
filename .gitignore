@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 
 # Card images
-lorcana_pygres/assets/card_images/*
+LorcanaPygres/assets/card_images/*
 
 
 #Pycharm Files
@@ -131,7 +131,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-lorcana_pygres/.env
+LorcanaPygres/.env
 .venv
 env/
 venv/
