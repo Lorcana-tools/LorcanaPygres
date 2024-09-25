@@ -1,0 +1,7 @@
+# Create a file called '.env' using these parameters.
+
+db_user = 'DBUSERNAME' # Your DB Username
+db_password = 'DBPASSWORD' # Your DB password
+db_name = 'DBNAME' # Your database name
+db_server = 'DBSERVERADDRESS' # Your server URL, IP Address, or Localhost
+db_port = 'DBPORT' # DB Port - 5432 is the common postgresql port

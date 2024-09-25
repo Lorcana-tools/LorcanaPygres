@@ -1,0 +1,5737 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.4 (Ubuntu 16.4-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.4 (Ubuntu 16.4-1.pgdg22.04+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: -
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: artists; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.artists (
+    id integer NOT NULL,
+    artist_name character varying NOT NULL
+);
+
+
+--
+-- Name: artists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.artists_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.artists_id_seq OWNED BY public.artists.id;
+
+
+--
+-- Name: card_artist_map; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_artist_map (
+    id integer NOT NULL,
+    card integer NOT NULL,
+    artist integer NOT NULL
+);
+
+
+--
+-- Name: card_artist_map_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_artist_map_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_artist_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_artist_map_id_seq OWNED BY public.card_artist_map.id;
+
+
+--
+-- Name: card_classification_map; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_classification_map (
+    id integer NOT NULL,
+    card integer NOT NULL,
+    classification integer NOT NULL
+);
+
+
+--
+-- Name: card_classification_map_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_classification_map_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_classification_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_classification_map_id_seq OWNED BY public.card_classification_map.id;
+
+
+--
+-- Name: card_classifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_classifications (
+    id integer NOT NULL,
+    classification character varying NOT NULL
+);
+
+
+--
+-- Name: card_classifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_classifications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_classifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_classifications_id_seq OWNED BY public.card_classifications.id;
+
+
+--
+-- Name: card_inks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_inks (
+    id integer NOT NULL,
+    ink character varying NOT NULL
+);
+
+
+--
+-- Name: card_inks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_inks_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_inks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_inks_id_seq OWNED BY public.card_inks.id;
+
+
+--
+-- Name: card_rarity; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_rarity (
+    id integer NOT NULL,
+    rarity character varying NOT NULL
+);
+
+
+--
+-- Name: card_rarity_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_rarity_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_rarity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_rarity_id_seq OWNED BY public.card_rarity.id;
+
+
+--
+-- Name: card_sets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_sets (
+    id integer NOT NULL,
+    set_number character varying NOT NULL,
+    set_name character varying NOT NULL,
+    release_date date NOT NULL,
+    card_qty integer NOT NULL,
+    lorcana_api_id character varying,
+    is_active boolean DEFAULT true NOT NULL
+);
+
+
+--
+-- Name: card_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.card_types (
+    id integer NOT NULL,
+    card_type character varying NOT NULL
+);
+
+
+--
+-- Name: card_types_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.card_types_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: card_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.card_types_id_seq OWNED BY public.card_types.id;
+
+
+--
+-- Name: cards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cards (
+    id integer NOT NULL,
+    card_name character varying NOT NULL,
+    flavor_text character varying,
+    body_text character varying,
+    card_number integer NOT NULL,
+    inkable boolean NOT NULL,
+    card_set integer NOT NULL,
+    card_rarity integer NOT NULL,
+    card_ink integer NOT NULL,
+    card_franchise integer NOT NULL,
+    lorcana_api_id character varying NOT NULL,
+    card_cost integer NOT NULL,
+    lore_value integer,
+    strength integer,
+    willpower integer,
+    move_cost character varying,
+    enchanted_variants boolean DEFAULT false NOT NULL,
+    image_url character varying NOT NULL,
+    card_type integer NOT NULL,
+    needs_update boolean DEFAULT true NOT NULL,
+    banned_card boolean DEFAULT false NOT NULL,
+    image_downloaded boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: cards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cards_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cards_id_seq OWNED BY public.cards.id;
+
+
+--
+-- Name: disney_franchise; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.disney_franchise (
+    id integer NOT NULL,
+    franchise_name character varying NOT NULL
+);
+
+
+--
+-- Name: disney_franchise_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.disney_franchise_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: disney_franchise_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.disney_franchise_id_seq OWNED BY public.disney_franchise.id;
+
+
+--
+-- Name: set_names_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.set_names_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: set_names_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.set_names_id_seq OWNED BY public.card_sets.id;
+
+
+--
+-- Name: starter_deck_cards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.starter_deck_cards (
+    id integer NOT NULL,
+    starter_deck integer NOT NULL,
+    card_id integer NOT NULL,
+    card_qty integer NOT NULL,
+    card_set integer NOT NULL,
+    card_ink integer NOT NULL,
+    starer_deck integer
+);
+
+
+--
+-- Name: starer_deck_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.starer_deck_cards_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: starer_deck_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.starer_deck_cards_id_seq OWNED BY public.starter_deck_cards.id;
+
+
+--
+-- Name: starter_decks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.starter_decks (
+    id integer NOT NULL,
+    deck_name character varying NOT NULL,
+    card_set integer NOT NULL
+);
+
+
+--
+-- Name: starter_decks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.starter_decks_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: starter_decks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.starter_decks_id_seq OWNED BY public.starter_decks.id;
+
+
+--
+-- Name: artists id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artists ALTER COLUMN id SET DEFAULT nextval('public.artists_id_seq'::regclass);
+
+
+--
+-- Name: card_artist_map id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_artist_map ALTER COLUMN id SET DEFAULT nextval('public.card_artist_map_id_seq'::regclass);
+
+
+--
+-- Name: card_classification_map id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classification_map ALTER COLUMN id SET DEFAULT nextval('public.card_classification_map_id_seq'::regclass);
+
+
+--
+-- Name: card_classifications id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classifications ALTER COLUMN id SET DEFAULT nextval('public.card_classifications_id_seq'::regclass);
+
+
+--
+-- Name: card_inks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_inks ALTER COLUMN id SET DEFAULT nextval('public.card_inks_id_seq'::regclass);
+
+
+--
+-- Name: card_rarity id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_rarity ALTER COLUMN id SET DEFAULT nextval('public.card_rarity_id_seq'::regclass);
+
+
+--
+-- Name: card_sets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_sets ALTER COLUMN id SET DEFAULT nextval('public.set_names_id_seq'::regclass);
+
+
+--
+-- Name: card_types id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_types ALTER COLUMN id SET DEFAULT nextval('public.card_types_id_seq'::regclass);
+
+
+--
+-- Name: cards id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards ALTER COLUMN id SET DEFAULT nextval('public.cards_id_seq'::regclass);
+
+
+--
+-- Name: disney_franchise id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.disney_franchise ALTER COLUMN id SET DEFAULT nextval('public.disney_franchise_id_seq'::regclass);
+
+
+--
+-- Name: starter_deck_cards id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards ALTER COLUMN id SET DEFAULT nextval('public.starer_deck_cards_id_seq'::regclass);
+
+
+--
+-- Name: starter_decks id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_decks ALTER COLUMN id SET DEFAULT nextval('public.starter_decks_id_seq'::regclass);
+
+
+--
+-- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.artists (id, artist_name) FROM stdin;
+403	Nicolas Ky
+404	Cam Kendell
+405	Jacob McAlister
+406	Evana Kisa
+407	Jochem van Gool
+408	Kapik
+409	Jeanne Plounevez
+410	Nicoletta Baldari
+411	Adam Fenton
+412	Brian Weisz
+413	Erika Wiseman
+414	Jeff Merghart
+415	Alexandria Neonakis
+416	Shannon Hallstein
+417	Isaiah Mesq
+420	Livio Cacciatore
+421	Grace Tran
+422	Dave Alvarez
+423	Alice Pisoni
+424	Jiahui Eva Gao
+425	Brianna Garcia
+426	Denny Minonne
+427	Aisha Durmagambetova
+428	Aubrey Archer
+429	Agnes Christianson
+430	Zuzana Sokolova
+431	Monica Catalano
+432	Wouter Bruneel
+433	Maxine Vee
+434	David Navarro Arenas
+436	Elliot Baum
+437	Viv Tanner
+439	Beverly Arce
+440	Jonathan Livslyst
+441	Valerio Buonfantino
+442	Nicola Saviori
+444	Koni
+445	Giulia Riva
+446	Veronica Di Lorenzo
+447	Heidi Neunhoffer
+448	Cristian Romero
+449	Eri Welli
+450	Cory Godbey
+451	Lissette Carrera
+454	Danny Minonne
+455	Otto Paredes
+456	Jared Nickerl
+458	Anna Rud
+459	John Loren
+460	Dylan Bonner
+461	Luis Huerta
+462	Ian MacDonald
+463	Ever Galvez
+464	Anna Stosik
+465	Jimmy Lo
+466	Matthew Oates
+467	Wietse Treurniet
+468	Massimiliano Narciso
+469	Marieke Ferrari
+470	Brian Kensinger
+471	Kasia Brzezinska
+472	Brian Kesinger
+473	Jake Parker
+474	Mike Parker
+475	Giuseppe di Maio
+476	Alan Batson
+477	Adam Ford
+478	Lisanne Koeteeuw
+479	Matthew Robert Davies
+480	Valentina Graziuso
+481	Ron Baird
+482	Hyuna Lee
+483	Carmine Pucci
+484	Jenna Gray
+485	McKay Anderson
+486	Billy Wimblett
+487	Ryan Moeck
+488	Michael Guimont
+489	Andreas Rocha
+490	Javi Salas
+491	Roger P?rez
+492	Simone Buonfantino
+493	Rudy Hill
+494	Marcel Berg
+495	Jackie Droujko
+496	Rob Di Salvo
+497	Sandara Tang
+498	Mila Useche
+499	Randy Bishop
+500	Luca Pinelli
+501	Louis Jones
+502	Michela Cacciatore
+503	Alex Shin
+504	Peter Brockhammer
+505	Adam Bunch
+506	Richelle Canto
+507	Amber Kommavongsa
+508	Federico M. Cugliari
+509	Ally Zermeno
+511	Jennifer Park
+512	Mario Oscar Gabriele
+513	Kenneth Anderson
+514	Roger Perez
+515	Valentin Palombo
+516	Rogie Custodio
+517	Erin Shin
+518	Rianti Hidayat
+519	Hadjie Joos
+520	Stefano Zanchi
+521	Jennifer Gheoduzzi
+522	Julie Vu
+525	Kamil Murzyn
+526	Leonardo Giammichele
+527	Gabriel Angelo
+528	Alex Accorsi
+529	Etienne Savoie
+530	Mariana Moreno
+531	Kumatori Gaku
+532	Carlos Ruiz
+533	Filipe Laurentino
+534	Gonzalo Kenny
+535	Eva Widermann
+536	Kuya Jaypi
+537	Noukah
+538	Juan Diego Leon
+539	Isabella Ceravolo
+540	Michaela Martin
+541	Jeremy Adams
+542	Dustin Panzino
+543	Bryn Jones
+544	Kendall Hale
+545	Casey Robin
+547	Kiersten Hale
+548	LadyShalirin
+552	Connie Kang
+553	Matt Chapman
+554	Andrew Trabbold
+555	Antonia Flechsig
+556	Ellie Horie
+558	Pix Smith
+559	S. Shaw
+560	L. Giammichele
+562	Pablo Hidalgo
+563	Julie
+564	Jeff Murchie
+565	E. Meleranci
+566	Kristina Chouri
+419	Defne Tözüm
+557	Mané Kandalyan
+568	Bill Robinson
+569	Lauren Levering
+570	Don Aguillo
+571	R. la Barbera
+572	Michael "Cookie" Niewiadomy
+573	Sandra Rios
+574	Arianna Rea
+576	Nicholas Kole
+577	M. Robert Davies
+578	P. Gaylord
+579	Gaku Kumatori
+581	GusGadget
+583	Kevin Hong
+584	Vicky Xie
+585	Tanisha Cherislin
+586	Marco Giorgianni
+591	Therese Videfall
+592	Rosa la Barbera
+593	Chunxi Mu
+596	Lauren Barger
+599	Francesco D'ippolito
+600	Vanessa Morales
+601	Jared Mathews
+602	Taraneh
+603	Dustin Panino
+604	Malia Ewart
+605	Andrea Femerstrand
+606	James C Mulligan
+607	Samanta Erdini
+609	Ivan Shavrin
+610	Stefano Spagnuolo
+611	Aris Zentelis
+612	Brittney Hackett
+613	Saulo Nate
+614	Andy Estrada
+615	Jake Murphy
+616	Roberto Gatto
+617	James Rey Sanchez
+618	Julien Vandois
+620	Justin Runfola
+622	Celeste Jamneck
+623	Carlos Gomes Cabral
+626	Elodie Mondoloni
+627	Antoine Couttolenc
+628	Douglas De La Hoz
+629	Federico Maria Cugliari
+630	Cesar Vergara
+631	Dinulescu Alexandru
+632	Simangaliso Sibaya
+633	Maddie Shilt
+634	Raquel Villanueva
+635	Carlos Luzzi
+637	Linh Dang
+638	Josep Sole
+639	Lava Hijzelaar
+641	French Carlomagno
+642	Toni Bruno
+643	Gabe
+644	Karen Hallion
+646	Jon Densk
+647	Hayley Evans
+649	Gianluca Barone
+650	Alexa Rockman
+651	Javier Salas
+652	Jochem Van Gool
+653	Janna Gray
+654	Andrey Chumak
+655	Dave Beauchene
+656	Phillip Kruse
+657	James Gray
+658	R. La Barbera
+659	Duyen Nguyen
+660	Dav Augereau
+661	Anh Dang
+662	Adrianne Gumaya
+663	Oleg Yurkov
+664	Lauren Walsh
+665	Caner Soylu
+667	Milica Celikovic
+669	Whitney Pollett
+673	Mel Milton
+674	Clio Wolfensberger
+675	Cary Godhey
+676	Rosalia Radosti
+677	Gabriel Romero
+678	Pia Smith
+679	Pirel
+681	Fliipe Laurentino
+682	Pao Yong
+683	Cookie
+685	Elliot Bocxtaele
+686	Miss Tania Soler
+688	Andrea Parisi
+689	Angela Simpson
+690	Mariana Moreno Ayala
+692	Angelina Ricardo
+693	Emily Abeydeera
+694	Natalia Trykowska
+696	Rachel Elese
+697	Sam Burley
+698	Anderson Mahanski
+699	Yu Nguyen
+700	Ye Yang
+701	Oggy Christiansson
+702	Moniek Schilder
+703	Andrew Pena
+704	Jonas Petrauskas
+705	Mike Me
+706	Diogo Saito
+708	Devin Yang
+709	Maria Dresden
+711	Sarah Schmidt
+712	Matt Gaser
+713	Ryan Bittner
+714	Gregor Krysinski
+715	Giulia Priori
+716	Alibeth Zermeno
+717	Justin Gerard
+718	Yari Lute
+510	Cécile Carre
+625	César Vergara
+567	Hedvig Häggman-Sund
+597	João Moura
+719	Luigi Aimé
+695	Olivier Désirée
+\.
+
+
+--
+-- Data for Name: card_artist_map; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_artist_map (id, card, artist) FROM stdin;
+1	1	404
+2	2	405
+3	3	406
+4	3	407
+5	4	408
+6	5	409
+7	6	410
+8	7	411
+9	8	412
+10	9	413
+11	10	414
+12	11	415
+13	12	416
+14	13	417
+16	15	419
+17	15	420
+18	16	421
+19	17	422
+20	17	423
+21	18	424
+22	19	421
+23	20	425
+24	21	419
+25	21	426
+26	22	427
+27	23	428
+28	24	429
+29	25	430
+30	25	420
+31	26	431
+32	27	432
+33	28	433
+34	28	434
+36	30	436
+37	30	437
+40	33	439
+41	33	440
+42	34	441
+43	35	442
+45	36	431
+46	37	429
+47	38	444
+48	39	423
+49	40	445
+50	41	446
+51	41	420
+52	42	442
+53	43	447
+54	44	445
+55	45	448
+56	46	449
+57	47	450
+58	48	451
+60	50	445
+61	51	421
+63	53	454
+64	54	455
+65	55	456
+66	55	423
+68	57	458
+69	57	420
+71	59	459
+72	60	460
+73	61	461
+74	62	462
+75	63	444
+76	64	463
+77	64	464
+78	65	424
+79	66	465
+80	67	466
+81	68	467
+82	69	432
+83	70	468
+84	70	469
+85	71	461
+86	72	470
+87	73	426
+88	74	423
+89	75	471
+90	76	472
+91	77	473
+92	78	474
+93	79	475
+94	80	441
+95	81	476
+96	82	421
+97	83	444
+98	84	459
+99	85	407
+100	86	476
+101	87	409
+102	88	477
+103	89	421
+104	90	478
+105	91	479
+106	92	480
+107	93	481
+108	94	482
+109	95	483
+110	96	433
+111	97	484
+112	98	485
+113	99	486
+114	100	487
+115	101	488
+116	102	489
+117	103	490
+118	104	491
+119	105	492
+120	106	493
+121	107	424
+122	108	407
+123	109	446
+124	109	420
+125	110	494
+126	111	472
+127	112	495
+128	113	496
+129	114	497
+130	115	468
+131	116	421
+132	117	498
+133	118	426
+134	119	428
+135	120	492
+136	121	499
+137	122	483
+138	123	429
+139	124	500
+140	125	442
+141	126	426
+142	127	501
+143	128	478
+144	129	502
+145	130	478
+146	131	503
+147	132	504
+148	133	505
+149	134	489
+150	135	403
+151	136	467
+152	137	506
+153	138	507
+154	139	508
+155	140	508
+156	141	509
+157	142	510
+158	142	464
+159	143	511
+161	144	512
+162	145	508
+163	146	513
+164	147	514
+165	148	515
+166	149	508
+167	150	484
+168	151	516
+169	151	517
+170	152	518
+171	153	519
+172	154	421
+173	155	520
+174	156	521
+175	156	420
+176	157	421
+177	158	522
+180	161	458
+181	161	464
+182	162	426
+183	163	512
+184	164	525
+185	165	526
+62	52	448
+15	14	556
+38	31	556
+160	143	556
+179	160	693
+178	159	475
+67	56	567
+59	49	569
+35	29	572
+44	35	634
+186	166	527
+187	167	403
+188	168	503
+189	169	528
+190	170	529
+191	171	449
+192	172	530
+193	173	475
+194	174	472
+195	175	471
+196	176	531
+197	177	532
+198	178	533
+199	179	405
+200	180	423
+201	181	501
+202	182	534
+203	183	421
+204	184	509
+205	185	406
+206	185	420
+207	186	412
+208	187	535
+209	188	536
+210	189	441
+211	190	493
+212	191	423
+213	192	537
+214	193	530
+215	194	538
+216	195	539
+217	196	447
+218	197	540
+219	198	442
+220	199	541
+221	200	542
+222	201	527
+223	202	541
+224	203	543
+225	204	487
+226	205	544
+227	206	449
+228	207	545
+229	208	473
+230	209	544
+231	210	544
+233	212	407
+234	213	490
+235	214	544
+236	215	544
+237	216	519
+238	217	446
+239	217	420
+240	218	520
+241	219	507
+243	221	533
+244	222	547
+245	223	428
+246	224	428
+247	225	544
+248	226	544
+249	227	548
+251	229	490
+252	230	479
+255	232	552
+256	232	495
+257	233	427
+258	234	553
+259	235	445
+260	236	496
+261	237	554
+262	238	555
+263	239	473
+264	240	547
+265	241	428
+266	242	526
+267	243	448
+269	245	533
+270	246	553
+271	247	556
+272	248	417
+273	249	540
+274	250	423
+275	251	509
+276	252	557
+277	252	558
+278	253	412
+279	254	480
+280	255	559
+281	255	560
+282	256	540
+283	257	479
+284	258	412
+285	259	445
+286	260	408
+288	262	538
+289	263	459
+290	264	545
+291	265	562
+292	266	530
+293	267	496
+294	268	536
+295	269	471
+296	270	553
+297	271	554
+298	272	563
+299	273	512
+300	274	449
+301	275	484
+302	276	427
+303	277	528
+304	278	528
+305	279	564
+306	280	451
+307	281	481
+308	282	526
+309	283	481
+310	284	417
+311	285	481
+312	286	565
+313	286	560
+314	287	441
+315	288	448
+316	289	539
+317	290	566
+318	290	530
+319	291	566
+320	291	530
+321	292	567
+322	293	444
+323	294	479
+324	295	540
+325	296	533
+326	297	526
+327	298	545
+328	299	557
+329	299	500
+330	300	548
+331	301	568
+332	302	569
+333	303	557
+334	304	570
+335	305	412
+336	306	526
+337	307	571
+338	307	560
+339	308	423
+340	309	568
+341	310	483
+342	310	526
+343	311	572
+344	312	445
+345	313	573
+346	314	574
+348	316	445
+349	317	512
+350	318	411
+351	319	556
+352	320	444
+353	321	572
+355	323	441
+356	324	417
+358	326	507
+359	327	507
+360	328	479
+361	329	576
+362	330	577
+363	330	560
+364	331	578
+365	331	560
+366	332	412
+367	333	579
+368	334	473
+369	335	532
+370	336	461
+268	244	567
+354	322	567
+287	261	417
+253	230	548
+232	211	451
+242	220	451
+250	228	607
+357	325	441
+372	338	504
+373	339	526
+374	340	579
+375	341	423
+376	342	568
+377	343	473
+378	344	491
+379	345	450
+380	346	417
+382	348	427
+383	349	581
+384	349	526
+386	350	526
+387	351	479
+388	352	538
+389	353	526
+390	354	583
+391	355	571
+392	355	560
+393	356	574
+394	357	540
+395	358	412
+396	359	566
+397	360	429
+398	361	584
+399	361	530
+400	362	445
+401	363	421
+402	364	519
+403	365	518
+404	366	451
+405	367	407
+406	368	538
+407	369	557
+408	369	407
+409	370	555
+410	371	585
+411	372	555
+412	373	417
+413	374	504
+414	375	423
+415	376	479
+416	377	406
+417	378	421
+418	379	505
+419	380	421
+420	381	421
+421	382	576
+422	383	417
+423	384	586
+424	385	421
+425	386	535
+427	388	496
+428	389	412
+429	390	461
+431	392	448
+432	393	484
+433	394	444
+435	396	484
+436	397	537
+437	398	579
+438	399	449
+439	400	479
+442	403	571
+443	403	560
+444	404	562
+445	404	414
+446	405	456
+447	405	528
+448	406	456
+449	407	579
+450	408	555
+451	409	591
+452	410	416
+453	411	592
+454	411	420
+455	412	481
+456	413	593
+458	414	449
+459	415	481
+463	419	596
+464	420	597
+465	421	407
+467	423	491
+468	423	526
+469	424	599
+470	424	475
+471	425	448
+472	426	539
+473	427	600
+474	428	459
+475	429	482
+476	430	484
+477	431	534
+478	432	534
+479	433	403
+480	434	530
+481	435	601
+482	436	442
+483	437	602
+484	438	528
+485	439	538
+486	440	603
+487	441	541
+488	442	466
+489	443	604
+490	444	499
+491	445	423
+492	446	605
+493	447	544
+494	448	544
+495	449	423
+496	450	507
+497	451	606
+498	452	513
+499	453	607
+500	454	495
+501	455	540
+502	456	478
+503	457	472
+504	458	423
+506	460	609
+507	461	610
+508	462	611
+509	463	445
+510	464	526
+511	465	612
+512	466	613
+513	467	445
+514	468	614
+515	468	520
+516	469	615
+517	470	447
+518	471	500
+519	472	520
+520	473	486
+521	474	603
+522	475	467
+523	476	616
+524	477	617
+525	478	618
+526	479	459
+527	480	536
+528	481	553
+529	482	455
+530	483	449
+531	484	449
+533	486	449
+534	487	519
+535	487	558
+536	488	455
+537	489	610
+538	490	620
+540	492	511
+541	492	420
+542	493	460
+543	493	622
+544	494	513
+545	495	415
+546	496	576
+547	497	623
+548	498	451
+549	499	455
+551	501	625
+552	502	626
+553	503	627
+555	505	450
+505	459	623
+430	391	448
+457	414	625
+554	504	625
+550	500	460
+466	422	693
+371	337	535
+441	402	567
+461	417	567
+462	418	567
+539	491	462
+381	347	526
+532	485	701
+460	416	695
+385	350	592
+440	401	607
+556	506	520
+557	507	520
+558	508	603
+559	509	628
+560	510	489
+561	511	444
+562	512	478
+563	513	629
+564	514	538
+565	515	630
+567	517	631
+568	518	632
+569	519	633
+570	520	634
+571	521	411
+572	522	635
+573	523	474
+574	524	501
+575	525	424
+576	526	629
+577	527	422
+578	527	420
+579	528	579
+580	529	412
+582	530	475
+583	531	576
+584	532	482
+585	533	515
+586	534	634
+587	535	472
+588	536	505
+589	537	637
+590	538	462
+591	539	426
+592	540	544
+593	541	512
+594	542	542
+595	543	448
+596	544	541
+597	545	455
+598	546	518
+599	547	483
+600	548	404
+601	549	623
+602	550	423
+603	551	528
+604	552	427
+605	553	638
+606	554	421
+607	555	444
+608	556	639
+609	556	556
+610	557	532
+611	558	409
+612	559	553
+613	560	569
+614	561	535
+615	562	473
+617	564	423
+618	565	408
+619	566	641
+620	567	473
+621	568	526
+622	569	502
+623	569	445
+624	570	421
+625	571	474
+626	572	477
+627	573	642
+628	574	485
+629	575	579
+630	576	542
+631	577	532
+632	578	643
+633	579	644
+634	580	404
+636	582	646
+637	582	647
+638	583	441
+639	584	530
+640	585	432
+642	587	412
+643	588	423
+644	589	423
+645	590	484
+646	591	428
+647	592	623
+648	593	576
+649	594	423
+650	595	518
+651	596	412
+652	597	530
+653	598	471
+654	599	530
+655	600	416
+656	601	530
+657	602	464
+658	603	461
+659	604	433
+660	605	490
+661	606	649
+662	607	526
+663	608	535
+664	609	579
+665	610	542
+666	611	613
+667	612	650
+668	613	479
+669	614	423
+670	615	651
+671	616	652
+672	617	528
+673	618	499
+674	619	653
+675	620	654
+676	621	655
+677	622	412
+678	623	544
+679	624	655
+680	625	544
+681	626	576
+682	627	525
+683	627	449
+684	628	656
+685	629	657
+686	630	652
+687	631	417
+688	632	533
+689	633	494
+690	634	528
+691	635	632
+692	636	538
+693	637	658
+694	637	560
+695	638	507
+696	639	538
+697	640	656
+698	641	526
+699	642	607
+700	643	423
+701	644	449
+702	645	449
+703	646	484
+704	647	441
+705	648	544
+706	649	417
+707	650	421
+708	651	404
+709	652	659
+710	652	428
+711	653	576
+712	654	479
+713	655	461
+714	656	494
+715	657	473
+716	658	412
+717	659	660
+718	659	445
+719	660	421
+720	661	441
+721	662	544
+722	662	661
+723	663	576
+724	664	445
+725	665	412
+726	666	445
+727	667	456
+728	668	479
+729	669	445
+730	670	662
+731	671	632
+732	672	519
+733	673	444
+734	674	544
+735	675	448
+736	676	507
+737	677	583
+738	678	554
+739	679	663
+740	680	525
+635	581	415
+566	516	556
+581	530	599
+616	563	719
+741	681	664
+742	682	564
+743	683	665
+744	684	576
+745	685	658
+746	685	560
+747	686	526
+748	687	445
+749	688	651
+750	689	553
+751	690	468
+752	691	417
+753	692	412
+754	693	652
+756	694	456
+757	695	667
+758	696	421
+759	697	526
+761	699	428
+762	700	528
+763	700	544
+764	701	538
+765	702	651
+766	703	444
+767	704	564
+768	705	665
+769	706	556
+770	707	658
+771	707	560
+772	708	553
+773	709	567
+774	710	445
+775	711	479
+776	712	540
+777	713	444
+778	714	544
+779	715	663
+780	716	576
+781	717	504
+782	718	412
+784	720	513
+785	721	423
+786	721	669
+787	722	479
+788	723	513
+789	724	579
+790	725	461
+794	728	513
+795	729	585
+796	730	673
+797	731	661
+798	732	412
+799	733	674
+800	734	507
+801	735	484
+802	736	675
+803	737	568
+804	738	525
+805	739	513
+806	740	456
+807	741	556
+808	742	461
+809	743	484
+810	744	444
+811	745	449
+812	746	554
+813	747	449
+814	748	554
+815	749	567
+816	750	676
+817	751	576
+818	752	607
+819	753	677
+820	753	678
+821	754	423
+822	755	679
+823	756	404
+825	758	681
+826	759	479
+827	760	658
+828	760	560
+829	761	533
+830	762	576
+831	763	579
+832	764	528
+833	765	655
+834	766	456
+835	767	461
+836	768	526
+837	769	459
+838	770	568
+839	771	526
+840	772	448
+841	773	682
+842	774	513
+843	775	667
+844	776	568
+845	777	568
+846	778	667
+847	779	481
+848	780	585
+849	781	450
+850	782	421
+851	783	499
+852	784	683
+853	785	662
+855	787	685
+856	788	663
+857	789	660
+858	790	461
+860	792	544
+861	793	494
+862	794	481
+863	795	473
+864	796	456
+865	797	417
+866	798	652
+867	799	448
+868	800	576
+869	801	576
+870	802	683
+871	803	526
+872	804	554
+873	805	683
+874	806	421
+875	807	444
+876	808	421
+877	809	553
+878	810	504
+879	811	507
+880	812	632
+881	813	607
+882	814	525
+883	815	660
+884	816	663
+885	817	449
+886	818	433
+887	819	479
+888	820	686
+889	821	447
+890	822	520
+891	823	544
+893	825	567
+894	826	472
+895	827	688
+896	828	635
+897	829	448
+898	830	520
+899	831	533
+900	832	407
+901	833	526
+902	834	428
+903	835	607
+904	836	513
+905	837	637
+906	838	478
+907	839	427
+908	840	478
+909	841	689
+910	842	448
+911	843	534
+912	844	445
+913	845	556
+914	846	690
+915	847	536
+916	848	492
+917	849	503
+918	850	541
+920	852	604
+921	853	692
+922	854	428
+923	855	538
+924	856	693
+925	857	455
+783	719	404
+859	791	404
+755	694	659
+919	851	556
+892	824	407
+854	786	494
+792	726	586
+791	726	679
+760	698	592
+926	858	530
+927	859	472
+928	860	472
+929	861	455
+930	862	472
+931	863	538
+932	864	535
+933	865	493
+934	866	694
+935	867	492
+936	868	446
+937	868	420
+938	869	607
+939	870	693
+940	871	519
+941	872	513
+942	873	477
+943	874	548
+944	875	479
+945	876	426
+946	877	694
+947	878	432
+948	879	449
+949	880	695
+950	881	527
+951	882	553
+952	883	696
+953	884	449
+954	884	697
+955	885	447
+956	886	423
+958	888	698
+959	889	633
+960	890	476
+961	891	464
+962	892	634
+963	893	633
+964	894	423
+965	895	699
+966	896	700
+967	896	634
+968	897	701
+969	898	701
+970	899	412
+971	900	412
+972	901	635
+973	902	520
+974	903	499
+975	904	474
+976	905	646
+977	905	647
+978	906	612
+979	907	698
+980	908	702
+981	909	432
+982	910	626
+983	911	460
+984	912	479
+985	913	445
+986	914	411
+987	915	703
+988	916	704
+989	917	616
+990	918	440
+991	919	462
+992	920	449
+993	921	483
+994	922	705
+995	923	620
+996	924	627
+997	925	706
+998	926	576
+999	927	472
+1000	928	442
+1001	929	515
+1002	930	442
+1003	931	601
+1004	932	601
+1005	933	471
+1006	934	620
+1007	935	426
+1008	936	513
+1009	937	504
+1010	938	612
+1011	939	455
+1013	941	421
+1014	942	474
+1015	943	573
+1016	944	480
+1017	945	693
+1018	946	571
+1019	946	560
+1020	947	708
+1021	948	419
+1022	949	616
+1023	950	497
+1024	951	541
+1025	952	466
+1026	953	709
+1027	954	526
+1029	956	444
+1030	957	444
+1031	958	493
+1032	959	711
+1033	960	606
+1034	961	532
+1035	962	542
+1036	962	526
+1037	963	615
+1038	964	526
+1039	965	569
+1040	966	472
+1041	967	537
+1042	968	474
+1043	969	428
+1044	970	408
+1045	971	491
+1046	971	647
+1047	972	673
+1048	973	606
+1049	974	517
+1050	975	706
+1051	976	604
+1052	977	701
+1053	978	696
+1054	979	446
+1055	979	420
+1056	980	696
+1057	981	712
+1058	982	530
+1059	983	713
+1060	984	714
+1061	985	541
+1062	986	626
+1063	987	499
+1064	988	499
+1065	989	423
+1066	990	460
+1067	991	494
+1068	992	632
+1069	993	579
+1070	994	502
+1071	994	715
+1072	995	508
+1073	996	526
+1074	997	544
+1075	998	532
+1076	999	502
+1077	999	715
+1078	1000	607
+1079	1001	716
+1080	1002	455
+1081	1003	423
+1082	1004	448
+1083	1005	507
+1084	1006	610
+1085	1007	528
+1086	1008	497
+1087	1009	421
+1088	1010	502
+1089	1010	715
+1090	1011	717
+1091	1012	511
+1092	1013	423
+1094	1015	623
+1095	1016	530
+1096	1017	718
+1097	1018	719
+1098	1019	465
+1099	1020	403
+957	887	556
+1093	1014	462
+1012	940	548
+1028	955	686
+1100	1021	481
+1101	1023	481
+1102	1022	641
+1104	1025	420
+1105	1026	494
+1106	1027	530
+641	586	528
+824	757	412
+426	387	404
+39	32	510
+254	231	535
+434	395	579
+70	58	567
+793	727	576
+1103	1025	592
+347	315	607
+\.
+
+
+--
+-- Data for Name: card_classification_map; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_classification_map (id, card, classification) FROM stdin;
+1	1	87
+2	1	88
+3	2	89
+4	2	88
+5	3	89
+6	3	90
+7	4	89
+8	4	91
+9	5	89
+10	5	92
+11	6	89
+12	6	88
+13	6	93
+14	7	94
+15	7	88
+16	7	93
+17	8	89
+18	8	91
+19	9	87
+20	9	88
+21	10	89
+22	10	88
+23	11	87
+24	11	92
+25	12	89
+26	12	88
+27	13	89
+28	13	92
+29	14	89
+30	14	91
+31	15	89
+32	15	88
+33	16	87
+34	16	88
+35	16	95
+36	16	96
+37	17	94
+38	17	92
+39	18	89
+40	18	92
+41	19	89
+42	19	88
+43	20	87
+44	20	90
+45	20	97
+46	21	89
+47	21	91
+48	22	89
+49	22	92
+50	22	98
+51	23	87
+52	23	88
+53	35	87
+54	35	88
+55	35	99
+56	36	89
+57	36	92
+58	37	87
+59	37	92
+60	38	89
+61	38	92
+62	39	89
+63	39	100
+64	40	89
+65	40	92
+66	41	89
+67	41	90
+68	41	99
+69	42	94
+70	42	90
+71	42	99
+72	43	89
+73	43	88
+74	43	99
+75	44	87
+76	44	101
+77	45	87
+78	45	101
+79	46	87
+80	46	101
+81	47	89
+82	47	92
+83	48	89
+84	48	90
+85	48	99
+86	49	94
+87	49	90
+88	49	99
+89	50	89
+90	50	90
+91	50	99
+92	51	89
+93	51	90
+94	51	99
+95	52	87
+96	52	92
+97	52	99
+98	53	89
+99	53	92
+100	54	87
+101	54	102
+102	54	99
+103	55	89
+104	55	100
+105	56	87
+106	56	90
+107	57	87
+108	57	90
+109	57	97
+110	57	99
+111	58	89
+112	59	87
+113	59	90
+114	59	99
+115	69	89
+116	69	92
+117	70	89
+118	71	87
+119	71	90
+120	71	103
+121	71	95
+122	72	87
+123	72	92
+124	73	89
+125	73	92
+126	74	94
+127	74	90
+128	75	89
+129	75	90
+130	76	87
+131	76	92
+132	77	89
+133	77	92
+134	78	89
+135	78	90
+136	79	87
+137	79	88
+138	80	94
+139	80	88
+140	80	104
+141	81	89
+142	81	92
+143	81	105
+144	82	87
+145	82	88
+146	83	89
+147	83	90
+148	83	103
+149	84	87
+150	84	88
+151	85	89
+152	85	92
+153	85	106
+154	86	87
+155	86	92
+156	87	89
+157	87	92
+158	88	89
+159	88	92
+160	88	95
+161	89	87
+162	89	88
+163	89	105
+164	90	89
+165	90	90
+166	90	99
+167	91	87
+168	91	90
+169	91	99
+170	92	89
+171	92	92
+172	93	89
+173	93	92
+174	103	87
+175	103	88
+176	103	93
+177	104	89
+178	104	105
+179	104	95
+180	105	87
+181	105	90
+182	105	95
+183	105	96
+184	106	89
+185	106	92
+186	107	89
+187	107	92
+188	108	89
+189	109	89
+190	109	88
+191	110	87
+192	110	88
+193	111	89
+194	111	95
+195	112	89
+196	112	90
+197	113	89
+198	113	88
+199	113	107
+200	114	89
+201	114	88
+202	114	107
+203	115	89
+204	115	88
+205	116	94
+206	116	88
+207	116	93
+208	116	96
+209	117	89
+210	117	88
+211	117	93
+212	118	89
+213	118	92
+214	119	89
+215	119	88
+216	120	94
+217	120	88
+218	121	87
+219	121	88
+220	121	103
+221	122	89
+222	122	90
+223	122	105
+224	122	95
+225	123	89
+226	123	88
+227	123	103
+228	124	89
+229	124	92
+230	125	87
+231	125	88
+232	125	105
+233	126	89
+234	126	92
+235	127	89
+236	127	92
+237	137	89
+238	137	92
+239	138	89
+240	138	105
+241	138	96
+242	139	87
+243	139	92
+244	140	89
+245	140	90
+246	141	89
+247	141	92
+248	142	89
+249	142	102
+250	143	94
+251	143	102
+252	144	89
+253	144	92
+254	144	108
+255	145	89
+256	145	92
+257	146	89
+258	146	92
+259	146	104
+260	147	94
+261	147	92
+262	148	89
+263	148	92
+264	149	87
+265	149	92
+266	150	89
+267	150	93
+268	151	89
+269	151	102
+270	152	87
+271	152	92
+272	153	87
+273	153	92
+274	154	89
+275	154	88
+276	155	87
+277	155	88
+278	156	89
+279	156	90
+280	156	97
+281	156	99
+282	157	87
+283	157	92
+284	157	98
+285	158	89
+286	158	88
+287	171	89
+288	171	102
+289	171	104
+290	172	89
+291	172	92
+292	173	87
+293	173	90
+294	174	89
+295	174	90
+296	174	107
+297	175	89
+298	175	90
+299	176	87
+300	176	90
+301	176	105
+302	176	95
+303	176	96
+304	177	89
+305	177	88
+306	177	93
+307	178	94
+308	178	88
+309	179	89
+310	179	92
+311	180	89
+312	180	100
+313	181	87
+314	181	88
+315	182	87
+316	182	88
+317	183	87
+318	183	88
+319	184	89
+320	184	92
+321	184	95
+322	185	89
+323	185	102
+324	185	104
+325	186	89
+326	186	92
+327	187	89
+328	187	100
+329	188	89
+330	188	92
+331	188	96
+332	189	89
+333	189	88
+334	190	94
+335	190	88
+336	191	87
+337	191	90
+338	192	87
+339	192	88
+340	192	103
+341	193	89
+342	193	88
+343	193	104
+344	194	89
+345	194	90
+346	205	89
+347	205	92
+348	205	109
+349	206	87
+350	206	88
+351	207	89
+352	207	88
+353	207	93
+354	208	89
+355	208	92
+356	209	89
+357	209	92
+358	209	109
+359	210	89
+360	210	92
+361	210	109
+362	211	89
+363	211	92
+364	212	87
+365	212	90
+366	213	89
+367	213	92
+368	214	89
+369	214	92
+370	214	109
+371	215	89
+372	215	92
+373	215	109
+374	216	89
+375	216	104
+376	217	89
+377	217	88
+378	218	89
+379	218	102
+380	218	104
+381	219	87
+382	219	88
+383	219	93
+384	220	94
+385	220	88
+386	220	93
+387	221	89
+388	221	92
+389	222	89
+390	222	92
+391	223	94
+392	223	88
+393	223	93
+394	224	87
+395	224	88
+396	224	93
+397	225	89
+398	225	92
+399	225	109
+400	226	89
+401	226	92
+402	226	109
+403	227	89
+404	227	88
+405	227	93
+406	228	89
+407	228	88
+408	228	93
+409	229	94
+410	229	88
+411	229	93
+412	230	94
+413	230	90
+414	230	97
+415	231	89
+416	231	90
+417	231	97
+418	239	87
+419	239	88
+420	239	99
+421	240	89
+422	240	92
+423	240	98
+424	241	89
+425	241	92
+426	242	89
+427	242	90
+428	242	99
+429	243	89
+430	243	88
+431	243	97
+432	243	99
+433	244	89
+434	244	92
+435	244	98
+436	245	94
+437	245	102
+438	245	98
+439	246	89
+440	246	92
+441	246	98
+442	247	87
+443	247	92
+444	248	89
+445	248	102
+446	249	89
+447	249	104
+448	250	89
+449	250	90
+450	250	99
+451	251	89
+452	251	90
+453	251	99
+454	251	110
+455	252	94
+456	252	90
+457	252	99
+458	253	89
+459	253	90
+460	253	99
+461	254	89
+462	254	102
+463	254	99
+464	255	89
+465	255	102
+466	255	99
+467	256	89
+468	256	102
+469	256	99
+470	257	89
+471	257	102
+472	257	99
+473	258	89
+474	258	102
+475	258	99
+476	259	89
+477	259	92
+478	260	89
+479	260	88
+480	261	94
+481	261	88
+482	262	89
+483	262	88
+484	263	87
+485	263	88
+486	263	99
+487	264	94
+488	264	90
+489	264	99
+490	265	89
+491	265	90
+492	265	99
+493	273	87
+494	273	88
+495	274	89
+496	274	88
+497	274	103
+498	275	89
+499	275	88
+500	275	93
+501	276	94
+502	276	88
+503	276	93
+504	277	89
+505	277	92
+506	278	89
+507	279	94
+508	280	87
+509	280	92
+510	281	94
+511	281	92
+512	282	89
+513	283	89
+514	283	90
+515	283	99
+516	284	87
+517	284	99
+518	285	89
+519	285	88
+520	285	103
+521	286	94
+522	286	88
+523	286	103
+524	287	89
+525	287	90
+526	288	89
+527	288	92
+528	289	89
+529	289	92
+530	290	89
+531	290	92
+532	291	89
+533	291	92
+534	292	89
+535	292	92
+536	293	87
+537	293	90
+538	293	103
+539	294	87
+540	294	90
+541	294	97
+542	295	87
+543	295	90
+544	296	89
+545	296	92
+546	297	89
+547	297	90
+548	297	97
+549	298	89
+550	298	88
+551	298	93
+552	299	89
+553	299	90
+554	299	97
+555	307	89
+556	307	92
+557	308	89
+558	308	92
+559	309	89
+560	309	92
+561	310	87
+562	310	88
+563	311	87
+564	311	92
+565	312	87
+566	312	92
+567	313	89
+568	313	90
+569	314	94
+570	314	90
+571	314	97
+572	315	89
+573	315	90
+574	316	87
+575	316	92
+576	317	87
+577	317	88
+578	318	94
+579	318	88
+580	319	89
+581	319	88
+582	320	89
+583	320	90
+584	321	89
+585	321	88
+586	321	93
+587	322	89
+588	322	90
+589	322	93
+590	323	89
+591	323	90
+592	323	97
+593	324	94
+594	324	90
+595	324	97
+596	325	89
+597	325	90
+598	326	89
+599	326	88
+600	326	93
+601	327	94
+602	327	88
+603	327	93
+604	328	89
+605	328	88
+606	328	93
+607	330	89
+608	330	90
+609	331	87
+610	331	111
+611	332	89
+612	332	92
+613	341	87
+614	341	88
+615	342	94
+616	342	88
+617	342	112
+618	343	87
+619	343	88
+620	343	112
+621	344	89
+622	344	88
+623	344	112
+624	345	87
+625	346	94
+626	346	92
+627	347	89
+628	347	92
+629	348	87
+630	348	90
+631	349	94
+632	349	90
+633	350	89
+634	351	94
+635	351	90
+636	352	89
+637	352	102
+638	353	89
+639	353	108
+640	354	89
+641	354	102
+642	355	89
+643	355	88
+644	355	93
+645	356	89
+646	356	88
+647	357	89
+648	357	92
+649	358	89
+650	358	92
+651	359	89
+652	359	92
+653	360	89
+654	360	92
+655	361	87
+656	361	88
+657	361	103
+658	362	89
+659	362	92
+660	363	89
+661	363	88
+662	363	107
+663	363	110
+664	364	89
+665	365	89
+666	365	88
+667	375	87
+668	375	88
+669	375	103
+670	376	89
+671	376	88
+672	376	103
+673	377	94
+674	377	88
+675	377	103
+676	378	89
+677	378	102
+678	378	104
+679	379	87
+680	380	87
+681	380	88
+682	380	93
+683	380	113
+684	381	94
+685	381	88
+686	381	93
+687	381	113
+688	382	87
+689	382	88
+690	383	89
+691	383	102
+692	384	87
+693	384	88
+694	384	113
+695	385	94
+696	385	88
+697	385	103
+698	385	107
+699	386	89
+700	386	88
+701	386	103
+702	387	94
+703	387	90
+704	387	99
+705	388	89
+706	388	90
+707	388	107
+708	389	89
+709	389	92
+710	390	89
+711	390	92
+712	391	89
+713	391	88
+714	392	87
+715	392	101
+716	393	89
+717	393	90
+718	393	93
+719	394	89
+720	394	88
+721	395	89
+722	395	103
+723	396	89
+724	396	90
+725	396	97
+726	397	87
+727	397	88
+728	398	89
+729	398	92
+730	399	87
+731	399	88
+732	399	103
+733	400	87
+734	400	88
+735	400	93
+736	401	89
+737	401	88
+738	401	93
+739	409	89
+740	409	92
+741	410	89
+742	410	92
+743	411	89
+744	411	88
+745	411	103
+746	412	89
+747	412	92
+748	413	89
+749	413	88
+750	414	89
+751	414	88
+752	414	93
+753	414	114
+754	415	89
+755	415	92
+756	416	89
+757	416	88
+758	417	87
+759	417	88
+760	417	93
+761	417	114
+762	418	89
+763	418	88
+764	419	89
+765	419	92
+766	420	94
+767	420	88
+768	421	87
+769	421	92
+770	422	89
+771	422	88
+772	422	115
+773	423	94
+774	423	88
+775	424	89
+776	424	92
+777	425	89
+778	425	88
+779	426	89
+780	426	88
+781	426	93
+782	427	94
+783	427	88
+784	427	93
+785	427	114
+786	428	89
+787	428	92
+788	429	89
+789	429	88
+790	430	87
+791	430	93
+792	431	89
+793	431	92
+794	432	89
+795	432	88
+796	443	94
+797	443	90
+798	443	97
+799	443	99
+800	444	89
+801	444	92
+802	445	87
+803	445	92
+804	446	89
+805	446	102
+806	446	99
+807	447	89
+808	447	92
+809	448	89
+810	448	92
+811	449	89
+812	449	92
+813	450	89
+814	450	92
+815	451	89
+816	451	92
+817	452	89
+818	452	90
+819	452	99
+820	454	94
+821	454	88
+822	454	97
+823	454	99
+824	455	94
+825	455	92
+826	456	87
+827	456	88
+828	456	97
+829	456	99
+830	457	89
+831	457	92
+832	458	89
+833	458	92
+834	459	89
+835	459	90
+836	459	99
+837	460	89
+838	461	89
+839	461	90
+840	461	99
+841	462	89
+842	462	90
+843	462	99
+844	463	89
+845	463	102
+846	463	99
+847	464	87
+848	464	88
+849	464	97
+850	465	89
+851	465	92
+852	465	104
+853	466	89
+854	466	92
+855	466	115
+856	477	89
+857	477	88
+858	478	89
+859	478	92
+860	478	106
+861	479	89
+862	479	92
+863	480	89
+864	480	92
+865	481	89
+866	481	92
+867	482	89
+868	482	92
+869	482	106
+870	483	89
+871	483	92
+872	483	98
+873	484	89
+874	484	92
+875	484	98
+876	485	89
+877	485	88
+878	486	89
+879	486	92
+880	486	98
+881	487	89
+882	487	92
+883	488	89
+884	488	92
+885	488	106
+886	489	89
+887	489	92
+888	489	106
+889	491	89
+890	491	88
+891	491	103
+892	492	94
+893	492	92
+894	493	89
+895	493	88
+896	493	97
+897	494	89
+898	494	92
+899	495	89
+900	495	92
+901	495	106
+902	496	94
+903	496	88
+904	497	89
+905	497	90
+906	498	89
+907	498	92
+908	499	89
+909	499	92
+910	499	106
+911	500	94
+912	500	90
+913	501	89
+914	501	90
+915	511	89
+916	511	92
+917	511	114
+918	512	89
+919	512	88
+920	513	89
+921	513	92
+922	514	89
+923	514	90
+924	514	114
+925	515	94
+926	515	88
+927	515	113
+928	516	89
+929	516	92
+930	516	114
+931	517	89
+932	517	90
+933	518	89
+934	518	92
+935	518	114
+936	519	89
+937	519	88
+938	520	87
+939	520	88
+940	521	87
+941	521	90
+942	522	89
+943	522	92
+944	522	114
+945	523	89
+946	524	89
+947	524	90
+948	525	94
+949	525	92
+950	525	114
+951	526	89
+952	526	88
+953	527	87
+954	527	90
+955	528	89
+956	528	90
+957	529	89
+958	529	88
+959	530	89
+960	530	92
+961	531	94
+962	531	90
+963	532	89
+964	532	88
+965	532	93
+966	532	114
+967	533	89
+968	533	88
+969	533	103
+970	534	87
+971	534	88
+972	545	89
+973	545	90
+974	545	104
+975	545	114
+976	546	89
+977	546	92
+978	547	89
+979	547	90
+980	547	97
+981	547	99
+982	548	89
+983	548	88
+984	549	87
+985	549	90
+986	549	103
+987	550	89
+988	550	102
+989	550	99
+990	551	89
+991	551	88
+992	552	94
+993	552	90
+994	552	97
+995	552	99
+996	553	89
+997	553	90
+998	554	89
+999	554	92
+1000	555	89
+1001	555	90
+1002	555	103
+1003	556	89
+1004	556	90
+1005	556	97
+1006	556	99
+1007	557	89
+1008	557	104
+1009	558	89
+1010	558	102
+1011	558	104
+1012	559	89
+1013	559	92
+1014	560	87
+1015	560	88
+1016	560	108
+1017	561	89
+1018	561	88
+1019	561	112
+1020	562	94
+1021	562	90
+1022	562	104
+1023	562	114
+1024	563	87
+1025	563	88
+1026	563	112
+1027	564	89
+1028	564	92
+1029	565	89
+1030	565	92
+1031	566	87
+1032	566	88
+1033	566	93
+1034	567	94
+1035	567	102
+1036	567	99
+1037	579	89
+1038	579	88
+1039	579	105
+1040	580	87
+1041	580	90
+1042	580	99
+1043	581	89
+1044	581	88
+1045	581	103
+1046	582	89
+1047	583	89
+1048	584	89
+1049	584	88
+1050	585	87
+1051	585	92
+1052	585	113
+1053	585	109
+1054	586	87
+1055	586	92
+1056	587	87
+1057	587	92
+1058	588	87
+1059	588	92
+1060	588	113
+1061	588	109
+1062	589	87
+1063	589	92
+1064	589	113
+1065	589	109
+1066	590	89
+1067	590	90
+1068	590	93
+1069	591	87
+1070	591	88
+1071	591	93
+1072	591	113
+1073	592	87
+1074	592	90
+1075	592	99
+1076	593	94
+1077	593	92
+1078	593	96
+1079	594	87
+1080	594	92
+1081	594	113
+1082	594	109
+1083	595	87
+1084	595	90
+1085	596	89
+1086	596	113
+1087	597	87
+1088	597	92
+1089	597	113
+1090	597	109
+1091	598	89
+1092	598	88
+1093	599	87
+1094	599	92
+1095	599	113
+1096	599	109
+1097	600	94
+1098	600	88
+1099	600	104
+1100	601	87
+1101	601	92
+1102	601	113
+1103	601	109
+1104	602	94
+1105	602	88
+1106	602	104
+1107	603	87
+1108	603	90
+1109	613	89
+1110	613	88
+1111	613	93
+1112	614	89
+1113	614	88
+1114	614	93
+1115	615	89
+1116	615	88
+1117	615	93
+1118	616	87
+1119	616	88
+1120	616	116
+1121	617	94
+1122	617	90
+1123	617	104
+1124	617	107
+1125	618	89
+1126	618	90
+1127	618	107
+1128	619	89
+1129	619	92
+1130	620	89
+1131	620	92
+1132	621	89
+1133	621	88
+1134	622	89
+1135	622	92
+1136	623	87
+1137	623	92
+1138	624	89
+1139	624	88
+1140	625	87
+1141	625	93
+1142	626	89
+1143	626	88
+1144	626	93
+1145	627	87
+1146	627	92
+1147	627	95
+1148	628	89
+1149	628	88
+1150	628	103
+1151	629	89
+1152	629	92
+1153	630	89
+1154	630	88
+1155	630	93
+1156	631	89
+1157	631	92
+1158	632	89
+1159	632	88
+1160	632	103
+1161	633	87
+1162	633	88
+1163	633	105
+1164	634	89
+1165	634	88
+1166	634	105
+1167	635	94
+1168	635	88
+1169	635	105
+1170	636	89
+1171	636	92
+1172	647	89
+1173	647	88
+1174	647	97
+1175	648	87
+1176	648	92
+1177	649	94
+1178	649	90
+1179	649	99
+1180	650	89
+1181	650	90
+1182	650	99
+1183	651	89
+1184	651	90
+1185	651	99
+1186	652	89
+1187	652	88
+1188	652	97
+1189	652	99
+1190	653	87
+1191	653	88
+1192	653	97
+1193	653	99
+1194	654	94
+1195	654	88
+1196	654	97
+1197	654	99
+1198	655	89
+1199	655	92
+1200	656	87
+1201	656	90
+1202	656	99
+1203	657	87
+1204	657	90
+1205	657	99
+1206	658	89
+1207	658	92
+1208	659	87
+1209	659	101
+1210	660	87
+1211	660	90
+1212	660	99
+1213	661	89
+1214	661	90
+1215	661	99
+1216	662	89
+1217	662	92
+1218	663	87
+1219	663	99
+1220	664	89
+1221	664	92
+1222	665	89
+1223	665	92
+1224	666	87
+1225	666	102
+1226	666	99
+1227	667	89
+1228	667	92
+1229	668	89
+1230	668	90
+1231	668	97
+1232	669	87
+1233	669	92
+1234	670	89
+1235	670	92
+1236	670	98
+1237	671	89
+1238	671	90
+1239	671	99
+1240	672	87
+1241	672	90
+1242	672	99
+1243	673	89
+1244	673	107
+1245	681	89
+1246	681	88
+1247	681	103
+1248	682	87
+1249	682	88
+1250	682	103
+1251	683	89
+1252	684	89
+1253	684	90
+1254	685	89
+1255	685	90
+1256	686	89
+1257	686	88
+1258	686	103
+1259	687	89
+1260	687	92
+1261	688	94
+1262	688	88
+1263	689	87
+1264	689	92
+1265	690	89
+1266	690	90
+1267	690	103
+1268	691	89
+1269	691	92
+1270	692	89
+1271	692	92
+1272	693	89
+1273	693	92
+1274	694	89
+1275	694	90
+1276	694	105
+1277	694	95
+1278	694	96
+1279	695	87
+1280	695	105
+1281	695	108
+1282	696	89
+1283	696	104
+1284	697	87
+1285	697	90
+1286	698	89
+1287	699	87
+1288	699	92
+1289	700	94
+1290	700	88
+1291	701	89
+1292	701	88
+1293	701	96
+1294	702	89
+1295	702	90
+1296	703	87
+1297	703	88
+1298	704	87
+1299	705	89
+1300	705	92
+1301	705	98
+1302	715	89
+1303	715	92
+1304	716	94
+1305	716	88
+1306	717	89
+1307	717	88
+1308	718	89
+1309	718	92
+1310	718	96
+1311	719	89
+1312	719	90
+1313	719	95
+1314	719	96
+1315	720	89
+1316	721	87
+1317	721	88
+1318	721	97
+1319	721	99
+1320	722	89
+1321	722	90
+1322	723	87
+1323	723	88
+1324	724	87
+1325	724	92
+1326	725	89
+1327	725	90
+1328	725	110
+1329	726	89
+1330	726	88
+1331	726	107
+1332	727	87
+1333	727	88
+1334	728	89
+1335	728	88
+1336	729	89
+1337	729	88
+1338	729	93
+1339	730	89
+1340	730	88
+1341	730	93
+1342	731	89
+1343	731	88
+1344	732	89
+1345	732	88
+1346	733	87
+1347	733	88
+1348	733	93
+1349	734	87
+1350	734	90
+1351	735	94
+1352	735	90
+1353	735	104
+1354	736	89
+1355	736	92
+1356	737	89
+1357	737	88
+1358	737	105
+1359	738	89
+1360	738	90
+1361	738	107
+1362	739	89
+1363	739	111
+1364	749	89
+1365	749	88
+1366	749	93
+1367	750	89
+1368	750	88
+1369	750	93
+1370	751	94
+1371	751	88
+1372	751	93
+1373	752	89
+1374	752	88
+1375	752	93
+1376	753	87
+1377	753	88
+1378	753	93
+1379	753	108
+1380	754	89
+1381	754	88
+1382	754	93
+1383	755	89
+1384	755	102
+1385	755	104
+1386	756	87
+1387	756	88
+1388	756	108
+1389	757	89
+1390	757	92
+1391	758	89
+1392	758	102
+1393	759	87
+1394	759	90
+1395	759	107
+1396	760	89
+1397	760	93
+1398	761	94
+1399	761	88
+1400	761	93
+1401	761	97
+1402	762	89
+1403	762	90
+1404	762	99
+1405	763	87
+1406	763	90
+1407	763	99
+1408	764	87
+1409	764	102
+1410	764	108
+1411	765	87
+1412	765	102
+1413	765	99
+1414	766	87
+1415	766	88
+1416	766	112
+1417	767	89
+1418	767	102
+1419	767	104
+1420	768	89
+1421	768	102
+1422	769	89
+1423	769	88
+1424	770	89
+1425	770	90
+1426	771	89
+1427	771	90
+1428	772	89
+1429	772	104
+1430	783	89
+1431	783	88
+1432	784	89
+1433	784	88
+1434	784	103
+1435	785	89
+1436	785	90
+1437	785	95
+1438	785	96
+1439	786	87
+1440	786	90
+1441	786	95
+1442	786	96
+1443	787	94
+1444	787	90
+1445	787	95
+1446	787	96
+1447	788	89
+1448	789	87
+1449	789	88
+1450	789	116
+1451	790	89
+1452	790	105
+1453	790	96
+1454	791	89
+1455	791	92
+1456	792	89
+1457	792	90
+1458	792	103
+1459	793	87
+1460	793	88
+1461	793	103
+1462	794	89
+1463	794	92
+1464	795	89
+1465	795	92
+1466	796	87
+1467	796	88
+1468	797	89
+1469	797	88
+1470	797	107
+1471	798	87
+1472	798	88
+1473	798	116
+1474	799	89
+1475	799	88
+1476	799	103
+1477	800	89
+1478	800	88
+1479	800	103
+1480	801	89
+1481	801	88
+1482	801	104
+1483	802	89
+1484	802	88
+1485	802	103
+1486	803	89
+1487	803	92
+1488	803	95
+1489	804	87
+1490	804	90
+1491	804	107
+1492	805	94
+1493	805	92
+1494	805	98
+1495	806	87
+1496	806	92
+1497	806	98
+1498	817	89
+1499	817	102
+1500	817	115
+1501	818	89
+1502	818	102
+1503	818	115
+1504	819	89
+1505	819	88
+1506	819	93
+1507	820	87
+1508	820	88
+1509	820	93
+1510	821	87
+1511	821	92
+1512	822	87
+1513	822	92
+1514	823	87
+1515	823	88
+1516	823	116
+1517	824	87
+1518	824	88
+1519	824	116
+1520	825	89
+1521	825	92
+1522	825	115
+1523	826	89
+1524	826	90
+1525	827	89
+1526	827	92
+1527	828	87
+1528	828	88
+1529	828	116
+1530	829	89
+1531	829	102
+1532	829	115
+1533	830	89
+1534	830	92
+1535	831	89
+1536	831	88
+1537	832	94
+1538	832	88
+1539	832	116
+1540	832	96
+1541	833	87
+1542	833	88
+1543	833	116
+1544	834	87
+1545	834	88
+1546	834	115
+1547	835	89
+1548	835	88
+1549	835	115
+1550	836	89
+1551	836	92
+1552	837	87
+1553	837	88
+1554	837	103
+1555	838	94
+1556	838	88
+1557	838	103
+1558	839	89
+1559	839	88
+1560	839	105
+1561	840	94
+1562	840	90
+1563	840	93
+1564	840	99
+1565	841	89
+1566	841	90
+1567	841	99
+1568	851	89
+1569	851	92
+1570	851	115
+1571	852	94
+1572	852	88
+1573	852	93
+1574	852	99
+1575	853	87
+1576	853	88
+1577	853	93
+1578	854	89
+1579	854	92
+1580	854	115
+1581	855	89
+1582	855	92
+1583	855	115
+1584	856	89
+1585	856	92
+1586	856	115
+1587	857	89
+1588	857	92
+1589	857	115
+1590	858	89
+1591	858	88
+1592	858	97
+1593	858	99
+1594	859	87
+1595	859	92
+1596	860	94
+1597	860	92
+1598	861	89
+1599	861	92
+1600	861	115
+1601	862	87
+1602	862	92
+1603	863	89
+1604	863	92
+1605	863	115
+1606	864	87
+1607	864	101
+1608	865	87
+1609	865	101
+1610	866	89
+1611	866	92
+1612	867	89
+1613	867	92
+1614	868	89
+1615	868	92
+1616	869	89
+1617	869	92
+1618	869	115
+1619	870	89
+1620	870	88
+1621	871	89
+1622	871	92
+1623	872	89
+1624	872	92
+1625	873	87
+1626	873	90
+1627	873	99
+1628	874	94
+1629	874	90
+1630	874	97
+1631	874	99
+1632	875	89
+1633	875	88
+1634	875	99
+1635	885	89
+1636	885	92
+1637	886	94
+1638	886	92
+1639	887	89
+1640	887	92
+1641	888	87
+1642	888	92
+1643	889	89
+1644	889	92
+1645	890	89
+1646	890	90
+1647	890	107
+1648	891	89
+1649	891	92
+1650	892	89
+1651	892	97
+1652	892	107
+1653	893	89
+1654	893	92
+1655	894	87
+1656	894	88
+1657	894	93
+1658	895	87
+1659	895	92
+1660	896	89
+1661	896	92
+1662	897	89
+1663	897	92
+1664	898	89
+1665	898	92
+1666	899	94
+1667	899	92
+1668	900	89
+1669	900	92
+1670	901	87
+1671	901	90
+1672	901	116
+1673	902	89
+1674	902	90
+1675	902	116
+1676	903	94
+1677	903	88
+1678	903	103
+1679	904	87
+1680	904	88
+1681	904	103
+1682	905	89
+1683	905	92
+1684	906	89
+1685	906	92
+1686	907	87
+1687	907	92
+1688	908	89
+1689	908	104
+1690	908	107
+1691	919	89
+1692	919	88
+1693	919	103
+1694	920	89
+1695	920	102
+1696	920	104
+1697	921	89
+1698	921	102
+1699	922	89
+1700	922	88
+1701	922	103
+1702	923	89
+1703	923	88
+1704	924	89
+1705	924	88
+1706	924	103
+1707	925	87
+1708	925	88
+1709	925	103
+1710	926	89
+1711	926	92
+1712	927	89
+1713	927	88
+1714	928	94
+1715	928	88
+1716	929	87
+1717	929	92
+1718	930	94
+1719	930	88
+1720	930	93
+1721	931	89
+1722	931	88
+1723	931	93
+1724	932	89
+1725	932	88
+1726	932	93
+1727	933	89
+1728	933	90
+1729	933	93
+1730	934	89
+1731	934	90
+1732	935	89
+1733	935	92
+1734	936	89
+1735	936	92
+1736	937	89
+1737	937	88
+1738	937	93
+1739	938	89
+1740	938	88
+1741	938	93
+1742	939	89
+1743	939	88
+1744	939	107
+1745	939	110
+1746	940	89
+1747	940	88
+1748	940	107
+1749	940	110
+1750	941	94
+1751	941	88
+1752	941	107
+1753	941	110
+1754	942	89
+1755	942	92
+1756	943	89
+1757	943	92
+1758	953	87
+1759	953	88
+1760	953	97
+1761	954	87
+1762	954	88
+1763	954	97
+1764	954	113
+1765	955	89
+1766	955	88
+1767	955	93
+1768	956	94
+1769	956	88
+1770	956	93
+1771	957	87
+1772	957	88
+1773	957	93
+1774	958	89
+1775	958	90
+1776	959	89
+1777	959	102
+1778	960	89
+1779	960	92
+1780	961	89
+1781	961	90
+1782	961	107
+1783	962	89
+1784	962	90
+1785	962	103
+1786	963	89
+1787	963	102
+1788	963	97
+1789	964	87
+1790	964	90
+1791	964	105
+1792	964	95
+1793	964	96
+1794	965	94
+1795	965	92
+1796	966	89
+1797	966	92
+1798	967	89
+1799	967	92
+1800	968	89
+1801	968	88
+1802	968	103
+1803	969	87
+1804	969	88
+1805	969	93
+1806	970	89
+1807	970	92
+1808	971	89
+1809	971	88
+1810	971	107
+1811	971	110
+1812	972	87
+1813	972	90
+1814	972	97
+1815	972	99
+1816	973	89
+1817	973	92
+1818	974	94
+1819	974	104
+1820	975	89
+1821	975	104
+1822	976	87
+1823	976	103
+1824	977	89
+1825	977	92
+1826	987	94
+1827	987	88
+1828	988	89
+1829	988	88
+1830	989	89
+1831	989	100
+1832	990	89
+1833	990	88
+1834	990	93
+1835	991	94
+1836	991	88
+1837	991	93
+1838	992	89
+1839	992	88
+1840	992	103
+1841	993	89
+1842	993	92
+1843	994	89
+1844	994	92
+1845	995	87
+1846	995	88
+1847	995	95
+1848	995	96
+1849	996	89
+1850	996	88
+1851	996	103
+1852	997	87
+1853	997	92
+1854	998	87
+1855	998	88
+1856	998	96
+1857	999	89
+1858	999	92
+1859	1000	89
+1860	1000	92
+1861	1000	115
+1862	1001	87
+1863	1001	101
+1864	1002	87
+1865	1002	101
+1866	1003	94
+1867	1003	88
+1868	1003	99
+1869	1004	89
+1870	1004	88
+1871	1005	89
+1872	1005	88
+1873	1005	93
+1874	1006	89
+1875	1006	92
+1876	1007	87
+1877	1007	88
+1878	1008	89
+1879	1008	92
+1880	1009	87
+1881	1009	88
+1882	1009	93
+1883	1010	89
+1884	1010	92
+1885	1021	89
+1886	1021	88
+1887	1023	89
+1888	1023	88
+1889	1022	89
+1890	1022	88
+1891	1025	88
+1892	1025	89
+1893	1026	87
+1894	1026	88
+1895	1026	95
+1896	1026	96
+\.
+
+
+--
+-- Data for Name: card_classifications; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_classifications (id, classification) FROM stdin;
+87	Dreamborn
+88	Hero
+89	Storyborn
+90	Villain
+91	Puppy
+92	Ally
+93	Princess
+94	Floodborn
+95	Pirate
+96	Captain
+97	Queen
+98	Fairy
+99	Sorcerer
+100	Titan
+101	Broom
+102	Mentor
+103	Prince
+104	King
+105	Alien
+106	Hyena
+107	Deity
+108	Inventor
+109	Seven Dwarfs
+110	Dragon
+111	Tigger
+112	Detective
+113	Knight
+114	Racer
+115	Madrigal
+116	Musketeer
+\.
+
+
+--
+-- Data for Name: card_inks; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_inks (id, ink) FROM stdin;
+1	Amber
+2	Amethyst
+3	Emerald
+4	Ruby
+5	Sapphire
+6	Steel
+\.
+
+
+--
+-- Data for Name: card_rarity; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_rarity (id, rarity) FROM stdin;
+1	Common
+3	Rare
+4	Super Rare
+5	Legendary
+2	Uncommon
+6	Enchanted
+7	Promo
+\.
+
+
+--
+-- Data for Name: card_sets; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_sets (id, set_number, set_name, release_date, card_qty, lorcana_api_id, is_active) FROM stdin;
+8	3	Into the Inklands	2024-02-23	204	INK	t
+11	5	Shimmering Skies	2024-08-09	204	SSK	t
+12	1	The First Chapter	2023-08-18	204	TFC	t
+13	4	Ursula's Return	2024-05-17	204	URS	t
+10	2	Rise of the Floodborn	2023-11-17	204	ROF	t
+9	4	Illumineer's Quest: Deep Trouble	2024-05-17	35	QU1	f
+15	6	Azurite Sea	2024-11-15	204	TBD	f
+\.
+
+
+--
+-- Data for Name: card_types; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.card_types (id, card_type) FROM stdin;
+1	Character
+2	Action
+3	Action - Song
+4	Item
+5	Location
+\.
+
+
+--
+-- Data for Name: cards; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.cards (id, card_name, flavor_text, body_text, card_number, inkable, card_set, card_rarity, card_ink, card_franchise, lorcana_api_id, card_cost, lore_value, strength, willpower, move_cost, enchanted_variants, image_url, card_type, needs_update, banned_card, image_downloaded) FROM stdin;
+1021	Chip - Friend Indeed	Come on, Dale-this is no time for hanging around!	Dale's Partner: When you play this character, chosen character gets +1 {l} this turn.	6	t	15	1	1	84	AZU-006	3	1	3	3	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Chip-Friend-Indeed-Lorcana-Player.jpg	1	f	f	f
+1022	Chip - Ranger Leader	The Value of Friendship: While you have a character named Dale in play, this character gains Support. (Whenever they quest, you may add their {a} to another chosen character's {a} this turn.)	\N	12	t	15	2	1	84	AZU-012	4	2	3	4	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Chip-Ranger-Leader-Lorcana-Player.jpg	1	f	f	f
+1023	Dale - Friend in Need	But Chip, hanging around is what I do best!	Chip's Partner: This character enters play exerted unless you have a character named Chip in play.	7	t	15	2	1	84	AZU-007	3	2	3	4	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Dale-Friend-in-Need-Lorcana-Player.jpg	1	f	f	f
+1025	Dale - Michievous Ranger	\N	Nuts About Pranks: When you play this character, you may put the top 3 cards of your deck into your discard to give chosen character -3 {a} until the start of your next turn.	18	t	15	2	1	84	AZU-018	4	1	3	4	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Dale-Mischievous-Ranger-Lorcana-Player.jpg	1	f	f	f
+1027	Rescue Rangers Away!	\N	Count the number of characters you have in play. Chosen character loses {a} equal to that number until the start of your next turn.	29	t	15	2	1	85	AZU-029	2	\N	\N	\N	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Rescue-Rangers-Away-Lorcana-Player.jpg	2	f	f	f
+556	The Queen - Crown of the Council	\N	Ward (Opponents can't choose this character except to challenge.)\nGatherer of the Wicked: When you play this character, look at the top 3 cards of your deck. You may reveal any number of character cards named The Queen and put them into your hand. Put the rest on the bottom of your deck in any order.	148	f	11	3	5	74	SSK-148	4	2	3	2	\N	f	https://lorcana-api.com/images/the_queen/crown_of_the_council/the_queen-crown_of_the_council-large.png	1	f	f	f
+1026	Jim Hawkins - Honorable Pirate	Bodyguard (This character may enter play exerted.  An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	Hire a Crew: When you play this character, look at the top 4 cards of your deck. You may reveal any number of Pirate character cards and put them into your hand. Put the rest on the bottom of your deck in any order.	25	t	15	4	1	47	AZU-025	7	2	4	7	\N	f	https://lorcanaplayer.com/wp-content/uploads/2024/09/Jim-Hawkins-Honorable-Pirate-Lorcana-Player.jpg	1	f	f	f
+38	Genie - Supportive Friend	Right here, direct from the lamp, right here for your very much wish fulfillment.	Three Wishes - Whenever this character quests, you may shuffle this card into your deck to draw 3 cards.	38	f	8	4	2	47	INK-038	4	1	3	5	\N	f	https://lorcana-api.com/images/genie/supportive_friend/genie-supportive_friend-large.png	1	f	f	f
+33	Pride Lands - Pride Rock	\N	We Are All Connected - Characters get +2{w} while here.\n\nLion Home - If you have a Prince or King character here, you pay 1{i} less to play characters.	33	f	8	3	1	47	INK-033	2	1	\N	7	\N	f	https://lorcana-api.com/images/pride_lands/pride_rock/pride_lands-pride_rock-large.png	5	f	f	f
+229	Snow White - Well Wisher	\N	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Snow White.)\n\nWishes Come True - Whenever this character quests, you may return a character card from your discard to your hand.	25	f	10	5	1	47	ROF-025	6	2	3	5	\N	f	https://lorcana-api.com/images/snow_white/well_wisher/snow_white-well_wisher-large.png	1	f	f	f
+251	Madam Mim - Purple Dragon	Did I say no purple dragons? Did I?	Evasive (Only characters with Evasive can challenge this character.)\r\\nI Win, I Win!: When you play this character, banish her or return another 2 chosen characters of yours to your hand.	47	t	10	5	2	47	ROF-047	7	4	5	7	\N	f	https://lorcana-api.com/images/madam_mim/purple_dragon/madam_mim-purple_dragon-large.png	1	f	f	f
+360	Owl - Logical Lecturer	For instance, based on the quality of the light and the subtle change in wind direction, I can safely say that it is time for tea.	\N	156	t	10	1	5	47	ROF-156	1	1	2	2	\N	f	https://lorcana-api.com/images/owl/logical_lecturer/owl-logical_lecturer-large.png	1	f	f	f
+40	Iago - Pretty Polly	Your majesty certainly has a way with dumb animals.\n-Jafar	Evasive (Only characters with Evasive can challenge this character.)	40	t	8	1	2	47	INK-040	3	1	3	2	\N	f	https://lorcana-api.com/images/iago/pretty_polly/iago-pretty_polly-large.png	1	f	f	f
+141	Genie - Cramped in the lamp	Ten thousand years will give you such a crick in the neck!	\N	141	t	8	2	5	47	INK-141	2	2	2	2	\N	f	https://lorcana-api.com/images/genie/cramped_in_the_lamp/genie-cramped_in_the_lamp-large.png	1	f	f	f
+473	Half Hexwell Crown	The broken crown holds dark and mysterious powers.	An unexpected Find: {e}, 2{i} - Draw a card.\nA Perilous Power: {e}, 2{i}, Discard a card - Exert\nchosen character.	65	f	11	3	2	64	SSK-065	6	\N	\N	\N	\N	f	https://lorcana-api.com/images/half_hexwell_crown/half_hexwell_crown-large.png	4	f	f	f
+530	Donald Duck - Daisy's Date	He keeps his eye on the prize.	Plucky Play: Whenever this character challenges another character, each opponent loses 1 lore.	122	t	11	1	4	56	SSK-122	3	1	2	4	\N	f	https://lorcana-api.com/images/donald_duck/daisy's_date/donald_duck-daisy's_date-large.png	1	f	f	f
+531	Ratigan - Party Crasher	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Ratigan.)\r Evasive (Only characters with Evasive can challenge this character.)\r Delightfully Wicked: Your damaged characters get +2{s}.	123	f	11	3	4	71	SSK-123	7	3	5	5	\N	f	https://lorcana-api.com/images/ratigan/party_crasher/ratigan-party_crasher-large.png	1	f	f	f
+476	The Library - A Gift for Belle	\N	Lost In A Book: Whenever a character is banished while here, you may\ndraw a card.	68	t	11	2	2	65	SSK-068	3	1	\N	8	\N	f	https://lorcana-api.com/images/the_library/a_gift_for_belle/the_library-a_gift_for_belle-large.png	5	f	f	f
+780	Fishbone Quill	If you want to cross the bridge, my sweet, you've got to pay the toll. \n-Ursula	Go Ahead And Sing - {e} - Put any card from your hand into your inkwell facedown.	168	t	12	3	5	47	TFC-168	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/fishbone_quill/fishbone_quill-large.png	4	f	f	f
+142	Gramma Tala - Keeper of Ancient Stories	Listen with your whole heart, and the ancestors will guide you.	There Was Only Ocean - When you play this character, look at the top 2 cards of your deck. You may put one into your hand. Put the rest on the bottom of your deck in any order.	142	t	8	1	5	47	INK-142	4	1	3	3	\N	f	https://lorcana-api.com/images/gramma_tala/keeper_of_ancient_stories/gramma_tala-keeper_of_ancient_stories-large.png	1	f	f	f
+187	Pyros - Lava Titan	Melt Zeus!	Eruption - During your turn, whenever this character banishes another character in a challenge, you may ready chosen character.	187	t	8	3	6	47	INK-187	5	1	5	4	\N	f	https://lorcana-api.com/images/pyros/lava_titan/pyros-lava_titan-large.png	1	f	f	f
+193	Simba - Rightful King	With dangers multiplying all around, the pride needs its guardian.	Triumphant Stance - During your turn, whenever this character banishes another character in a challenge, chosen opposing character can't challenge during their next turn.	193	t	8	2	6	47	INK-193	5	1	4	6	\N	f	https://lorcana-api.com/images/simba/rightful_king/simba-rightful_king-large.png	1	f	f	f
+231	The Queen - Regal Monarch	Don't question her. Don't doubt her. And above all, don't disobey her.	\N	27	t	10	1	1	47	ROF-027	1	1	2	2	\N	f	https://lorcana-api.com/images/the_queen/royal_monarch/the_queen-royal_monarch-large.png	1	f	f	f
+258	Merlin - Squirrel	You can't always trust to luck, boy.	Look Before You Leap: When you play this character and when he leaves play, look at the top card of your deck. Put it on either the top or the bottom of your deck.	54	t	10	1	2	47	ROF-054	2	1	2	1	\N	f	https://lorcana-api.com/images/merlin/squirrel/merlin-squirrel-large.png	1	f	f	f
+300	Bibbidi Bobbidi Boo	It'll do magic, believe it or not	(A character with cost 3 or more can {e} to sing this song for free.)\nReturn chosen character of your to your hand to play another character with the same cost or less for free.	96	f	10	3	3	47	ROF-096	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/bibbidi_bobbidi_boo/bibbidi_bobbidi_boo-large.png	3	f	f	f
+301	Bounce	Are you ready for some bouncing?\n - Tigger	Return chosen character of yours to your hand to return another chosen character to their player's hand.	97	f	10	2	3	47	ROF-097	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/bounce/bounce-large.png	2	f	f	f
+335	The Most Diabolical Scheme	Now comes the real tour de force\nTricky and wicked, of course	(A character with cost 3 or more can {e} to sing this song for free.)\nBanish chosen Villain of your to banish chosen character.	131	f	10	2	4	47	ROF-131	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_most_diabolical_scheme/the_most_diabolical_scheme-large.png	3	f	f	f
+474	Amethyst Chromicon	Seek not power for its own sake.\n-Inscription	Amethyst Light: {e} - Each player may draw a card.	66	t	11	2	2	60	SSK-066	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/amethyst_chromicon/amethyst_chromicon-large.png	4	f	f	f
+336	What Did You Call Me?	No one can have a higher opinion of your than I have, and I think you're a slimy, contemptible sewer rat!\n - Basil	Chosen damaged character gets +3 {s} this turn.	132	t	10	1	4	47	ROF-132	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/what_did_you_call_me/what_did_you_call_me-large.png	2	f	f	f
+361	Prince Charming - Heir To The Throne	He'd searched across the Inklands for the young woman who'd stolen his heart at the ball, only to find more mysteries.	\N	157	t	10	3	5	47	ROF-157	4	3	3	3	\N	f	https://lorcana-api.com/images/prince_charming/heir_to_the_throne/prince_charming-heir_to_the_throne-large.png	1	f	f	f
+252	Madam Mim - Rival of Merlin	\N	Shift 3 (You may play 3 {i} to play this on top of one of your characters named Madam Mim.)\nGruesome And Grim: {e} - Play a character with cost 4 or less for free. They gain Rush. At the end of the turn, banish them. (They can challenge the turn they're played)	48	t	10	3	2	47	ROF-048	5	2	2	5	\N	f	https://lorcana-api.com/images/madam_mim/rival_of_merlin/madam_mim-rival_of_merlin-large.png	1	f	f	f
+533	Simba - Adventurous Successor	\N	I Laugh in the Face of Danger: When you play this character, chosen character gets +2{s} this turn.	125	f	11	1	4	49	SSK-125	1	1	2	1	\N	f	https://lorcana-api.com/images/simba/adventurous_successor/simba-adventurous_successor-large.png	1	f	f	f
+551	Pacha - Emperor's Guide	\N	Helpful Supplies: At the start of your turn, if you have an item in play, gain 1 lore.\nPerfect Directions: At the start of your turn, if you have a location in play, gain 1 lore.	143	t	11	2	5	70	SSK-143	3	2	\N	4	\N	f	https://lorcana-api.com/images/pacha/emperor's_guide/pacha-emperor's_guide-large.png	1	f	f	f
+259	Peter Pan's Shadow - Not Sewn On	\N	Evasive (Only characters with Evasive can challenge this character.)\nRush (This character can challenge the turn they're played.)\nTiptoe: Your other characters with Rush gain Evasive.	55	f	10	4	2	47	ROF-055	4	2	2	3	\N	f	https://lorcana-api.com/images/peter_pan's_shadow/not_sewn_on/peter_pan's_shadow-not_sewn_on-large.png	1	f	f	f
+422	Mirabel Madrigal - Family Gatherer	There's nothing we can't accomplish together!	Not Without My Family: You can't play this\r character unless you have 5 or more characters in\r play.	14	t	11	5	1	55	SSK-014	5	5	5	5	\N	f	https://lorcana-api.com/images/mirabel_madrigal/family_gatherer/mirabel_madrigal-family_gatherer-large.png	1	f	f	f
+428	Alan-a-Dale - Rockin' Rooster	Thank you! Now here's o little ditty for our floodborn\nfriends that we call 'Martin and the Flood.'	Fan Favorite: Whenever you play a song, gain 1 lore.	20	t	11	2	1	59	SSK-020	4	2	2	3	\N	f	https://lorcana-api.com/images/alan-a-dale/rockin'_rooster/alan-a-dale-rockin'_rooster-large.png	1	f	f	f
+143	Gramma Tala - Spirit of the Ocean	She will always be with you, no matter how far your journey takes you.	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Gramma Tala.)\n\nDo You Know Who You Are? - Whenever a card is put into your inkwell, gain 1 lore.	143	t	8	5	5	47	INK-143	7	2	4	8	\N	t	https://lorcana-api.com/images/gramma_tala/spirit_of_the_ocean/gramma_tala-spirit_of_the_ocean-large.png	1	f	f	f
+188	Razoul - Palace Guard	There's no princess here to save you this time, street rat.	Looky Here - While this character has no damage, he gets +2{s}.	188	t	8	1	6	47	INK-188	2	1	1	3	\N	f	https://lorcana-api.com/images/razoul/palace_guard/razoul-palace_guard-large.png	1	f	f	f
+232	Hold Still	This might sting a little.	Remove up to 4 damage from chosen character.	28	t	10	1	1	47	ROF-028	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/hold_still/hold_still-large.png	2	f	f	f
+253	Madam Mim - Snake	I've got you rattled now!	Just You Wait: When you play this character, banish her or return another chosen character of yours to your hand.	49	t	10	2	2	47	ROF-049	2	1	3	3	\N	f	https://lorcana-api.com/images/madam_mim/snake/madam_mim-snake-large.png	1	f	f	f
+295	Ratigan - Criminal Mastermind	I've outdone myself this time! Soon I will have everything I deserve. Riches... power... an entire kingdom at my feet!	Evasive (Only characters with Evasive can challenge this character.)	91	t	10	1	3	47	ROF-091	4	2	4	1	\N	f	https://lorcana-api.com/images/ratigan/criminal_mastermind/ratigan-criminal_mastermind-large.png	1	f	f	f
+298	Tiana - True Princess	Finding your true self will set your heart aglow.	\N	94	t	10	2	3	47	ROF-094	5	3	5	3	\N	f	https://lorcana-api.com/images/tiana/true_princess/tiana-true_princess-large.png	1	f	f	f
+362	Rabbit - Reluctant Host	Pooh: Isn't there anybody here at all?\nRabbit: Nobody!\nPooh: Somebody's there... because somebody must have said 'Nobody.'	\N	158	t	10	1	5	47	ROF-158	5	2	4	6	\N	f	https://lorcana-api.com/images/rabbit/reluctent_host/rabbit-reluctent_host-large.png	1	f	f	f
+480	Zazu - Advisor to Mufasa	Oh, I guess one quick spin through the lights\nwon't hurt.	Evasive (Only characters with Evasive can\nchallenge this character.)	72	t	11	1	3	49	SSK-072	5	2	3	5	\N	f	https://lorcana-api.com/images/zazu/advisor_to_mufasa/zazu-advisor_to_mufasa-large.png	1	f	f	f
+359	Noi - Orphaned Thief	\N	Hide And Seek: While you have an item in play, this character gains Resist +1 and Ward. (Damage dealt to this character is reduced by 1. Opponents can't choose this character except to challenge.)	155	t	10	3	5	47	ROF-155	2	2	1	2	\N	f	https://lorcana-api.com/images/noi/orphaned_thief/noi-orphaned_thief-large.png	1	f	f	f
+532	Vanellope Von Schweetz - Random Roster Racer	\N	Rush (This character can challenge the turn they're played.)\nPixlexia: When you play this character, she gains Evasive until the start of your next turn. (Only characters with Evasive can challenge them.)	124	f	11	3	4	51	SSK-124	4	2	3	3	\N	f	https://lorcana-api.com/images/vannelope_von_schweetz/random_roster_racer/vannelope_von_schweetz-random_roster_racer-large.png	1	f	f	f
+333	Go The Distance	\N	(A character with cost 2 or more can {e} to sing this song for free.)\nReady chosen damaged character of yours. They can't quest for the rest of this turn. Draw a card.	129	t	10	1	4	47	ROF-129	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/go_the_distance/go_the_distance-large.png	3	f	f	f
+477	Robin Hood - Timely Contestant	\N	Tag Me In!: For each 1 damage on opposing characters, you pay 1{i} less to play this character.\nWard (Opponents can't choose this character except to challenge.)	69	f	11	3	3	59	SSK-069	9	4	6	6	\N	f	https://lorcana-api.com/images/robin_hood/timely_contestant/robin_hood-timely_contestant-large.png	1	f	f	f
+144	Gyro Gearloose - Gadget Whiz	Maybe the bulb tech will be less evil this time . . .	Now Try To Keep Up - {e}: Put an item card from your discard on the top of your deck.	144	t	8	3	5	47	INK-144	3	1	1	4	\N	f	https://lorcana-api.com/images/gyro_gearlooose/gadget_whiz/gyro_gearlooose-gadget_whiz-large.png	1	f	f	f
+189	Robin Hood - Beloved Outlaw	You call this an ambush? Tsk, tsk. It's barely a bushwhack.	\N	189	t	8	1	6	47	INK-189	1	1	2	2	\N	f	https://lorcana-api.com/images/robin_hood/beloved_outlaw/robin_hood-beloved_outlaw-large.png	1	f	f	f
+233	Last Stand	Let's finish this, binturi.\r - Namaari	Banish chosen character who was challenged this turn.	29	f	10	2	1	47	ROF-029	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/last_stand/last_stand-large.png	2	f	f	f
+331	Tigger - One Of A Kind	Bouncing in to save the day!	Energetic: Whenever you play an action, this character gets +2 {s} this turn.	127	t	10	1	4	47	ROF-127	3	1	3	3	\N	f	https://lorcana-api.com/images/tigger/one_of_a_kind/tigger-one_of_a_kind-large.png	1	f	f	f
+363	Sisu - Divine Water Dragon	No matter her shape, you can't mistake her heart.	I Trust You: Whenever this character quests, look at the top 2 cards of your deck. You may put one into your hand. Put the rest on the bottom of your deck in any order.	159	f	10	5	5	47	ROF-159	4	2	2	4	\N	f	https://lorcana-api.com/images/sisu/dvine_water_dragon/sisu-dvine_water_dragon-large.png	1	f	f	f
+479	Little John - Camp Cook	You're in for a real treat, Rob. Tonight's house\nspecial is my famous outlaw grub. Made from the\nfinest whatever we could find!	\N	71	t	11	2	3	59	SSK-071	1	1	\N	4	\N	f	https://lorcana-api.com/images/little_john/camp_cook/little_john-camp_cook-large.png	1	f	f	f
+550	Merlin - Back from Bermuda	A little rest and relaxation will do wonders for your health, boy.	Long Live the King!: Your characters named Arthur gain Resist +1	142	t	11	1	5	66	SSK-142	4	2	1	4	\N	f	https://lorcana-api.com/images/merlin/back_from_bermuda/merlin-back_from_bermuda-large.png	1	f	f	f
+621	Lilo - Making a Wish	A falling star . . . I have to make a wish!	\N	9	f	12	3	1	47	TFC-009	1	2	1	1	\N	f	https://lorcana-api.com/images/lilo/making_a_wish/lilo-making_a_wish-large.png	1	f	f	f
+423	Minnie Mouse - Drum Major	\N	Shift 4 (You may pay 4{i}  to play this on top of one of\r your characters named Minnie Mouse.)\r Parade Order: When you play this character, if you\r used Shift to play her, you may search your deck for\r a character card and reveal that card to all players.\r Shuffle your deck and put that card on top of it.	15	t	11	4	1	56	SSK-015	5	2	4	4	\N	f	https://lorcana-api.com/images/minnie_mouse/drum_major/minnie_mouse-drum_major-large.png	1	f	f	f
+424	Daisy Duck - Donald's Date	\N	Big Prize: Whenever this character quests, each\r opponent reveals the top card of their deck. If it's\r a character card, they may put it into their hand.\r Otherwise, they put it on the bottom of their\r deck.	16	f	11	4	1	57	SSK-016	1	2	1	4	\N	f	https://lorcana-api.com/images/daisy_duck/donald's_date/daisy_duck-donald's_date-large.png	1	f	f	f
+421	Kristoff - Reindeer Keeper	\N	Bodyguard (This character may enter play exerted.\r An opposing character who challenges one of your\r characters must choose one with Bodyguard if able.)\r \r Song Of The Herd: For each song card in your\r discard, you pay 1{i} less to play this character.	13	f	11	3	1	54	SSK-013	9	1	3	7	\N	f	https://lorcana-api.com/images/kristoff/reindeer_keeper/kristoff-reindeer_keeper-large.png	1	f	f	f
+10	Miss Bianca - Rescue Aid Society Agent	Our society has never failed to answer a call for help.\n-Mr. Chairman	Singer 4 (This character counts as cost 4 to sing songs.)	10	t	8	1	1	47	INK-010	2	1	2	2	\N	f	https://lorcana-api.com/images/miss_bianca/rescue_aid_society_agent/miss_bianca-rescue_aid_society_agent-large.png	1	f	f	f
+145	Huey - Savvy Nephew	This looks like part of a larger crystal!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\n\nThree Nephews - Whenever this character quests, if you have characters named Dewey and Louie in play, you may draw 3 cards.	145	t	8	3	5	47	INK-145	2	1	2	2	\N	f	https://lorcana-api.com/images/huey/savvy_nephew/huey-savvy_nephew-large.png	1	f	f	f
+254	Merlin - Crab	He'll be out of this in a snap!	Ready Or Not!: When you play this character and when he leaves play, chosen characters gain Challenger +3 this turn. (They get +3 {s} while challenging.)	50	t	10	1	2	47	ROF-050	3	1	3	3	\N	f	https://lorcana-api.com/images/merlin/crab/merlin-crab-large.png	1	f	f	f
+574	Basil's Magnifying Glass	I say, a piece of the Hexwell Crown! -Basil	Find What's Hidden: {e}, 2{i} - Look at the top 3 cards of your deck. You may reveal an item card and put it into your hand. Put the rest on the bottom of your deck in any order.	166	t	11	3	5	71	SSK-166	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/basil's_magnifying_glass/basil's_magnifying_glass-large.png	4	f	f	f
+255	Merlin - Goat	He always was a stubborn old goat.\r - Madam Mim	Here I Come!: When you play this character and when he leaves play, gain 1 lore.	51	t	10	2	2	47	ROF-051	4	1	4	3	\N	f	https://lorcana-api.com/images/merlin/goat/merlin-goat-large.png	1	f	f	f
+297	The Queen - Disguised Peddler	This is no ordinary apple...	A Perfect Disguise: {e}, Choose and discard a character card - Gain lore equal to the discarded character's {l}.	93	f	10	4	3	47	ROF-093	3	\N	2	3	\N	f	https://lorcana-api.com/images/the_queen/disguised_peddler/the_queen-disguised_peddler-large.png	1	f	f	f
+352	Grand Pabbie - Oldest And Wisest	When he talks, even the sky listens.	Ancient Insight: Whenever you remove 1 or more damage from one of your characters, gain 2 lore.	148	f	10	4	5	47	ROF-148	7	3	3	6	\N	f	https://lorcana-api.com/images/grand_pabbie/oldest_and_wisest/grand_pabbie-oldest_and_wisest-large.png	1	f	f	f
+580	Jafar - Tyrannical Hypnotist	No one will keep from me the broken crown!	Challenger +7 (While challenging, this character gets +7{s}.)\nIntimidating Gaze: Opposing characters with cost 4 or less can't challenge.	172	t	11	5	6	61	SSK-172	6	2	\N	7	\N	f	https://lorcana-api.com/images/jafar/tyrannical_hypnotist/jafar-tyrannical_hypnotist-large.png	1	f	f	f
+605	When Will My Life Begin?	Stuck in the same place I've always been.	(A character with cost 3 or more can {e} to sing this song for free.)\nChosen character can't challenge during their next turn. Draw a card.	197	t	11	1	6	63	SSK-197	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/when_will_my_life_begin/when_will_my_life_begin-large.png	3	f	f	f
+364	The Nokk - Water Spirit	As elusive as water.	Ward (Opponents can't choose this character except to challenge.)	160	t	10	1	5	47	ROF-160	4	1	4	3	\N	f	https://lorcana-api.com/images/the_nokk/water_spirit/the_nokk-water_spirit-large.png	1	f	f	f
+425	Fix-It Felix, Jr. - Delighted Sightseer	l don't think I've ever seen anything as sweet as this.	Oh, My Land!: When you play this character, if\r you have a location in play, draw a card.	17	t	11	1	1	51	SSK-017	2	1	1	3	\N	f	https://lorcana-api.com/images/fix-it_felix,_jr/delighted_sightseer/fix-it_felix,_jr.-delighted_sightseer-large.png	1	f	f	f
+190	Robin Hood - Champion of Sherwood	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Robin Hood.)\n\nSkilled Combatant - During your turn, whenever this character banishes another character in a challenge, gain 2 lore.\n\nThe Good Of Others - When this character is banished in a challenge, you may draw a card.	190	t	8	5	6	47	INK-190	5	2	3	6	\N	t	https://lorcana-api.com/images/robin_hood/champion_of_sherwood/robin_hood-champion_of_sherwood-large.png	1	f	f	f
+234	Painting the Roses Red	\N	{A character with cost X or more can {e} to sing this song for free.)\n\nUp to 2 chosen characters get -1 {s} this turn. Draw a card.	30	t	10	1	1	47	ROF-030	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/painting_the_roses_red/painting_the_roses_red-large.png	3	f	f	f
+21	Rolly - Hungry Pup	I'm hungry, Mother. I really am.	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	21	t	8	2	1	47	INK-021	3	1	3	3	\N	f	https://lorcana-api.com/images/rolly/hungry_pup/rolly-hungry_pup-large.png	1	f	f	f
+65	The Sorcerer's Hat	Minnie approached it carefully. Whoever had placed it here might have prepared traps.	Incredible Energy - {e}, 1{i}: Name a card, then reveal the top card of your deck. If it's the named card, put that card into your hand. Otherwise, put it on the top of your deck.	65	t	8	3	2	47	INK-065	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_sorcerer's_hat/the_sorcerer's_hat-large.png	4	f	f	f
+146	King Louie - Bandleader	Hold up, cuz. Why not sit back and enjoy some sweet beats?	\N	146	t	8	1	5	47	INK-146	7	3	7	7	\N	f	https://lorcana-api.com/images/king_louie/bandleader/king_louie-bandleader-large.png	1	f	f	f
+171	Chief Tui - Proud of Motunui	Look at out home! There is no better place to be.	\N	171	t	8	1	6	47	INK-171	4	2	3	4	\N	f	https://lorcana-api.com/images/chief_tui/proud_of_motunui/chief_tui-proud_of_motunui-large.png	1	f	f	f
+191	Sheriff of Nottingham - Corrupt Official	The thirteenth Rule of Villainy: Take everything you can, but do it with a smile.	Taxes Should Hurt - Whenever you discard a card, you may deal 1 damage to chosen opposing character.	191	f	8	4	6	47	INK-191	4	1	2	4	\N	f	https://lorcana-api.com/images/sheriff_of_nottingham/corrupt_official/sheriff_of_nottingham-corrupt_official-large.png	1	f	f	f
+256	Merlin - Rabbit	It was turning out to be a bad hare day.	Hoppity Hip!: When you play this character and when he leaves play, you may draw a card.	52	f	10	3	2	47	ROF-052	4	1	2	3	\N	f	https://lorcana-api.com/images/merlin/rabbit/merlin-rabbit-large.png	1	f	f	f
+192	Simba - Fighting Prince	He's ready to restore the Pride Lands to their former glory.	Step Down Or Fight - When you play this character and whenever he banishes another character in a challenge during your turn, you may choose one:\r - Draw 2 cards, then choose and discard 2 cards.\r - Deal 2 damage to chosen character.	192	t	8	4	6	47	INK-192	7	2	5	7	\N	f	https://lorcana-api.com/images/simba/fighting_prince/simba-fighting_prince-large.png	1	f	f	f
+237	Dragon Gem	Hope shines in even the darkest situations.	Bring Back To Life: {e}, 3 {i} - Return a character card with Support from your discard to your hand.	33	f	10	3	1	47	ROF-033	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/dragon_gem/dragon_gem-large.png	4	f	f	f
+257	Merlin - Shapeshifter	Oh, blast it all - I can't make up my mind.	Battle Of Wits: Whenever one of your other characters is returned to your hand from play, this characters get +1 {l} this turn.	53	t	10	3	2	47	ROF-053	4	1	1	5	\N	f	https://lorcana-api.com/images/merlin/shapeshifter/merlin-shapeshifter-large.png	1	f	f	f
+296	Ray - Easygoing Firefly	He may be hard to follow, but his heart isn't.	Evasive (Only characters with Evasive can challenge this character.)	92	t	10	1	3	47	ROF-092	5	3	3	3	\N	f	https://lorcana-api.com/images/ray/easygoing_firefly/ray-easygoing_firefly-large.png	1	f	f	f
+332	Tuk Tuk - Wrecking Ball	A good friend is always ready to roll.	Reckless (This character can't quest and must challenge each turn if able.)	128	f	10	3	4	47	ROF-128	4	\N	4	5	\N	f	https://lorcana-api.com/images/tuk_tuk/wrecking_ball/tuk_tuk-wrecking_ball-large.png	1	f	f	f
+366	Falling Down The Rabbit Hole	Down, down, down she went, floating in a swirl of ink. How curious!	Each player chooses one of their characters and puts them into their inkwell facedown and excreted.	162	f	10	3	5	47	ROF-162	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/falling_down_the_rabbit_hole/falling_down_the_rabbit_hole-large.png	2	f	f	f
+620	Lefou - Bumbler	You need a good toady to be a proper bad guy.	Loyal - If you have a character named Gaston in play, you pay 1 {i} less to play this character.	8	t	12	2	1	47	TFC-008	2	2	1	2	\N	f	https://lorcana-api.com/images/lefou/bumbler/lefou-bumbler-large.png	1	f	f	f
+147	Kit Cloudkicker - Navigator	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Kit Cloudkicker.)\n\nWard (Opponents can't choose this character except to challenge.)	147	t	8	2	5	47	INK-147	6	3	2	5	\N	f	https://lorcana-api.com/images/kit_cloudkicker/navigator/kit_cloudkicker-navigator-large.png	1	f	f	f
+236	Zero to Hero	\N	{A character with cost X or more can {e} to sing this song for free.)\n\nCount the number of characters you have in play. You pay that amount of {i} less for the next character you play this turn.	32	f	10	2	1	47	ROF-032	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/zero_to_hero/zero_to_hero-large.png	3	f	f	f
+26	Heal What Has Been Hurt	Let your power shine\nMake the clock reverse . . .	(A character with cost 3 or more can {e} to sing this song for free.)\n\nRemove up to 3 damage from chosen character. Draw a card.	26	t	8	1	1	47	INK-026	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/heal_what_has_been_hurt/heal_what_has_been_hurt-large.png	3	f	f	f
+34	Tiana's Palace - Jazz Restaurant	In New Orleans, dreams can come true.	Night Out - Characters can't be challenged while here.	34	f	8	2	1	47	INK-034	3	1	\N	8	\N	f	https://lorcana-api.com/images/tiana's_palace/tiana's_palace-large.png	5	f	f	f
+148	Kit Cloudkicker - Spunky Bear Cub	Thrilled to have his airfoil back, he launched into the Inklands.	Ward (Opponents can't choose this character except to challenge.)	148	t	8	1	5	47	INK-148	1	1	\N	1	\N	f	https://lorcana-api.com/images/kit_cloudkicker/spunky_bear_cub/kit_cloudkicker-spunky_bear_cub-large.png	1	f	f	f
+261	Pinocchio - On The Run	He raced into the Inklands without a thought.	Shift 3 (You pay 3 {i} to play this on top of one of your characters named Pinocchio.)\nListen To Your Conscience: When you play this character, you may return chosen character or item with cost 3 or less to their player's hand.	57	f	10	2	2	47	ROF-057	5	2	3	3	\N	f	https://lorcana-api.com/images/pinocchio/on_the_run/pinocchio-on_the_run-large.png	1	f	f	f
+299	Virana - Fang Chief	I must make the hard decisions to protect my daughter, especially in this unfamiliar world.	\N	95	t	10	1	3	47	ROF-095	5	2	5	5	\N	f	https://lorcana-api.com/images/virana/fang_chief/virana-fang_chief-large.png	1	f	f	f
+334	Teeth and Ambitions	Of course, quid pro quo, you're expected To take certain duties on board	(A character with cost 2 or more can {e} to sing this song for free.)\nDeal 2 damage to chosen character of yours to deal 2 damaged to another chosen character.	130	t	10	3	4	47	ROF-130	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/teeth_and_ambitious/teeth_and_ambitious-large.png	3	f	f	f
+433	Try Everything	I want to try even though I could fail	(A character with cost 4 or more can {e} to sing this song for\nfree.)\nRemove up to 3 damage from chosen character and ready\nthem. They can't quest or challenge for the rest of this turn.	25	t	11	2	1	53	SSK-025	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/try_everything/try_everything-large.png	3	f	f	f
+575	Merlin's Carpetbag	What a way to pack!\n-Arthur	Hockety Pockety: {e}, 1{i} - Return an item card from your discard to your hand.	167	f	11	2	5	66	SSK-167	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/merlin's_carpetbag/merlin's_carpetbag-large.png	4	f	f	f
+586	Kronk - Unlicensed Investigator	Maybe this one's a chromicon. Probably not. I really should have paid more attention when that wizard guy was talking . . .	Challenger +1 (While challenging, this character gets +1{s}.)	178	t	11	1	6	70	SSK-178	2	1	1	4	\N	f	https://lorcana-api.com/images/kronk/unlicensed_investigator/kronk-unlicensed_investigator-large.png	1	f	f	f
+427	Vanellope von Schweetz - Sugar Rush Princess	\N	Shift 2 (You may pay 2{i} to play this on top of one of\nyour characters named Vanellope von Schweetz.)\nI HEREBY DECREE: Whenever you play another\nPrincess character, all opposing characters get -1{s}\nuntil the start of your next turn.	19	t	11	3	1	51	SSK-019	4	2	2	4	\N	f	https://lorcana-api.com/images/vanellope_von_schweetz/sugar_rush_princess/vanellope_von_schweetz-sugar_rush_princess-large.png	1	f	f	f
+478	Shenzi - Scar's Accomplice	\N	Evasive (Only characters with Evasive can challenge this character.)\nEasy Pickings: While challenging a damaged character, this character gets +2{s}.	70	t	11	2	3	49	SSK-070	3	1	2	3	\N	f	https://lorcana-api.com/images/shenzi/scar's_accomplice/shenzi-scar's_accomplice-large.png	1	f	f	f
+367	Four Dozen Eggs	\N	(A character with cost 3 or more can {e} to sing this song for free)\nYour characters gain Resist +2 until the start of your next turn. (Damage dealt to them is reduced by 2.)	163	t	10	2	5	47	ROF-163	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/four_dozen_eggs/four_dozen_eggs-large.png	3	f	f	f
+604	Tug-Of-War	\N	Choose one:\n- Deal 1 damage to each opposing character without Evasive.\n- Deal 3 damage to each opposing character with Evasive.	196	t	11	1	6	72	SSK-196	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/tug-of-war/tug-of-war-large.png	2	f	f	f
+431	Sven - Reindeer Steed	\N	Reindeer Games: When you play this character,\r you may ready chosen character. They can't quest\r or challenge for the rest of this turn.	23	t	11	2	1	54	SSK-023	4	2	3	3	\N	f	https://lorcana-api.com/images/sven/reindeer_steed/sven-reindeer_steed-large.png	1	f	f	f
+242	Dr. Facilier - Savvy Opportunist	\N	Evasive (Only characters with Evasive can challenge this character.)	38	t	10	1	2	47	ROF-038	4	1	4	2	\N	f	https://lorcana-api.com/images/dr._facilier/savvy_opportunist/dr._facilier-savvy_opportunist-large.png	1	f	f	f
+149	Louie - Chill Nephew	Found the last one!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	149	t	8	1	5	47	INK-149	4	2	3	4	\N	f	https://lorcana-api.com/images/louie/chill_nephew/louie-chill_nephew-large.png	1	f	f	f
+194	Thaddeus E. Klang - Metallic Leader	Soon the bells will ring in the sound of your doom!	My Teeth Are Sharper - Whenever this character quests while at a location, you may deal 1 damage to chosen character.	194	t	8	2	6	47	INK-194	5	2	3	5	\N	f	https://lorcana-api.com/images/thaddeus_e._klang/metallic_leader/thaddeus_e._klang-metallic_leader-large.png	1	f	f	f
+305	Ring The Bell	I'm afraid that you've gone and upset me.\n - Ratigan	Banish chosen damaged character.	101	t	10	2	3	47	ROF-101	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/ring_the_bell/ring_the_bell-large.png	2	f	f	f
+338	Dinner Bell	The delicate sound of impending doom.	You Know What Happens: {e}, 2 {i} - Draw cards equal to the damage on chosen character of yours, then banish them.	134	f	10	3	4	47	ROF-134	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/dinner_bell/dinner_bell-large.png	4	f	f	f
+340	Sword In The Stone	Whoso pulleth out this sword of this stone and anvil is rightwise king born of England.	{e}, 2 {i} - Chosen character gets +1 {s} this turn for each 1 damage on them.	136	f	10	2	4	47	ROF-136	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/sword_in_the_stone/sword_in_the_stone-large.png	4	f	f	f
+368	Launch	Ready... aim... coconut?	Banish chosen item of yours to deal 5 damage to chosen character.	164	f	10	2	5	47	ROF-164	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/launch/launch-large.png	2	f	f	f
+429	Wreck-It Ralph - Admiral Underpants	If he must give a victory speech, he'll keep it brief.	I've Got The Coolest Friend: When you play \r this character, return a character card from your\r discard to your hand. If that card is a Princess\r character card, gain 2 lore.	21	f	11	1	1	51	SSK-021	7	2	6	7	\N	f	https://lorcana-api.com/images/wreck-it_ralph/admiral_underpants/wreck-it_ralph-admiral_underpants-large.png	1	f	f	f
+535	Break Free	Tink darted from the shattered lantern in the blink of an eye.	Deal 1 damage to chosen character of yours. They gain Rush and get +1{s} this turn. (They can challenge the turn they're played.)	127	t	11	1	4	72	SSK-127	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/break_free/break_free-large.png	2	f	f	f
+576	Sapphire Chromicon	Knowledge is eternal.\n-Inscription	Powering Up: This item enters play exerted.\nSapphire Light: {e}, 2{i}, Banish one of your items - Gain 2 lore.	168	f	11	2	5	60	SSK-168	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/sapphire_chromicon/sapphire_chromicon-large.png	4	f	f	f
+624	Mickey Mouse - True Friend	As long as he's around, newcomers to the Great Illuminary will always get a warm welcome.	\N	12	t	12	2	1	47	TFC-012	3	2	3	3	\N	f	https://lorcana-api.com/images/mickey_mouse/true_friend/mickey_mouse-true_friend-large.png	1	f	f	f
+578	Merlin's Cottage	\N	Knowledge is Power: Each player plays with the top card of their deck face up.	170	t	11	2	5	66	SSK-170	1	\N	\N	7	\N	f	https://lorcana-api.com/images/merlin's_cottage/merlin's_cottage-large.png	5	f	f	f
+238	Sleepy's Flute	\N	A Silly Song - {e}: If you played a song this turn, gain 1 lore.	34	f	10	3	1	47	ROF-034	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/sleepy's_flute/sleepy's_flute-large.png	4	f	f	f
+150	Maid Marian - Delightful Dreamer	She makes every space more beautiful.	Highborn Lady - When you play this character, chosen character gets -2{s} this turn.	150	t	8	1	5	47	INK-150	5	2	4	4	\N	f	https://lorcana-api.com/images/maid_marian/delightful_dreamer/maid_marian-delightful_dreamer-large.png	1	f	f	f
+195	And Then Along Came Zeus	He hurled his thunderbolt - He zapped\nLocked those suckers in a vault - They're trapped\nAnd on his own stopped chaos in its tracks	(A character with cost 4 or more can {e} to sing this song for free.)\n\nDeal 5 damage to chosen character or location.	195	f	8	3	6	47	INK-195	4	\N	\N	\N	\N	t	https://lorcana-api.com/images/and_then_along_came_zeus/and_then_along_came_zeus-large.png	3	f	f	f
+239	Arthur - Wizard's Apprentice	Hmm.. what spell should I try next?	Student: Whenever this character quests, you may return another chosen character of yours to your hand to gain 2 lore.	35	f	10	4	2	47	ROF-035	3	1	1	3	\N	f	https://lorcana-api.com/images/arthur/wizard's_apprentice/arthur-wizard's_apprentice-large.png	1	f	f	f
+260	Pinocchio - Star Attraction	With that personality, that profile, that physique... Why, I can see your name in light, lights six feet high.\n-Honest John	\N	56	f	10	3	2	47	ROF-056	2	3	1	1	\N	f	https://lorcana-api.com/images/pinocchio/star_attraction/pinocchio-star_attraction-large.png	1	f	f	f
+302	Hypnotize	Look me in the eye when I'm speaking to you.	Each Opponent chooses and discards a card. Draw a card.	98	t	10	1	3	47	ROF-098	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/hypnotize/hypnotize-large.png	2	f	f	f
+369	Nothing To Hide	Helps you avoid unpleasant surprises.	Each Opponent reveals their hand. Draw a card.	165	t	10	1	5	47	ROF-165	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/nothing_to_hide/nothing_to_hide-large.png	2	f	f	f
+430	Maid Marian - Lady of the Lists	And who might you be, my knight and\nchampion?	If It Pleases The Lady: When you play this\ncharacter, chosen opposing character gets -5 {s}\nuntil the start of your next turn.	22	t	11	2	1	59	SSK-022	6	2	4	5	\N	f	https://lorcana-api.com/images/maid_marian/lady_of_the_lists/maid_marian-lady_of_the_lists-large.png	1	f	f	f
+481	Ulf - Mime	His performances are unspeakably good.	Silent Performance: This character can't {e} to sing songs.	73	t	11	1	3	63	SSK-073	4	2	4	3	\N	f	https://lorcana-api.com/images/ulf/mime/ulf-mime-large.png	1	f	f	f
+484	Merryweather - Good Fairy	The most beautiful color is blue!	Ray Of Hope: When you play this character, you\nmay pay 1{i} to give chosen character +2 {s} this\nturn.	76	t	11	1	3	64	SSK-076	1	1	1	2	\N	f	https://lorcana-api.com/images/merryweather/good_fairy/merryweather-good_fairy-large.png	1	f	f	f
+577	The Great Illuminary - Radiant Ballroom	Every surface glows with the joy of celebration.	Warm Welcome: Characters with Support get +1{l} and +2{w} while here.	169	t	11	3	5	60	SSK-169	3	\N	\N	9	\N	f	https://lorcana-api.com/images/the_great_illuminary/radiant_ballroom/the_great_illuminary-radiant_ballroom-large.png	5	f	f	f
+587	Heihei - Protective Rooster	Who's the boat snack now?!	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	179	t	11	1	6	58	SSK-179	5	2	4	5	\N	f	https://lorcana-api.com/images/heihei/protective_rooster/heihei-protective_rooster-large.png	1	f	f	f
+499	Shenzi - Head Hyena	\N	Stick Around For Dinner: This character gets +1{s}\nfor each other Hyena character you have in play.\nWhat Have We Got Here: Whenever one of your\nHyena characters challenges a damaged character,\ngain 2 lore.	91	t	11	1	3	49	SSK-091	5	1	3	6	\N	f	https://lorcana-api.com/images/shenzi/head_hyena/shenzi-head_hyena-large.png	1	f	f	f
+151	Mama Odie - Mystical Maven	You dig a little deeper, you'll find everything you need.	This Going To Be Good - Whenever you play a song, you may put the top card of your deck into your inkwell facedown and exerted.	151	f	8	3	5	47	INK-151	3	1	1	3	\N	f	https://lorcana-api.com/images/mama_odie/mystical_maven/mama_odie-mystical_maven-large.png	1	f	f	f
+534	Minnie Mouse - Dazzling Dancer	She doesn't seek the spotlight-the spotlight seeks her.	Dance-Off: Whenever this character or one of your characters named Mickey Mouse challenges another character, gain 1 lore.	126	t	11	2	4	56	SSK-126	3	1	2	3	\N	f	https://lorcana-api.com/images/minnie_mouse/dazzling_dancer/minnie_mouse-dazzling_dancer-large.png	1	f	f	f
+370	Fang Crossbow	\N	Careful Aim: {e}, 2 {i} - Chosen character get -2 {s} this turn.\nStay Back!: {e}, Banish this item - Banish chosen Dragon character.	166	t	10	2	5	47	ROF-166	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/fang_crossbow/fang_crossbow-large.png	4	f	f	f
+92	Wildcat - Mechanic	I can take anything apart in under 5 minutes!	Evasive (Only characters with Evasive can challenge this character.)\n\nDisassemble - {e}: Banish chosen item.	92	t	8	2	3	47	INK-092	3	1	2	3	\N	f	https://lorcana-api.com/images/wildcat/mechanic/wildcat-mechanic-large.png	1	f	f	f
+25	Boss's Orders	Snoops! I know you can look harder! Find me that lore!\n-Madame Medusa	Chosen character gains Support this turn. (Whenever they quest, you may add their {s} to another chosen character's {s} this turn.)	25	t	8	1	1	47	INK-025	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/boss's_orders/boss's_orders-large.png	2	f	f	f
+28	The Bare Necessities	Forget about your worries and your strife. . . .	(A character with cost 2 or more can {e} to sing this song for free.)\n\nChosen opponent reveals their hand and discards a non-character card of your choice.	28	t	8	3	1	47	INK-028	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_bare_necessities/the_bare_necessities-large.png	3	f	f	f
+152	Pluto - Mickey's Clever Friend	Pluto's job was to keep Gustav's attention so Minnie could get to the cave.	\N	152	t	8	1	5	47	INK-152	3	1	3	4	\N	f	https://lorcana-api.com/images/pluto/mickey's_clever_friend/pluto-mickey's_clever_friend-large.png	1	f	f	f
+197	Olympus Would Be That Way	Now that I set you free, what is the first thing you are going to do?\n-Hades	Your characters get +3{s} while challenging a location this turn.	197	t	8	1	6	47	INK-197	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/olympus_would_be_that_way/olympus_would_be_that_way-large.png	2	f	f	f
+241	Chip The Teacup - Gentle Soul	Wanna see me do a trick?	\N	37	t	10	1	2	47	ROF-037	1	1	2	2	\N	f	https://lorcana-api.com/images/chip_the_teacup/gentle_soul/chip_the_teacup-gentle_soul-large.png	1	f	f	f
+262	Pinocchio - Talkative Puppet	A lie keeps growing and growing until it's as plain as the nose on your face.\n-Blue Fairy	Telling Lies: When you play this character, you may exert chosen opposing character.	58	f	10	2	2	47	ROF-058	2	1	1	1	\N	f	https://lorcana-api.com/images/pinocchio/talkative_pupper/pinocchio-talkative_pupper-large.png	1	f	f	f
+282	Donald Duck - Sleepwalker	Heading toward a rude awakening!	Startled Awake: Whenever you play an action, this character gets +2 {s} this turn.	78	t	10	1	3	47	ROF-078	3	1	\N	5	\N	f	https://lorcana-api.com/images/donald_duck/sleepwalker/donald_duck-sleepwalker-large.png	1	f	f	f
+303	Improvise	Shan-Yu: It looks like you're out of ideas.\nMulan: Not quite!	Chosen Character gets +1 {s} this turn. Draw a card.	99	t	10	1	3	47	ROF-099	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/improvise/improvise-large.png	2	f	f	f
+432	Minnie Mouse - Compassionate Friend	Oh my! Is that part of the Illuminary? I have to\ngo help!	Patch Them Up: Whenever this character quests,\nyou may remove up to 2 damage from chosen\ncharacter.	24	t	11	1	1	56	SSK-024	4	2	1	5	\N	f	https://lorcana-api.com/images/minnie_mouse/compassionate_friend/minnie_mouse-compassionate_friend-large.png	1	f	f	f
+502	Hypnotic Deduction	A security device! Easily defeated, of course. Once I\nmake room for the crown, l... can ... bring it...\nto... him.	Draw 3 cards, then put 2 cards from your hand on the\ntop of your deck in any order.	94	t	11	1	3	60	SSK-094	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/hypnotic_deduction/hypnotic_deduction-large.png	2	f	f	f
+371	Gumbo Pot	A gift this special just got to to be shared.\n-James	The Best I've Ever Tasted: {e} - Remove 1 damage each from up to 2 chosen characters.	167	t	10	1	5	47	ROF-167	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/gumbo_pot/gumbo_pot-large.png	4	f	f	f
+29	Cleansing Rainwater	Rainwater lands as stone melts and dragons fly again.	Ancient Power - Banish this item: Remove up to 2 damage from each of your characters.	29	t	8	1	1	47	INK-029	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/cleansing_rainwater/cleansing_rainwater-large.png	4	f	f	f
+153	Rufus - Orphanage Cat	Faith is a bluebird you see from afar.	Too Old To Be Chasing Mice - When this character is banished, you may put this card into your inkwell facedown and exerted.	153	t	8	1	5	47	INK-153	5	1	4	5	\N	f	https://lorcana-api.com/images/rufus/orphanage_cat/rufus-orphanage_cat-large.png	1	f	f	f
+263	Winnie The Pooh - Hunny Wizard	He'd always felt a kinship with honey. They were both golden, and sweet, and likely to end up in sticky situations.	\N	59	t	10	1	2	47	ROF-059	5	2	5	5	\N	f	https://lorcana-api.com/images/winnie_the_pooh/hunny_wizard/winnie_the_pooh-hunny_wizard-large.png	1	f	f	f
+304	Pack Tactics	Pacha: You want to survive the jungle? Start thinking like you belong here.\nKuzco: No problem... Grrr, look at me, I'm a jaguar.	Gain 1 lore for each damaged character opponents have in play.	100	t	10	3	3	47	ROF-100	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/pack_tactics/pack_tactics-large.png	2	f	f	f
+372	Maurice's Workshop	The solution you need could be just a few adjustments away.	Looking For This: Whenever you play another item, you may pay 1 {i} to draw a card.	168	f	10	3	5	47	ROF-168	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/maurice's_workshop/maurice's_workshop-large.png	4	f	f	f
+483	Flora - Good Fairy	Don't fuss, dear! A flick of the wrist will turn these\nbriars into something beautiful.	Fiddle Faddle: While being challenged, this character gets +2{s}.	75	t	11	1	3	64	SSK-075	3	1	2	4	\N	f	https://lorcana-api.com/images/flora/good_fairy/flora-good_fairy-large.png	1	f	f	f
+538	Glimmer VS Glimmer	Hades: Listen, kid. If I'm gettin' banished back to the lorebook, you're going with me.\nHercules: We'll see about that.	Banish chosen character of yours to banish chosen character.	130	f	11	2	4	73	SSK-130	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/glimmer_vs_glimmer/glimmer_vs_glimmer-large.png	2	f	f	f
+579	Stitch - Team Underdog	He's not the biggest glimmer on the team, but he still packs a wallop.	Heave Ho!: When you play this character, you may deal 2 damage to chosen character.	171	f	11	2	6	52	SSK-171	4	1	1	4	\N	f	https://lorcana-api.com/images/stitch/team_underdog/stitch-team_underdog-large.png	1	f	f	f
+588	Sneezy - Noisy Knight	\N	Headwind: When you play this character, chosen knight character gains Challenger +2 this turn. (They get +2{s} when challenging.)	180	t	11	1	6	74	SSK-180	4	1	3	4	\N	f	https://lorcana-api.com/images/sneezy/noisy_knight/sneezy-noisy_knight-large.png	1	f	f	f
+553	Sheriff of Nottingham - Bushel Britches	\N	Every Little Bit Helps: For each item you have in play, you pay 1{i} less to play this character.\nSupport (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	145	f	11	4	5	59	SSK-145	9	4	5	9	\N	f	https://lorcana-api.com/images/sheriff_of_nottingham/bushel_britches/sheriff_of_nottingham-bushel_britches-large.png	1	f	f	f
+75	Helga Sinclair - Vengeful Partner	You said we were in this together!	Nothing Personal - When this character is challenged and banished, banish the challenging character.	75	t	8	3	3	47	INK-075	2	1	2	1	\N	f	https://lorcana-api.com/images/helga_sinclair/vengeful_partner/helga_sinclair-vengeful_partner-large.png	1	f	f	f
+154	Scrooge McDuck - Richest Duck in the World	He can make money anywhere.	I'm Going Home! - During your turn, this character gains Evasive. (They can challenge characters with Evasive.)\n\nI Didn't Get Rich By Being Stupid - During your turn, whenever this character banishes another character in a challenge, you may play an item for free.	154	f	8	4	5	47	INK-154	5	1	3	5	\N	t	https://lorcana-api.com/images/scrooge_mcduck/richest_duck_in_the_world/scrooge_mcduck-richest_duck_in_the_world-large.png	1	f	f	f
+243	Elsa - Gloves Off	The power of ice may not stop the flood, but it will help protect Lorcana.	Challenger +3 (While challenging, this character gets +3 {s}.)	39	t	10	1	2	47	ROF-039	4	1	3	4	\N	f	https://lorcana-api.com/images/elsa/gloves_off/elsa-gloves_off-large.png	1	f	f	f
+306	Ratigan's Marvelous Trap	Simple in purpose, elaborate in execution - just like Ratigan.	Snap! Boom! Twang!: Banish this item - Each opponent loses 2 lore.	102	f	10	3	3	47	ROF-102	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/ratigan's_marvelous_trap/ratigan's_marvelous_trap-large.png	4	f	f	f
+434	Healing Touch	The heart is not so easily changed, but the head can\nbe persuaded.\n-Grand Pabbie	Remove up to 4 damage from chosen character.\nDraw a card.	26	t	11	1	1	54	SSK-026	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/healing_touch/healing_touch-large.png	2	f	f	f
+485	Robin Hood - Archery Contestant	For a second there, I thought this might be a real\nchallenge.	Trick Shot: When you play this character, if an\nopponent has a damaged character in play, gain 1\nlore.	77	t	11	1	3	59	SSK-077	2	1	2	2	\N	f	https://lorcana-api.com/images/robin_hood/archery_contestant/robin_hood-archery_contestant-large.png	1	f	f	f
+581	Simba - Lost Prince	This is my kingdom. If I don't fight for it, who will?	Face the Past: During your turn, whenever this character banishes another character in a challenge, you may draw a card.	173	t	11	1	6	49	SSK-173	3	1	2	4	\N	f	https://lorcana-api.com/images/simba/lost_prince/simba-lost_prince-large.png	1	f	f	f
+373	Pawpsicle	\N	Jumbo Pop: When you play this item, you may draw a card.\nThat's Redwood: Banish this item - Remove up to 2 damage from chosen character.	169	t	10	1	5	47	ROF-169	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/pawpsicle/pawpsicle-large.png	4	f	f	f
+199	Captain Hook's Rapier	\N	Get Those Scurvy Brats! - During your turn, whenever one of your characters banishes another character in a challenge, you may pay 1{i} to draw a  card.\r \r Let's Have At It! - Your characters named Captain Hook gain Challenger +1. (They get +1{s} while challenging.)	199	f	8	2	6	47	INK-199	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/captain_hook's_rapier/captain_hook's_rapier-large.png	4	f	f	f
+589	Dopey - Knight Apprentice	\N	Stronger Together: When you play this character, if you have another Knight character in play, you may deal 1 damage to chosen character or location.	181	t	11	1	6	74	SSK-181	3	1	2	2	\N	f	https://lorcana-api.com/images/dopey/knight_apprentice/dopey-knight_apprentice-large.png	1	f	f	f
+264	Yzma - Scary Beyond All Reason	\N	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Yzma)\nCruel Irony: When you play this character, shuffle another chosen character card into their player's deck. That player draws 2 cards.	60	t	10	4	2	47	ROF-060	6	2	4	4	\N	f	https://lorcana-api.com/images/yzma/scary_beyond_all_reason/yzma-scary_beyond_all_reason-large.png	1	f	f	f
+91	Ursula - Deceiver of All	I don't want much - just the most powerful lore!	What A Deal - Whenever this character sings a song, you may play that song again from your discard for free, then put it on the bottom of your deck.	91	t	8	5	3	47	INK-091	3	1	2	3	\N	t	https://lorcana-api.com/images/ursula/deceiver_of_all/ursula-deceiver_of_all-large.png	1	f	f	f
+155	Scrooge McDuck - Uncle Moneybags	A strange new world is the perfect place to make a strange new fortune!	Treasure Rigger - Whenever this character quests, you pay 1{i} less for the next item you play this turn.	155	t	8	2	5	47	INK-155	2	1	1	3	\N	f	https://lorcana-api.com/images/scrooge_mcduck/uncle_moneybags/scrooge_mcduck-uncle_moneybags-large.png	1	f	f	f
+200	Gizmosuit	It stands in the Hall of Lorcana, waiting for someone to speak the secret words.	Cybernetic Armor - Banish this item: Chosen character gains Resist +2 until the start of your next turn. (Damage dealt to them is reduced by 2.)	200	t	8	1	6	47	INK-200	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/gizmosuit/gizmosuit-large.png	4	f	f	f
+244	Fairy Godmother - Here to Help	Use a humdrum spell. and you'll end up with humdrum magic. I like my magic to have something special!	\N	40	t	10	2	2	47	ROF-040	5	2	3	7	\N	f	https://lorcana-api.com/images/fairy_godmother/here_to_help/fairy_godmother-here_to_help-large.png	1	f	f	f
+265	Yzma - Without Beauty Sleep	Yzma: Llamas! All I see when I close my eyes is llamas!\nKronk: Weird. I just saw one in the flood. Poor little guy.	\N	61	t	10	2	2	47	ROF-061	3	1	3	4	\N	f	https://lorcana-api.com/images/yzma/without_beauty_sleep/yzma-without_beauty_sleep-large.png	1	f	f	f
+601	Doc - Bold Knight	\N	Drastic Measures: When you play this character, you may discard your hand to draw 2 cards.	193	f	11	3	6	74	SSK-193	2	1	1	3	\N	f	https://lorcana-api.com/images/doc/bold_knight/doc-bold_knight-large.png	1	f	f	f
+307	Baloo - Fun-Loving Bear	The bees are buzzin' in the tree to make some honey just for me!	\N	103	t	10	1	4	47	ROF-103	3	1	4	3	\N	f	https://lorcana-api.com/images/baloo/fun-loving_bear/baloo-fun-loving_bear-large.png	1	f	f	f
+374	Sardine Can	Flight 3759 boarding now! Let's go get that lore!\n-Orville	Flight Cabin: Your exerted characters gain Ward. (Opponents can't choose them except to challenge.)	170	t	10	2	5	47	ROF-170	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/sardine_can/sardine_can-large.png	4	f	f	f
+435	Revive	Not all that is lost is gone forever.	Play a character with cost 5 or less from your\ndiscard for free.	27	f	11	3	1	60	SSK-027	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/revive/revive-large.png	2	f	f	f
+582	Rudy - Groove Disrupter	The Illuminary can't handle this much groove! We have to keep the noise down or it'll fall apart for sure!	\N	174	t	11	1	6	70	SSK-174	1	1	2	2	\N	f	https://lorcana-api.com/images/rudy/groove_disrupter/rudy-groove_disrupter-large.png	1	f	f	f
+540	Potion of Might	\N	Vile Concoction: 1{i}, Banish this item - Chosen character gets +3{s} this turn. If a Villain character is chosen, they get +4{s} instead.	132	t	11	1	4	74	SSK-132	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/potion_of_might/potion_of_might-large.png	4	f	f	f
+90	Ursula - Deceiver	\N	You'll Never Even Miss It - When you play this character, chosen opponent reveals their hand and discards a song card of your choice.	90	t	8	2	3	47	INK-090	2	1	1	3	\N	f	https://lorcana-api.com/images/ursula/deceiver/ursula-deceiver-large.png	1	f	f	f
+487	Iago - Fake Flamingo	\N	Evasive (Only characters with Evasive can\nchallenge this character.)\nIn Disguise: Whenever this character quests,\nyou pay 2{i} less for the next action you play this\nturn.	79	t	11	3	3	61	SSK-079	4	1	2	4	\N	f	https://lorcana-api.com/images/iago/fake_flamingo/iago-fake_flamingo-large.png	1	f	f	f
+156	The Queen - Mirror Seeker	She has only one question, and she'd better like the answer.	Calculating And Vain - Whenever this character quests, you may look at the top 3 cards of your deck and put them back in any order.	156	t	8	2	5	47	INK-156	4	1	2	5	\N	f	https://lorcana-api.com/images/the_queen/mirror_seeker/the_queen-mirror_seeker-large.png	1	f	f	f
+541	The Sword Released	\N	Power Appointed: At the start of your turn, if you have a character in play with more {s} than each opposing character in play, each opponent loses 1 lore and you gain lore equal to the lore lost.	133	f	11	3	4	66	SSK-133	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_sword_released/the_sword_released-large.png	4	f	f	f
+201	Map of Treasure Planet	Gentlemen, this must be kept under lock and key.\n-Captain Amelia	Key To The Portal - {e}: You pay 1{i} less for the next location you play this turn.\n\nShow The Way - You pay 1{i} less to move your characters to a location.	201	t	8	3	6	47	INK-201	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/map_of_treasure_planet/map_of_treasure_planet-large.png	4	f	f	f
+375	Beast - Forbidding Recluse	Woe to the one who draws his gaze.	You're Not Welcome Here: When you play this character, you may deal 1 damage to chosen character.	171	t	10	1	6	47	ROF-171	4	1	3	4	\N	f	https://lorcana-api.com/images/beast/forbidding_recluse/beast-forbidding_recluse-large.png	1	f	f	f
+341	Alice - Growing Girl	\N	Good Advice - Your other characters gain Support. (Whenever they quest, you may add their {s} to another chosen character's {s} this turn.)\r What Did I Do? - While this character has 10 {s} or more, she gets +4 {l}.	137	t	10	5	5	47	ROF-137	3	1	1	4	\N	f	https://lorcana-api.com/images/alice/growing_girl/alice-growing_girl-large.png	1	f	f	f
+557	Kuzco - Selfish Emperor	\N	Outplacement: When you play this character, you may put chosen item or location into its player's inkwell facedown and exerted.\nBy Invite Only: 4{i} - Your other characters gain Resist +1 until the start of your next turn. (Damage dealt to them is reduced by 1.)	149	t	11	4	5	70	SSK-149	6	2	3	5	\N	f	https://lorcana-api.com/images/kuzco/selfish_emperor/kuzco-selfish_emperor-large.png	1	f	f	f
+590	Namaari - Resolute Daughter	\N	I Don't Have Any Other Choice: For each opposing character banished in a challenge this turn, you pay 2{i} less to play this character.\nResist +3 (Damage dealt to this character is reduced by 3.)	182	f	11	3	6	75	SSK-182	9	3	5	5	\N	f	https://lorcana-api.com/images/namaari/resolute_daughter/namaari-resolute_daughter-large.png	1	f	f	f
+606	Duck For Cover!	\N	Chosen character gains Resist +1 and Evasive this turn. (Damage dealt to them is reduced by 1. They can challenge characters with Evasive.)	198	t	11	1	6	57	SSK-198	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/duck_for_cover!/duck_for_cover!-large.png	2	f	f	f
+245	Fairy Godmother - Mystic Armorer	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Fairy Godmother.)\nForget The Coach, Here's A Sword: Whenever this character quests, your characters gain Challenger +3 and "When this character is banished in a challenge, return this card to your hand" this turn. (They get +3 {s} while challenging.)	41	t	10	5	2	47	ROF-041	5	2	3	4	\N	f	https://lorcana-api.com/images/fairy_godmother/mystic_armorer/fairy_godmother-mystic_armorer-large.png	1	f	f	f
+157	Tinker Bell - Very Clever Fairy	She lives in a world of possibilities.	I Can Use That - Whenever one of your items is banished, you may put that card into your inkwell facedown and exerted.	157	t	8	4	5	47	INK-157	5	2	3	4	\N	f	https://lorcana-api.com/images/tinker_bell/very_clever_fairy/tinker_bell-very_clever_fairy-large.png	1	f	f	f
+308	Boun - Precocious Entrepreneur	If you see hungry faces, send 'em my way.	\N	104	t	10	1	4	47	ROF-104	2	1	2	3	\N	f	https://lorcana-api.com/images/boun/precocious_entrepeneur/boun-precocious_entrepeneur-large.png	1	f	f	f
+488	Banzai - Gluttonous Predator	He won't turn down a quick bite before dinner	\N	80	f	11	3	3	49	SSK-080	2	2	3	2	\N	f	https://lorcana-api.com/images/banzai/gluttonous_predator/banzai-gluttonous_predator-large.png	1	f	f	f
+489	Ed - Hysterical Partygoer	As for as he's concerned, there's no such thing as\nbad taste.	Rowdy Guest: Damaged characters can't\nchallenge this character.	81	f	11	2	3	49	SSK-081	4	2	2	4	\N	f	https://lorcana-api.com/images/ed/hysterical_partygoer/ed-hysterical_partygoer-large.png	1	f	f	f
+542	Ruby Chromicon	Leave fear behind.\n-Inscription	Ruby Light: {e} - Chosen character gets +1{s} this turn.	134	t	11	2	4	60	SSK-134	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/ruby_chromicon/ruby_chromicon-large.png	4	f	f	f
+568	Vision of the Future	We must repair the Illuminary before it's too late. And we'll need these devices, these chromicons, to fix it.	Look at the top 5 cards of your deck. Put one into your hand and the rest on the bottom of your deck in any order.	160	t	11	1	5	66	SSK-160	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/vision_of_the_future/vision_of_the_future-large.png	2	f	f	f
+583	Royal Guard - Bovine Protector	Hey, I've been turned into a cow. Can I go home?	\N	175	t	11	1	6	70	SSK-175	4	1	1	7	\N	f	https://lorcana-api.com/images/royal_guard/bovine_protector/royal_guard-bovine_protector-large.png	1	f	f	f
+186	Nala - Fierce Friend	Pinned ya again.	\N	186	t	8	2	6	47	INK-186	3	2	2	4	\N	f	https://lorcana-api.com/images/nala/fierce_fiend/nala-fierce_fiend-large.png	1	f	f	f
+266	Gruesome And Grim	\N	(A character with cost 3 or more can {e} to sing this song for free.)\nPlay a character with cost 4 or less for free. They gain Rush. At the end of the turn, banish them. (They can challenge the turn they're played)	62	f	10	3	2	47	ROF-062	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/gruesome_and_grim/gruesome_and_grim-large.png	3	f	f	f
+436	Blast From Your Past	\N	(A character with cost 6 or more can {e} to sing this\nsong for free.)\nName a card. Return all character cards with that\nname from your discard to your hand.	28	f	11	4	1	61	SSK-028	6	\N	\N	\N	\N	f	https://lorcana-api.com/images/blast_from_your_past/blast_from_your_past-large.png	3	f	f	f
+543	Sugar Rush Speedway - Starting Line	\N	On Your Marks!: Once per turn, you may {e} chosen character here and deal them 1 damage to move them to another location for free.	135	f	11	3	4	51	SSK-135	1	\N	\N	5	\N	f	https://lorcana-api.com/images/sugar_rush_speedway/starting_line/sugar_rush_speedway-starting_line-large.png	5	f	f	f
+113	Maui - Soaring Demigod	You got any more of those chickens hanging around?	Reckless (This character can't quest and must challenge each turn if able.)\n\nIn Ma Belly - Whenever a character of yours named HeiHei quests, this character gets +1{l} and loses Reckless this turn.	113	f	8	2	4	47	INK-113	3	\N	5	2	\N	f	https://lorcana-api.com/images/maui/soaring_demigod/maui-soaring_demigod-large.png	1	f	f	f
+126	Trigger - Not-So-Sharp Shooter	Criminently, Trigger! Point that peashooter the other way.\n-Sheriff of Nottingham	Old Betsy - Your characters named Nutsy get +1{l}.	126	t	8	2	4	47	INK-126	2	1	3	1	\N	f	https://lorcana-api.com/images/trigger/not-so-sharp_shooter/trigger-not-so-sharp_shooter-large.png	1	f	f	f
+202	Maui's Place of Exile - Hidden Island	Nothing but boulders and sand - easy to miss.	Isolated - Characters gain Resist +1 while here. (Damage dealt to them is reduced by 1.)	202	t	8	3	6	47	INK-202	2	\N	\N	5	\N	f	https://lorcana-api.com/images/maui's_place_of_exile/hidden_island/maui's_place_of_exile-hidden_island-large.png	5	f	f	f
+246	Fairy Godmother - Pure Heart	We'll have to hurry, because even miracles take a little time.	Just Leave It To Me: Whenever you play a character named Cinderella, you may exert chosen character.	42	t	10	1	2	47	ROF-042	3	1	3	4	\N	f	https://lorcana-api.com/images/fairy_godmother/pure_heart/fairy_godmother-pure_heart-large.png	1	f	f	f
+309	Card Soldiers - Full Deck	You'll have to deal with them sooner or later.	\N	105	t	10	2	4	47	ROF-105	5	2	5	5	\N	f	https://lorcana-api.com/images/card_soldiers/full_deck/card_soldiers-full_deck-large.png	1	f	f	f
+376	Beast - Selfless Protector	You'll have to go through me first.	Shield Another: Whenever one of your other character would be dealt damage, put that many damage counters on this character instead.	172	t	10	4	6	47	ROF-172	6	1	2	8	\N	f	https://lorcana-api.com/images/beast/self_protector/beast-self_protector-large.png	1	f	f	f
+600	Simba - Son of Mufasa	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Simba.)\nFearsome Roar: When you play this character, you may banish chosen item or location.	192	t	11	2	6	49	SSK-192	6	1	3	5	\N	f	https://lorcana-api.com/images/simba/son_of_mufasa/simba-son_of_mufasa-large.png	1	f	f	f
+203	Nottingham - Prince John's Castle	Sir Hiss: I say, sire, your mother's castle will be the perfect place to set up our scheme!\nPrince John: Mommy!	\N	203	t	8	1	6	47	INK-203	2	1	\N	6	\N	f	https://lorcana-api.com/images/nottingham/prince_john's_castle/nottingham-prince_john's_castle-large.png	5	f	f	f
+247	HeiHei - Persistent Presence	Power. Beauty. HeiHei.	He's Back: When this character is banished in a challenge, return this card to your hand.	43	t	10	2	2	47	ROF-043	2	1	2	1	\N	f	https://lorcana-api.com/images/heihei/persistent_presence/heihei-persistent_presence-large.png	1	f	f	f
+268	Legend Of The Sword In The Stone	A legend is sung of when England was young\\n   And knights were brave and bold	(A character with cost 2 or more can {e} to sing this song for free.)\nChosen character gains Challenger +3 this turn. (They get +3 {s} while challenging.)	64	t	10	1	2	47	ROF-064	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/legend_of_the_sword_in_the_stone/legend_of_the_sword_in_the_stone-large.png	3	f	f	f
+377	Beast - Tragic Hero	It must be my destiny–to remain a beast forever.	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Beast.)\nIt's Better This Way: At the start of your turn, if this character has no damage, draw a card. Otherwise, he gets +4 {s} this turn.	173	t	10	5	6	47	ROF-173	5	2	3	5	\N	f	https://lorcana-api.com/images/beast/tragic_hero/beast-tragic_hero-large.png	1	f	f	f
+584	Mickey Mouse - Food Fight Defender	Underestimating him is a recipe for disaster.	Resist +1 (Damage dealt to this character is reduced by 1.)	176	t	11	1	6	56	SSK-176	1	1	1	2	\N	f	https://lorcana-api.com/images/mickey_mouse/food_fight_defender/mickey_mouse-food_fight_defender-large.png	1	f	f	f
+683	Cheshire Cat - Not All There	You may have noticed that I'm not all there myself.	Lose Something? - When this character is challenged and banished, banish the challenging character.	71	t	12	2	3	47	TFC-071	3	2	\N	3	\N	f	https://lorcana-api.com/images/cheshire_cat/not_all_there/cheshire_cat-not_all_there-large.png	1	f	f	f
+746	Poisoned Apple	One taste of the poisoned apple, and the victim's eyes will close forever.... \n-The Queen	Take A Bite . . . - 1 {i}, Banish this item - Exert chosen character. If a princess character is chosen, banish her instead.	134	f	12	3	4	47	TFC-134	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/poisoned_apple/poisoned_apple-large.png	4	f	f	f
+747	Shield Of Virtue	Arm thyself with this enchanted Shield of Virtue and this mighty Sword of Truth, for these weapons of righteousness will triumph over evil. \n-Flora	Fireproof - {e}, 3 {i} - Ready chosen character. They can't quest for the rest of this turn.	135	t	12	2	4	47	TFC-135	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/shield_of_virtue/shield_of_virtue-large.png	4	f	f	f
+310	Donald Duck - Not Again!	\N	Evasive (Only characters with Evasive can challenge this character.)\r \r Phooey!: This character gets +1 {l} for each 1 damage on him.	106	t	10	5	4	47	ROF-106	5	1	1	5	\N	f	https://lorcana-api.com/images/donald_duck/not_again!/donald_duck-not_again!-large.png	1	f	f	f
+160	Friend Like Me	You got some power in your corner now.	(A character with cost 5 or more can {e} to sing this song for free.)\n\nEach player puts the top 3 cards of their deck into their inkwell facedown and exerted.	160	t	8	3	5	47	INK-160	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/friend_like_me/friend_like_me-large.png	3	f	f	f
+204	The Bayou - Mysterious Swamp	A place to find what you need, not just what you want.	Show Me The Way - Whenever a character quests while here, you may draw a card, then choose and discard a card.	204	t	8	2	6	47	INK-204	1	1	\N	3	\N	f	https://lorcana-api.com/images/the_bayou/mysterious_swamp/the_bayou-mysterious_swamp-large.png	5	f	f	f
+248	Jiminy Cricket - Pinocchio's Conscience	Say, that's pretty swell.	Evasive (Only characters with Evasive can challenge this character.)\nThat Still, Small Voice: When you play this character, if you have a character named Pinocchio in play, you may draw a card.	44	t	10	1	2	47	ROF-044	2	1	1	2	\N	f	https://lorcana-api.com/images/jiminy_cricket/pinocchio's_conscience/jiminy_cricket-pinocchio's_conscience-large.png	1	f	f	f
+490	Scroop - Odious Mutineer	\N	Evasive (Only characters with Evasive can\nchallenge this character.)\nDo Say Hello To Mr. Arrow: When you play this character, you may pay 3{i} to banish chosen\ndamaged character.	82	f	11	1	3	69	SSK-082	3	2	2	1	\N	f	https://lorcana-api.com/images/scroop/odious_mutineer/scroop-odious_mutineer-large.png	1	f	f	f
+159	Distract	\N	Chosen character gets -2{s} this turn. Draw a card.	159	t	8	1	5	47	INK-159	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/distract/distract-large.png	2	f	f	f
+269	Binding Contract	Just a standard form, nothing to worry about.	For All Eternity: {e}, {e} one of you character - Exert chosen character.	65	f	10	2	2	47	ROF-065	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/binding_contract/binding_contract-large.png	4	f	f	f
+311	Felicia - Always Hungry	This isn't how most cat-and-mouse games go, is it, Dr. Dawson?\n- Basil	Reckless (This character can't quest and must challenge each turn if able.)	107	t	10	1	4	47	ROF-107	1	\N	3	1	\N	f	https://lorcana-api.com/images/felicia/always_hungry/felicia-always_hungry-large.png	1	f	f	f
+343	Basil - Of Baker Street	What an ingenious device! If its light is refracted through these, then its images must resolve somewhere below.	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	139	t	10	1	5	47	ROF-139	2	1	2	2	\N	f	https://lorcana-api.com/images/basil/of_baker_street/basil-of_baker_street-large.png	1	f	f	f
+378	Benja - Guardian of the Dragon Gem	Don't mistake spirit for skill.	We Have A Choice: When you play this character, you may banish chosen item.	174	t	10	1	6	47	ROF-174	3	2	2	3	\N	f	https://lorcana-api.com/images/benja/gaurdian_of_the_dragon_gem/benja-gaurdian_of_the_dragon_gem-large.png	1	f	f	f
+884	Ursula's Lair - Eye of the Storm	\N	Slippery Halls - Whenever a character is banished in a challenge while here, you may return them to your hand.\nSeat of Power - Characters named Ursula get +1{l} while here.	68	f	13	3	2	76	URS-068	3	1	\N	6	\N	f	https://lorcana-api.com/images/ursula's_lair/eye_of_the_storm/ursula's_lair-eye_of_the_storm-large.png	5	f	f	f
+439	Queen's Sensor Core	\N	Symbol Of Nobility: At the start of your turn, if you have a\nPrincess or Queen character in play, gain 1 lore.\nRoyal Search: {e}, 2{i} - Reveal the top card of your deck.\nIf it's a Princess or Queen character card, you may put it into\nyour hand. Otherwise, put it on the top of your deck.\n	31	t	11	3	1	60	SSK-031	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/queen's_sensor_core/queen's_sensor_core-large.png	4	f	f	f
+491	Prince Phillip - Swordsman of the Realm	\N	Slayer Of Dragons: When you play this character,\nbanish chosen opposing Dragon character.\nPressing The Advantage: Whenever he challenges\na damaged character, ready this character after the\nchallenge.	83	t	11	1	3	64	SSK-083	7	3	3	9	\N	f	https://lorcana-api.com/images/prince_phillip/swordsman_of_the_realm/prince_phillip-swordsman_of_the_realm-large.png	1	f	f	f
+205	Bashful - Hopeless Romantic	Life is sweeter with friends.	Oh, Gosh! - This character can't quest unless you have another Seven Dwarfs character in play.	1	t	10	2	1	47	ROF-001	4	3	2	5	\N	f	https://lorcana-api.com/images/bashful/hopeless_romantic/bashful-hopeless_romantic-large.png	1	f	f	f
+206	Christopher Robin - Adventurer	Look, Pooh! Have you ever seen anything so grand?\n- Christopher Robin	We'll Always Be Together: Whenever you ready this character, if you have 2 or more other characters in play, gain 2 lore.	2	t	10	3	1	47	ROF-002	6	2	2	6	\N	f	https://lorcana-api.com/images/christopher_robin/adventurer/christopher_robin-adventurer-large.png	1	f	f	f
+249	Kuzco - Wanted Llama	So there I was. Perfectly in control of the situation.	Ok, Where am I?: When this character is banished, you may draw a card.	45	t	10	1	2	47	ROF-045	2	1	1	2	\N	f	https://lorcana-api.com/images/kuzco/wanted_llama/kuzco-wanted_llama-large.png	1	f	f	f
+312	Fidget - Ratigan's Henchman	When a normal henchman just won't cut it.	Evasive (Only characters with Evasive can challenge this character.)\n	108	t	10	1	4	47	ROF-108	3	1	3	2	\N	f	https://lorcana-api.com/images/fidget/ratigan's_henchman/fidget-ratigan's_henchman-large.png	1	f	f	f
+344	Basil - Perceptive Investigator	There is no question: something is afoot in the Great Illuminary	\N	140	t	10	1	5	47	ROF-140	4	2	3	4	\N	f	https://lorcana-api.com/images/basil/perceptive_investigator/basil-perceptive_investigator-large.png	1	f	f	f
+379	Chief Bogo - Respected Officer	We can confirm the ink flood was caused by an explosion. We have it under control–now clear the area.	Insubordination!: Whenever you play a Floodborn character, deal 1 damage to each opposing character.	175	f	10	3	6	47	ROF-175	4	2	2	4	\N	f	https://lorcana-api.com/images/chief_bogo/respected_officer/chief_bogo-respected_officer-large.png	1	f	f	f
+270	Croquet Mallet	\N	Hurtling Hedgehog: Banish this item - Chosen character gains Rush this turn. (They can challenge the turn they're played.)	66	f	10	1	2	47	ROF-066	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/croquet_mallet/croquet_mallet-large.png	4	f	f	f
+546	Chaca - Impressive Daughter	Look, look! My tooth is even looser today!	\N	138	t	11	1	5	70	SSK-138	4	2	4	3	\N	f	https://lorcana-api.com/images/chaca/impressive_daughter/chaca-impressive_daughter-large.png	1	f	f	f
+607	Food Fight!	Gawrsh, who ordered the . . . upside-down CAA-AA-AKE?	Your characters gain "{e}, 1{i} - Deal 1 damage to chosen character" this turn.	199	f	11	2	6	56	SSK-199	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/food_fight!/food_fight!-large.png	2	f	f	f
+492	Clarabelle - Light on Her Hooves	\N	Shift 5 (You may pay 5{i} to play this on top of one\nof your characters named Clarabelle.)\nKeep In Step: At the end of your turn, if chosen\nopponent has more cards in their hand than you, you\nmay draw cards until you have the same number.	84	t	11	5	3	56	SSK-084	7	2	5	6	\N	f	https://lorcana-api.com/images/clarabelle/light_on_her_hooves/clarabelle-light_on_her_hooves-large.png	1	f	f	f
+161	How Far I'll Go	\N	(A character with cost 4 or more can {e} to sing this song for free.)\n\nLook at the top 2 cards of your deck. Put one into your hand and the other into your inkwell facedown and exerted.	161	f	8	2	5	47	INK-161	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/how_far_i'll_go/how_far_i'll_go-large.png	3	f	f	f
+250	Madam Mim - Fox	\N	Chasing The Rabbit: When you play this character, banish her or return another chosen character of yours to your hand.\nRush (This character can challenge the turn they're played.)	46	t	10	3	2	47	ROF-046	3	1	4	3	\N	f	https://lorcana-api.com/images/madam_mim/fox/madam_mim-fox-large.png	1	f	f	f
+162	Repair	I'm thinkin' about opening a shop here. What do you think?	Remove up to 3 damage from one of your locations or characters.	162	t	8	1	5	47	INK-162	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/repair/repair-large.png	2	f	f	f
+207	Cinderella - Ballroom Sensation	With a magical dress and a song in her heart, she dazzled everyone at the ball.	Singer 3 (This character counts as cost 3 to sing songs.)	3	t	10	3	1	47	ROF-003	1	1	1	2	\N	f	https://lorcana-api.com/images/cinderella/ballroom_sensation/cinderella-ballroom_sensation-large.png	1	f	f	f
+271	Perplexing Signposts	Alice: I just wanted to ask you which way I ought to go.\nCheshire Cat: Well, that depends on where you want to get.	To Wonderland: Banish this item - Return chosen character of yours to your hand.	67	f	10	3	2	47	ROF-067	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/preplexing_signposts/preplexing_signposts-large.png	4	f	f	f
+272	The Sorcerer's Spellbook	Illumineers seek the power of knowledge - but must be aware of the price.	Knowledge: {e}, 1 {i} - Gain 1 lore.	68	f	10	3	2	47	ROF-068	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_sorcerer's_spellbook/the_sorcerer's_spellbook-large.png	4	f	f	f
+313	Honest John - Not That Honest	A thing like that ought to be worth a fortune to someone!	Easy Street - Whenever you play a Floodborn character, each opponent loses 1 lore.	109	f	10	3	4	47	ROF-109	3	1	2	3	\N	f	https://lorcana-api.com/images/honest_john/not_that_honest/honest_john-not_that_honest-large.png	1	f	f	f
+314	Lady Tremaine - Imperious Queen	The twelfth Rule of Villainy: If you don't have a throne, take one.	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Lady Tremaine.)\n\nPower To Rule At Last - When you play this character, each opponent chooses and banishes one of their characters.	110	f	10	4	4	47	ROF-110	6	2	3	4	\N	f	https://lorcana-api.com/images/lady_tremaine/imperious_queen/lady_tremaine-imperious_queen-large.png	1	f	f	f
+345	Caterpillar - Calm and Collected	Keep your tempo.	\N	141	t	10	2	5	47	ROF-141	3	3	1	3	\N	f	https://lorcana-api.com/images/caterpillar/calm_and_collected/caterpillar-calm_and_collected-large.png	1	f	f	f
+585	Sleepy - Sluggish Knight	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	177	t	11	2	6	74	SSK-177	2	1	\N	4	\N	f	https://lorcana-api.com/images/sleepy/sluggish_knight/sleepy-sluggish_knight-large.png	1	f	f	f
+441	Rapunzel's Tower - Secluded Prison	It's a scary world out there.\n-Mother Gothel	Safe And Sound: Characters get +3{w} while here.	33	t	11	2	1	63	SSK-033	2	\N	\N	8	\N	f	https://lorcana-api.com/images/rapunzel's_tower/secluded_prison/rapunzel's_tower-secluded_prison-large.png	5	f	f	f
+547	The Queen - Cruelest of All	She'd seen what the ink could do for other glimmers. What could it do for her?	Ward (Opponents can't choose this character except to challenge.)	139	t	11	1	5	74	SSK-139	2	1	\N	4	\N	f	https://lorcana-api.com/images/the_queen/cruelest_of_all/the_queen-cruelest_of_all-large.png	1	f	f	f
+381	Cinderella - Stouthearted	\N	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Cinderella.)\r Resist +2 (Damage dealt to this character is reduced by 2.)\r The Singing Sword: Whenever you play a song, this character may challenge ready characters this turn.	177	t	10	4	6	47	ROF-177	7	3	5	5	\N	f	https://lorcana-api.com/images/cinderella/stouthearted/cinderella-stouthearted-large.png	1	f	f	f
+442	Pride Lands - Jungle Oasis	\N	Our Humble Home: While you have 3 or more characters here, you may\nbanish this location to play a character from your discard for free.	34	t	11	3	1	49	SSK-034	3	1	\N	8	\N	f	https://lorcana-api.com/images/pride_lands/jungle_oasis/pride_lands-jungle_oasis-large.png	5	f	f	f
+346	Cogsworth - Grandfather Clock	\N	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Cogsworth.)\nWard (Opponents can't choose this character except to challenge.)\nUnwind: Your other characters gain Resist +1 (Damage dealt to them is reduced by 1)	142	t	10	4	5	47	ROF-142	5	2	2	5	\N	f	https://lorcana-api.com/images/cogsworth/grandfather_clock/cogsworth-grandfather_clock-large.png	1	f	f	f
+494	Clarabelle - Clumsy Guest	\N	Butterfingers: When you play this character,\nyou may pay 2{i}  to banish chosen item.	86	t	11	1	3	56	SSK-086	1	1	1	2	\N	f	https://lorcana-api.com/images/clarabelle/clumsy_guest/clarabelle-clumsy_guest-large.png	1	f	f	f
+24	99 Puppies	Two, four, six, plus three is nine, plus two is 11 . . .\n-Roger	Whenever one of your characters quests this turn, gain 1 lore.	24	f	8	2	1	47	INK-024	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/99_puppies/99_puppies-large.png	2	f	f	f
+163	Aurelian Gyrosensor	It can point you toward lost lore, but if you're not careful, it'll lead you off a cliff.\n-Venturo, an Illumineer	Seeking Knowledge - Whenever one of your characters quests, you may look at the top card of your deck. Put it on either the top or the bottom of your deck.	163	t	8	3	5	47	INK-163	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/aurelian_gyrosensor/aurelian_gyrosensor-large.png	4	f	f	f
+208	Cobra Bubbles - Just a Social Worker	Let me get this straight. Your 'magic' spellbook got washed away in a flood of 'magic' ink?	\N	4	t	10	3	1	47	ROF-004	7	2	5	9	\N	f	https://lorcana-api.com/images/cobra_bubbles/just_a_social_worker/cobra_bubbles-just_a_social_worker-large.png	1	f	f	f
+495	Banzai - Taunting Hyena	What do we got here, a little snack pock?	Here Kitty, Kitty, Kitty: When you play this\ncharacter, you may exert chosen damaged\ncharacter.	87	t	11	1	3	49	SSK-087	2	1	2	2	\N	f	https://lorcana-api.com/images/banzai/taunting_hyena/banzai-taunting_hyena-large.png	1	f	f	f
+548	Scrooge McDuck - Afficionado of Antiquities	The secret room should be right here! Ach, I cannot believe I paid a whole penny for this map.	\N	140	f	11	3	5	57	SSK-140	4	2	5	5	\N	f	https://lorcana-api.com/images/scrooge_mcduck/afficionado_of_antiquities/scrooge_mcduck-afficionado_of_antiquities-large.png	1	f	f	f
+273	Arthur - Trained Swordsman	It's not just fancy horses and swinging a sword around, you know! A true master must use his brain as well as his blade. - Merlin	\N	69	t	10	1	3	47	ROF-069	4	2	4	3	\N	f	https://lorcana-api.com/images/arthur/trained_swordsman/arthur-trained_swordsman-large.png	1	f	f	f
+549	Prince John - Opportunistic Briber	Of course I'm on the list. Check under 'PJ.'	Taxes Never Fail Me: Whenever you play an item, this character gets +2{s} this turn.	141	t	11	1	5	59	SSK-141	3	1	1	5	\N	f	https://lorcana-api.com/images/prince_john/opportunistic_briber/prince_john-opportunistic_briber-large.png	1	f	f	f
+315	Lady Tremaine - Overbearing Matriarch	Make no mistake: this time I will make certain the key remains safe!	Not For You - When you play this character, each opponent with more lore than you loses 1 lore.	111	f	10	1	4	47	ROF-111	2	1	2	2	\N	f	https://lorcana-api.com/images/lady_tremaine/overbearing_monarch/lady_tremaine-overbearing_monarch-large.png	1	f	f	f
+347	Cogsworth - Talking Clock	This has gone far enough. I'm in charge here.	Wait A Minute: Your characters with Reckless gain "{e} - Gain 1 lore."	143	t	10	2	5	47	ROF-143	2	1	2	3	\N	f	https://lorcana-api.com/images/cogsworth/talking_clock/cogsworth-talking_clock-large.png	1	f	f	f
+573	Medal of Heroes	You have etched in the rock of virtue a legacy beyond compare.	Congratulations, Soldier: {e}, 2{i}, Banish this item - Chosen character of yours gets +2{l} this turn.	165	t	11	1	5	51	SSK-165	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/medal_of_heroes/medal_of_heroes-large.png	4	f	f	f
+209	Doc - Leader of the Seven Dwarfs	He's in charge of this outfit.	Share and Share Alike: Whenever this character quests, you pay 1 {i} less for the next character you play this turn.	5	t	10	2	1	47	ROF-005	3	2	2	3	\N	f	https://lorcana-api.com/images/doc/leader_of_the_seven_dwarfs/doc-leader_of_the_seven_dwarfs-large.png	1	f	f	f
+316	Lumiere - Hotheaded Candelabra	When things heat up, no one can hold a candle to him.	\N	112	t	10	3	4	47	ROF-112	7	2	7	7	\N	f	https://lorcana-api.com/images/lumiere/hotheaded_candelabra/lumiere-hotheaded_candelabra-large.png	1	f	f	f
+348	Cruella De Vil - Fashionable Cruiser	Isn't it just gorgeous darling? And just as stylish as I am.	Now Get Going: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	144	t	10	1	5	47	ROF-144	2	1	3	2	\N	f	https://lorcana-api.com/images/cruella_de_vil/fashionable_cruiser/cruella_de_vil-fashionable_cruiser-large.png	1	f	f	f
+274	Beast - Relentless	\N	Second Wind: Whenever an opposing character is damaged, you may ready this character.	70	t	10	5	3	47	ROF-070	6	2	4	5	\N	f	https://lorcana-api.com/images/beast/relentless/beast-relentless-large.png	1	f	f	f
+383	Eli La Bouff - Big Daddy	I don't suppose y'all could whip up some more magical beignets with them inkcasters?	\N	179	t	10	2	6	47	ROF-179	4	2	2	5	\N	f	https://lorcana-api.com/images/eli_la_bouff/big_daddy/eli_la_bouff-big_daddy-large.png	1	f	f	f
+444	The Nokk - Mythical Spirit	\N	Turning Tides: When you play this character,\nyou may move up to 2 damage counters from\nchosen character to chosen opposing character.	36	t	11	1	2	54	SSK-036	6	1	5	5	\N	f	https://lorcana-api.com/images/the_nokk/mythical_spirit/the_nokk-mythical_spirit-large.png	1	f	f	f
+496	Robin Hood - Sneaky Sleuth	\N	Shift 3 (You may pay 3{i} to play this on top of\none of your characters named Robin Hood.)\nClever Plan: This character gets +1{l} for each\nopposing damaged character in play.	88	t	11	2	3	59	SSK-088	5	1	3	5	\N	f	https://lorcana-api.com/images/robin_hood/sneaky_sleuth/robin_hood-sneaky_sleuth-large.png	1	f	f	f
+230	The Queen - Commanding Presence	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named The Queen.)\n\nWho is the Fairest? - Whenever this character quests, chosen opposing character gets -4 {s} this turn and chosen character gets +4 {s} this turn.	26	t	10	4	1	47	ROF-026	5	2	4	3	\N	f	https://lorcana-api.com/images/the_queen/commanding_presence/the_queen-commanding_presence-large.png	1	f	f	f
+165	Lucky Dime	This one simple coin changed Scrooge's life forever.	Number One - {e}, 2{i}: Choose a character of yours and gain lore equal to their {l}.	165	f	8	5	5	47	INK-165	7	\N	\N	\N	\N	f	https://lorcana-api.com/images/lucky_dime/lucky_dime-large.png	4	f	f	f
+79	Milo Thatch - Clever Cartographer	Believe me, studying gibberish really can take you places!	\N	79	t	8	1	3	47	INK-079	1	1	2	2	\N	f	https://lorcana-api.com/images/milo_thatch/clever_cartographer/milo_thatch-clever_cartographer-large.png	1	f	f	f
+210	Dopey - Always Playful	He's a real gem.	Odd One Out: When this character is banished, your other Seven Dwarfs characters get +2 {s} until the start of your next turn.	6	t	10	2	1	47	ROF-006	3	1	2	2	\N	f	https://lorcana-api.com/images/dopey/always_playful/dopey-always_playful-large.png	1	f	f	f
+275	Belle - Bookworm	There's nothing more tempting than a pile of unread books.	Use Your Imagination: While an opponent has no cards in their hand, this character gets +2 {l}.	71	f	10	2	3	47	ROF-071	3	1	2	4	\N	f	https://lorcana-api.com/images/belle/bookworm/belle-bookworm-large.png	1	f	f	f
+317	Minnie Mouse - Stylish Surfer	This goes into my top ten most fun things!	Evasive (Only characters with Evasive can challenge this character.)	113	t	10	2	4	47	ROF-113	3	2	1	3	\N	f	https://lorcana-api.com/images/minnie_mouse/stylish_surfer/minnie_mouse-stylish_surfer-large.png	1	f	f	f
+349	Cruella De Vil - Perfectly Wretched	It's ink couture, darling. I wear only the best!	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Cruella De Vil.)\nOh, No You Don't: Whenever this character quests, chosen opposing character gets -2 {s} this turn.	145	t	10	2	5	47	ROF-145	5	2	4	3	\N	f	https://lorcana-api.com/images/cruella_de_vil/perfectly_wretched/cruella_de_vil-perfectly_wretched-large.png	1	f	f	f
+384	Goofy - Knight for a Day	It's a banner day for Sir Goofy, who is steeled to prove his mettle against anyone courting trouble-jouse in case.	\N	180	t	10	3	6	47	ROF-180	9	4	10	10	\N	f	https://lorcana-api.com/images/goofy/knight_for_a_day/goofy-knight_for_a_day-large.png	1	f	f	f
+475	Elsa's Ice Palace - Place of Solitude	\N	Eternal Winter: When you play this location, choose an exerted\ncharacter. While this location is in play, that character can't ready at the\nstart of their turn.	67	t	11	3	2	54	SSK-067	3	1	\N	4	\N	f	https://lorcana-api.com/images/elsa's_ice_palace/place_of_solitude/elsa's_ice_palace-place_of_solitude-large.png	5	f	f	f
+445	Cogsworth - Illuminary Watchman	Step to it! Time is of the essence.	Move It!: When you play this character,\nchosen character gains Rush this turn. (They can\nchallenge the turn they're played.)	37	t	11	1	2	65	SSK-037	1	1	1	1	\N	f	https://lorcana-api.com/images/cogsworth/illuminary_watchman/cogsworth-illuminary_watchman-large.png	1	f	f	f
+497	Mother Gothel - Conceited Manipulator	A beautiful lady never stands meekly at the back\nof the line.	Mother Knows Best: When you play this\ncharacter, you may pay 3{i} to return chosen\ncharacter to their player's hand.	89	t	11	2	3	63	SSK-089	2	1	1	3	\N	f	https://lorcana-api.com/images/mother_gothel/conceited_manipulator/mother_gothel-conceited_manipulator-large.png	1	f	f	f
+2	Bernard - Brand-New Agent	You stay there. I'll look for scattered lore.	I'll Check It Out - At the end of your turn, if this character is exerted, you may ready another chosen character of yours.	2	t	8	3	1	47	INK-002	4	2	1	5	\N	f	https://lorcana-api.com/images/bernard/brand-new_agent/bernard-brand-new_agent-large.png	1	f	f	f
+166	Scrooge's Top Hat	Just the thing to top off another brilliant deal.	Business Expertise - {e}: You pay 1{i} less for the next item you play this turn.	166	f	8	2	5	47	INK-166	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/scrooge's_top_hat/scrooge's_top_hat-large.png	4	f	f	f
+211	Eudora - Accomplished Seamstress	Love holds everything together.	\N	7	t	10	1	1	47	ROF-007	5	2	1	9	\N	f	https://lorcana-api.com/images/eudora/accomplished_seamstress/eudora-accomplished_seamstress-large.png	1	f	f	f
+276	Belle - Hidden Archer	She slips through the trees as easily as shadow.	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Belle.)\nThorny Arrows: Whenever this character is challenged, the challenging character's player discards all cards in their hand.	72	f	10	5	3	47	ROF-072	5	3	3	3	\N	f	https://lorcana-api.com/images/belle/hidden_archer/belle-hidden_archer-large.png	1	f	f	f
+1	Baloo - von Bruinwald XIII	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nLet's Make Like A Tree - When this character is banished, gain 2 lore.	1	f	8	3	1	47	INK-001	3	1	\N	3	\N	f	https://lorcana-api.com/images/baloo/von_bruinwald_xiii/baloo-von_bruinwald_xiii-large.png	1	f	f	f
+385	Hercules - Divine Hero	A good guy to have around when something wrecks your inkworks.	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Hercules.)\\nResist +2 (Damage dealth to this character is reduced by 2.)	181	t	10	3	6	47	ROF-181	6	2	6	3	\N	f	https://lorcana-api.com/images/hercules/divine_hero/hercules-divine_hero-large.png	1	f	f	f
+318	Minnie Mouse - Wide-Eyed Diver	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Minnie Mouse.)\nEvasive (Only Characters with Evasive can challenge this character.)\nUndersea Adventure: Whenever you play a second action in a turn, this character gets +2 {l} this turn.	114	t	10	3	4	47	ROF-114	4	1	2	3	\N	f	https://lorcana-api.com/images/minnie_mouse/wide-eyed_diver/minnie_mouse-wide-eyed_diver-large.png	1	f	f	f
+446	Merlin - Turtle	Don't rush me, now-this is important.	Give Me Time To Think: When you play this\ncharacter and when he leaves play, look at the\ntop 2 cards of your deck. Put one on the top of\nyour deck and the other on the bottom.	38	t	11	1	2	66	SSK-038	4	2	3	3	\N	f	https://lorcana-api.com/images/merlin/turtle/merlin-turtle-large.png	1	f	f	f
+498	Clarabelle - Contented Wallflower	Golly! Those dancers can really moo-ve!	One Step Behind: When you play this character,\nif an opponent has more cards in their hand than\nyou, you may draw a card.	90	t	11	2	3	56	SSK-090	3	1	2	3	\N	f	https://lorcana-api.com/images/clarabelle/contented_wallflower/clarabelle-contented_wallflower-large.png	1	f	f	f
+5	Joshua Sweet - The Doctor	Heading out into the Inklands? Come on back if you need patching up.	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	5	t	8	1	1	47	INK-005	4	2	1	5	\N	f	https://lorcana-api.com/images/joshua_sweet/the_doctor/joshua_sweet-the_doctor-large.png	1	f	f	f
+167	Vault Door	Only Scrooge knows about this vault. And he's going to keep it that way.	Sealed Away - Your locations and characters at locations gain Resist +1. (Damage dealt to them is reduced by 1.)	167	t	8	1	5	47	INK-167	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/vault_door/vault_door-large.png	4	f	f	f
+277	Bucky - Squirrel Squeak Tutor	There's a lot of nuance to squirrel. - Kronk	Ward (Opponents can't choose this character except to challenge.)\nSqueak: Whenever you play a Floodborn character, each opponent chooses and discards a card.	73	t	10	2	3	47	ROF-073	2	1	1	1	\N	f	https://lorcana-api.com/images/bucky/squirrel_squeak_tutor/bucky-squirrel_squeak_tutor-large.png	1	f	f	f
+319	Minnie Mouse - Zipping Around	Zero to fun in under 3 seconds!	\N	115	t	10	1	4	47	ROF-115	2	2	3	2	\N	f	https://lorcana-api.com/images/minnie_mouse/zipping_around/minnie_mouse-zipping_around-large.png	1	f	f	f
+350	Duke Weaselton - Small-Time Crook	It's Wee-sel-ton.	Ward (Opponents can't choose this character except to challenge.)	146	t	10	1	5	47	ROF-146	2	2	1	2	\N	f	https://lorcana-api.com/images/duke_weaselton/small-time_crook/duke_weaselton-small-time_crook-large.png	1	f	f	f
+386	Hercules - Hero In Training	No need to call IX-I-I!	\N	182	t	10	1	6	47	ROF-182	2	1	2	3	\N	f	https://lorcana-api.com/images/hercules/hero_in_training/hercules-hero_in_training-large.png	1	f	f	f
+447	Archimedes - Exasperated Owl	Hmph. What does on owl have to do to get a little\npeace and quiet around here?	Evasive (Only characters with Evasive can\nchallenge this character.)	39	t	11	1	2	66	SSK-039	3	2	2	2	\N	f	https://lorcana-api.com/images/archimedes/exasperated_owl/archimedes-exasperated_owl-large.png	1	f	f	f
+482	Ed - Laughing Hyena	A-heh, heh, heh, heh, heh, hee, hee, heeeee.	Cause A Panic: When you play this character, you may deal 2 damage to chosen damaged character.	74	f	11	1	3	49	SSK-074	3	1	2	3	\N	f	https://lorcana-api.com/images/ed/laughing_hyena/ed-laughing_hyena-large.png	1	f	f	f
+537	Don't Let the Frostbite Bite	Let's call it a night.	(A character with cost 7 or more can {e} to sing this song for free.)\r \r Ready all your characters. They can't quest for the rest of this turn.	129	t	11	3	4	54	SSK-129	7	\N	\N	\N	\N	f	https://lorcana-api.com/images/don't_let_the_frostbite_bite/don't_let_the_frostbite_bite-large.png	3	f	f	f
+9	Minnie Mouse - Musical Artist	Her musical talents are off the charts!	Singer 3 (This character counts as cost 3 to sing songs.)\n\nEntourage - Whenever you play a character with Bodyguard, you may remove up to 2 damage from chosen character.	9	t	8	3	1	47	INK-009	2	1	1	3	\N	f	https://lorcana-api.com/images/minnie_mouse/musical_artist/minnie_mouse-musical_artist-large.png	1	f	f	f
+168	Belle's House - Maurice's Workshop	Some of the most important tools in Lorcana are crafted here.	Laboratory - If you have a character here, you pay 1{i} less to play items.	168	t	8	3	5	47	INK-168	1	\N	\N	6	\N	f	https://lorcana-api.com/images/belle's_house/maurice's_workshop/belle's_house-maurice's_workshop-large.png	5	f	f	f
+539	Who's With Me?	Don't forget, the purple unicorn is mine!	Your characters get +2{s} this turn.\nWhenever one of your characters with Reckless challenges another character this turn, gain 2 lore.	131	t	11	4	4	65	SSK-131	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/who's_with_me/who's_with_me-large.png	2	f	f	f
+448	Bruni - Fire Salamander	\N	Evasive (Only characters with Evasive can\nchallenge this character.)\nParting Gift: When this character is banished,\nyou may draw a card.	40	t	11	2	2	54	SSK-040	4	2	2	2	\N	f	https://lorcana-api.com/images/bruni/fire_salamander/bruni-fire_salamander-large.png	1	f	f	f
+351	Gaston - Intellectual Powerhouse	\N	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Gaston.)\nDeveloped Brain: When you play this character, look at the top 3 cards of your deck. You may put one into your hand. Put the rest on the bottom of your deck in any order.	147	f	10	3	5	47	ROF-147	6	3	4	4	\N	f	https://lorcana-api.com/images/gaston/intellectual_powerhouse/gaston-intellectual_powerhouse-large.png	1	f	f	f
+608	Shield of Arendelle	\N	Deflect: Banish this item - Chosen character gains Resist +1 until the start of your next turn. (Damage dealt to them is reduced by 1.)	200	t	11	1	6	54	SSK-200	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/shield_of_arendelle/shield_of_arendelle-large.png	4	f	f	f
+286	Flynn Rider - His Own Biggest Fan	\N	Shift 2 (You may 2 {i} to play this on top of one of your characters named Flynn Rider.)\nEvasive (Only characters with Evasive can challenge this character.)\nOne Last, Big Score: This character gets -1 {l} for each card in your opponents' hands.	82	f	10	3	3	47	ROF-082	4	4	2	3	\N	f	https://lorcana-api.com/images/flynn_rider/his_own_biggest_fan/flynn_rider-his_own_biggest_fan-large.png	1	f	f	f
+597	Bashful - Adoring Knight	\N	Impress the Princess: While you have a character named Snow White in play, this character gains Bodyguard. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	189	t	11	2	6	74	SSK-189	4	1	3	4	\N	f	https://lorcana-api.com/images/bashful/adoring_knight/bashful-adoring_knight-large.png	1	f	f	f
+564	Tanana - Wise Woman	\N	Your Brothers Need Guidance: When you play this character, you may remove up to 1 damage from chosen character or location.	156	t	11	1	5	48	SSK-156	2	1	1	3	\N	f	https://lorcana-api.com/images/tanana/wise_woman/tanana-wise_woman-large.png	1	f	f	f
+612	Seven Dwarfs' Mine	\N	Mountain Defense: During your turn, the first time you move a character here, you may deal 1 damage to chosen character. If the moved character is a Knight, deal 2 damage instead.	204	t	11	2	6	74	SSK-204	2	1	\N	6	\N	f	https://lorcana-api.com/images/seven_dwarfs'_mine/seven_dwarfs'_mine-large.png	5	f	f	f
+563	Donald Duck - Focused Flatfoot	There's just gotta be one of those chromi-thingies around here somewhere!	Baffling Mystery: When you play this character, you may put the top card of your deck into your inkwell facedown and exerted.	155	t	11	1	5	56	SSK-155	5	2	3	4	\N	f	https://lorcana-api.com/images/donald_duck/focused_flatfoot/donald_duck-focused_flatfoot-large.png	1	f	f	f
+170	Motunui - Island Paradise	\N	Reincarnation - Whenever a character is banished while here, you may put that card into your inkwell facedown and exerted.	170	t	8	2	5	47	INK-170	2	1	\N	5	\N	f	https://lorcana-api.com/images/motunui/island_paradise/motunui-island_paradise-large.png	5	f	f	f
+20	Queen of Hearts - Wonderland Empress	The more of the Inklands she claims, the more she wants.	All Ways Here Are My Ways - Whenever this character quests, your other Villain characters get +1{l} this turn.	20	t	8	2	1	47	INK-020	3	1	3	3	\N	f	https://lorcana-api.com/images/queen_of_hearts/wonderland_empress/queen_of_hearts-wonderland_empress-large.png	1	f	f	f
+215	Happy - Good-Natured	You couldn't pick a better friend.	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	11	t	10	1	1	47	ROF-011	5	2	3	5	\N	f	https://lorcana-api.com/images/happy/good-natured/happy-good-natured-large.png	1	f	f	f
+389	Kronk - Junior Chipmunk	\N	Resist +1 (Damage dealt to this character is reduced by 1.)\\nScout Leader: During your turn, whenever this character banishes another character in a challenge, you may deal 2 damage to chosen character.	185	t	10	3	6	47	ROF-185	6	2	4	5	\N	f	https://lorcana-api.com/images/kronk/junior_chipmunk/kronk-junior_chipmunk-large.png	1	f	f	f
+227	Snow White - Lost in the Forest	Why, you're all alone, just like me.	I Won't Hurt You - When you play this character, you may remove up to 2 damage from chosen character.	23	t	10	1	1	47	ROF-023	2	1	2	3	\N	f	https://lorcana-api.com/images/snow_white/lost_in_the_forest/snow_white-lost_in_the_forest-large.png	1	f	f	f
+322	Namaari - Nemesis	I don't need swords to beat you. They just make it more fun.	This Shouldn't Take Long: {e}, Banish this character - Banish chosen character.	118	f	10	4	4	47	ROF-118	4	1	3	3	\N	f	https://lorcana-api.com/images/namaari/nemesis/namaari-nemesis-large.png	1	f	f	f
+280	Daisy Duck - Secret Agent	\N	Thwart: Whenever this character quests, each opponent chooses and discards a card.	76	t	10	2	3	47	ROF-076	4	2	2	3	\N	f	https://lorcana-api.com/images/daisy_duck/secret_agent/daisy_duck-secret_agent-large.png	1	f	f	f
+450	Gale - Wind Spirit	\N	Recurring Gust: When this character is\nbanished in a challenge, return this card to your\nhand.	42	t	11	1	2	54	SSK-042	3	2	1	2	\N	f	https://lorcana-api.com/images/gale/wind_spirit/gale-wind_spirit-large.png	1	f	f	f
+472	Retrosphere	\N	Extract Of Amethyst: 2{i}, Banish this item - Return\nchosen character, item, or location with cost 3 or less\nto their player's hand.	64	t	11	1	2	60	SSK-064	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/retrosphere/retrosphere-large.png	4	f	f	f
+128	Divebomb	\N	Banish one of your characters with Reckless to banish chosen character with less {s} than that character.	128	t	8	2	4	47	INK-128	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/divebomb/divebomb-large.png	2	f	f	f
+108	Hydra - Deadly Serpent	More heads are better than one.	Watch The Teeth - Whenever this character is dealt damage, deal that much damage to chosen opposing character.	108	f	8	5	4	47	INK-108	6	2	6	5	\N	f	https://lorcana-api.com/images/hydra/deadly_serpent/hydra-deadly_serpent-large.png	1	f	f	f
+115	Milo Thatch - Spirited Scholar	My grandpa never told me about this place!	I'm Your Man! - While this character is at a location, he gets +2{s}.	115	t	8	1	4	47	INK-115	2	1	2	2	\N	f	https://lorcana-api.com/images/milo_thatch/spirited_scholar/milo_thatch-spirited_scholar-large.png	1	f	f	f
+127	Webby Vanderquack - Enthusiastic Duck	Finding lore is a lot easier when you have a grappling hook!	\N	127	t	8	1	4	47	INK-127	3	1	3	4	\N	f	https://lorcana-api.com/images/webby_vanderquack/enthusiastic_duck/webby_vanderquack-enthusiastic_duck-large.png	1	f	f	f
+129	I've Got A Dream	Tor would like to quit and be a florist\nGunther does interior design	(A character with cost 2 or more can {e} to sing this song for free.)\n\nReady chosen character of yours at a location. They can't quest for the rest of this turn. Gain lore equal to that location's {l}.	129	t	8	2	4	47	INK-129	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/i've_got_a_dream/i've_got_a_dream-large.png	3	f	f	f
+130	On Your Feet! Now!	Catch them! Before they get away!	Ready all your characters and deal 1 damage to each of them. They can't quest for the rest of this turn.	130	f	8	3	4	47	INK-130	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/on_your_feet_now!/on_your_feet_now!-large.png	2	f	f	f
+520	Mickey Mouse - Enthusiastic Dancer	He loves to share the spotlight with a star like Minnie.	Perfect Partners: While you have a character named Minnie Mouse in play, this character gets +2{s}.	112	t	11	1	4	56	SSK-112	4	2	2	4	\N	f	https://lorcana-api.com/images/mickey_mouse/enthusiastic_dancer/mickey_mouse-enthusiastic_dancer-large.png	1	f	f	f
+521	Ratigan - Raging Rat	The world's most diabolical genius should never suffer such indignities!	Nothing Can Stand in My Way: While this character has damage, he gets +2{s}.	113	t	11	1	4	71	SSK-113	3	1	1	5	\N	f	https://lorcana-api.com/images/ratigan/raging_rat/ratigan-raging_rat-large.png	1	f	f	f
+552	The Queen - Fairest of All	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named The Queen.)\nWard (Opponents can't choose this character except to challenge.)\nReflections of Vanity: For each other character named The Queen you have in play, this character gets +1{l}.	144	t	11	4	5	74	SSK-144	5	1	2	6	\N	f	https://lorcana-api.com/images/the_queen/fairest_of_all/the_queen-fairest_of_all-large.png	1	f	f	f
+15	Perdita - Devoted Mother	Her pups will follow her anywhere.	Come Along, Children - When you play this character and whenever she quests, you may play a character with cost 2 or less from your discard for free.	15	f	8	5	1	47	INK-015	6	2	1	6	\N	f	https://lorcana-api.com/images/perdita/devoted_mother/perdita-devoted_mother-large.png	1	f	f	f
+16	Piglet - Pooh Pirate Captain	Ahoy! There's lore out there, and I'm g-gonna find it!	And I'm The Captain! - While you have 2 or more other characters in play, this character gets +2{l}.	16	t	8	4	1	47	INK-016	2	1	2	2	\N	f	https://lorcana-api.com/images/piglet/pooh_pirate_captain/piglet-pooh_pirate_captain-large.png	1	f	f	f
+169	McDuck Manor - Scrooge's Mansion	It's only the coolest home in Lorcana!\n-Webby Vanderquack	\N	169	t	8	1	5	47	INK-169	4	2	\N	9	\N	f	https://lorcana-api.com/images/mcduck_manor/scrooge's_mansion/mcduck_manor-scrooge's_mansion-large.png	5	f	f	f
+214	Grumpy - Bad-Tempered	Sour as a green gooseberry!	There's Trouble A-Brewin' - Your other Seven Dwarfs characters get +1 {s}.	10	t	10	1	1	47	ROF-010	4	1	3	4	\N	f	https://lorcana-api.com/images/grumpy/bad-tempered/grumpy-bad-tempered-large.png	1	f	f	f
+321	Mulan - Soldier In Training	I have to do something!	Rush (This character can challenge the turn they're played.)	117	f	10	1	4	47	ROF-117	4	1	4	3	\N	f	https://lorcana-api.com/images/mulan/soldier_in_training/mulan-soldier_in_training-large.png	1	f	f	f
+388	Jafar - Royal Vizier	Soon you'll learn who holds the real power!	I Don't Trust Him, Sire: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	184	t	10	1	6	47	ROF-184	3	1	3	2	\N	f	https://lorcana-api.com/images/jafar/royal_vizier/jafar-royal_vizier-large.png	1	f	f	f
+449	Earth Giant - Living Mountain	Who woke up the big guy?	Unearthed: When you play this character, each\nopponent draws a card.	41	t	11	1	2	54	SSK-041	4	2	4	5	\N	f	https://lorcana-api.com/images/earth_giant/living_mountain/earth_giant-living_mountain-large.png	1	f	f	f
+523	Denahi - Avenging Brother	You'll pay for what you've done! I'll track you all the way to the Azurite Sea if I have to!	\N	115	f	11	3	4	48	SSK-115	5	2	7	5	\N	f	https://lorcana-api.com/images/denahi/avenging_brother/denahi-avenging_brother-large.png	1	f	f	f
+173	Gustav the Giant - Terror of the Kingdom	\N	All Tied Up - This character enters play exerted and can't ready at the start of your turn.\n\nBreak Free - During your turn, whenever one of your other characters banished another character in a challenge, you may ready this character.	173	t	8	3	6	47	INK-173	3	1	6	6	\N	f	https://lorcana-api.com/images/gustav_the_giant/terror_of_the_kingdom/gustav_the_giant-terror_of_the_kingdom-large.png	1	f	f	f
+216	King Louie - Jungle VIP	Cool it, boy. Unwind yourself.	Lay It On The Line - Whenever another character is banished, you may remove up to 2 damage from this character.	12	t	10	4	1	47	ROF-012	7	2	3	8	\N	f	https://lorcana-api.com/images/king_louie/jungle_vip/king_louie-jungle_vip-large.png	1	f	f	f
+218	Mufasa - Betrayed Leader	\N	The Sun Will Set - When this character is banished, you may reveal the top card of your deck. If it's a character card, you may play that character for free and they enter play exerted. Otherwise, put it on the top of your deck.	14	t	10	5	1	47	ROF-014	5	2	3	3	\N	f	https://lorcana-api.com/images/mufasa/betrayed_leader/mufasa-betrayed_leader-large.png	1	f	f	f
+392	Magic Broom - Industrial Model	Even with a hauling weight of seriously, a lot, it can only do so much in a magical flood.	Make It Shine: When you play this character, chosen character gains Resist +1 until the start of your next turn. (Damage dealt to them is reduced by 1.)	188	t	10	1	6	47	ROF-188	3	1	2	3	\N	f	https://lorcana-api.com/images/magic_broom/industrial_model/magic_broom-industrial_model-large.png	1	f	f	f
+283	Dr. Facilier - Fortune Teller	\N	Evasive (Only characters with Evasive can challenge this character.)\nYou're In My World: Whenever this character quests, chosen opposing character can't quest during their next turn.	79	t	10	4	3	47	ROF-079	7	3	4	4	\N	f	https://lorcana-api.com/images/dr._facilier/fortune_teller/dr._facilier-fortune_teller-large.png	1	f	f	f
+592	Yzma - Unjustly Treated	What do you mean, 'not on the list'?! I told you to always put me on the list!	I'm Warning You!: During your turn, whenever one of your characters banishes a character in a challenge, you may deal 1 damage to chosen character.	184	f	11	3	6	70	SSK-184	4	2	1	4	\N	f	https://lorcana-api.com/images/yzma/unjustly_treated/yzma-unjustly_treated-large.png	1	f	f	f
+504	You're Welcome	\N	(A character with cost 4 or more can {e} to sing this\nsong for free.)\nShuffle chosen character, item, or location into their\nplayer's deck. That player draws 2 cards.	96	t	11	1	3	58	SSK-096	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/you're_welcome/you're_welcome-large.png	3	f	f	f
+554	Chicha - Dedicated Mother	\N	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\nOne on the Way: During your turn, when you put a card into your inkwell, if it's the second card you've put into your inkwell this turn, you may draw a card.	146	f	11	3	5	70	SSK-146	2	1	2	1	\N	f	https://lorcana-api.com/images/chicha/dedicated_mother/chicha-dedicated_mother-large.png	1	f	f	f
+393	Namaari - Morning Mist	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\\nBlades: This character can challenge ready characters.	189	f	10	5	6	47	ROF-189	4	1	2	4	\N	f	https://lorcana-api.com/images/namaari/morning_mist/namaari-morning_mist-large.png	1	f	f	f
+174	Hades - Hotheaded Ruler	Brothers! Titans! Look at you in your squalid prison. Who put you down there?	Call The Titans - {e}: Ready your Titan characters.	174	t	8	3	6	47	INK-174	6	2	5	5	\N	f	https://lorcana-api.com/images/hades/hotheaded_ruler/hades-hotheaded_ruler-large.png	1	f	f	f
+284	Enchantress - Unexpected Judge	Appearances can be deceiving.	True Form: While being challenged, this character gets +2 {s}.	80	t	10	1	3	47	ROF-080	2	2	1	1	\N	f	https://lorcana-api.com/images/enchantress/unexpected_judge/enchantress-unexpected_judge-large.png	1	f	f	f
+454	Anna - Mystical Majesty	\N	Shift 4 (You may pay 4{i} to play this on top of\none of your characters named Anna.)\nExceptional Power: When you play this\ncharacter, exert all opposing characters.	46	f	11	3	2	54	SSK-046	7	2	4	5	\N	f	https://lorcana-api.com/images/anna/mystical_majesty/anna-mystical_majesty-large.png	1	f	f	f
+325	Ratigan - Very Large Mouse	This time, nothing, not even Basil, can stand in my way!	This Is My Kingdom: When you play this character, exert chosen opposing character with 3 {s} or less. Choose one of your characters and read them. They can't quest for the rest of this turn.	121	f	10	3	4	47	ROF-121	5	2	3	3	\N	f	https://lorcana-api.com/images/ratigan/very_large_mouse/ratigan-very_large_mouse-large.png	1	f	f	f
+555	Prince John - Gold Lover	A villainous schemer from day to night.	Beautiful, Lovely Taxes: {e} - Play an item from your hand or discard with cost 5 or less for free, exerted.	147	t	11	4	5	59	SSK-147	4	1	3	4	\N	f	https://lorcana-api.com/images/prince_john/gold_lover/prince_john-gold_lover-large.png	1	f	f	f
+354	James - Role Model	\N	Never, Ever Lose Sight: When this character is banished, you may put this card into your inkwell facedown and exerted.	150	f	10	1	5	47	ROF-150	4	2	3	3	\N	f	https://lorcana-api.com/images/james/role_model/james-role_model-large.png	1	f	f	f
+505	Remember Who You Are	\N	If chosen opponent has more cards in their hand than\nyou, draw cards until you have the same number.	97	f	11	3	3	49	SSK-097	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/remember_who_you_are/remember_who_you_are-large.png	2	f	f	f
+30	Heart of Atlantis	It's what's keeping you - all of Atlantis - alive!\n-Milo Thatch	Life Giver - {e}: You pay 2{i} less for the next character you play this turn.	30	f	8	3	1	47	INK-030	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/heart_of_atlantis/heart_of_atlantis-large.png	4	f	f	f
+455	Archimedes - Electrified Owl	\N	Shift 3 (You may pay 3{i} to play this on top of one of your\ncharacters named Archimedes.)\nEvasive (Only characters with Evasive can challenge this\ncharacter.)\nChallenger +3 (While challenging, this character gets +3{s}.)	47	t	11	2	2	66	SSK-047	5	2	1	4	\N	f	https://lorcana-api.com/images/archimedes/electrified_owl/archimedes-electrified_owl-large.png	1	f	f	f
+506	Prince John's Mirror	\N	You Look Regal: If you have a character named Prince\nJohn in play, you pay 1{i} less to play this item.\nA Feeling Of Power: At the end of each opponent's\nturn, if they have more than 3 cards in their hand, they\ndiscard until they have 3 cards in their hand.	98	t	11	3	3	59	SSK-098	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/prince_john's_mirror/prince_john's_mirror-large.png	4	f	f	f
+172	Eeyore - Overstuffed Donkey	Not much of a roadblock, but I suppose I'll do.	Resist +1 (Damage dealt to this character is reduced by 1.)	172	t	8	1	6	47	INK-172	5	1	4	5	\N	f	https://lorcana-api.com/images/eeyore/overstuffed_donkey/eeyore-overstuffed_donkey-large.png	1	f	f	f
+217	Mickey Mouse - Friendly Face	Come on in- there's lots to explore.	Glad You're Here! - Whenever this character quests, you pay 3 {i} less for the next character you play this turn.	13	t	10	4	1	47	ROF-013	6	3	1	6	\N	f	https://lorcana-api.com/images/mickey_mouse/friendly_face/mickey_mouse-friendly_face-large.png	1	f	f	f
+391	Li Shang - Archery Instructor	Learn what to do, then learn to do it without thought.	Archery Lesson: Whenever this character quests, your characters gain Evasive this turn. (They can challenge characters with Evasive.)	187	t	10	2	6	47	ROF-187	5	2	3	6	\N	f	https://lorcana-api.com/images/li_shang/archery_instructor/li_shang-archery_instructor-large.png	1	f	f	f
+394	Pacha - Village Leader	Don't be fooled by the folksy peasant look. - Kuzco	\N	190	t	10	2	6	47	ROF-190	6	2	4	8	\N	f	https://lorcana-api.com/images/pacha/village_leader/pacha-village_leader-large.png	1	f	f	f
+404	Pick A Fight	I'm gonna wreck it!	Chosen character can challenge ready characters this turn.	200	f	10	2	6	47	ROF-200	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/pick_a_fight/pick_a_fight-large.png	2	f	f	f
+452	Madam Mim - Elephant	\N	A Little Game: When you play this character, banish\nher or return another chosen character of yours to your\nhand.\nSneaky Move: At the start of your turn, you may move\nup to 2 damage counters from this character to chosen\nopposing character.	44	t	11	4	2	66	SSK-044	4	1	3	7	\N	f	https://lorcana-api.com/images/madam_mim/elephant/madam_mim-elephant-large.png	1	f	f	f
+324	Queen Of Hearts - Sensing Weakness	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Queen of Hearts.)\nLet The Game Being: Whenever one of your characters challenges another character, you may draw a card.	120	t	10	2	4	47	ROF-120	5	1	4	3	\N	f	https://lorcana-api.com/images/queen_of_hearts/sensing_weakness/queen_of_hearts-sensing_weakness-large.png	1	f	f	f
+456	Elsa - The Fifth Spirit	\N	Rush (This character can challenge the turn they're played.)\nEvasive (Only characters with Evasive can challenge this\ncharacter.)\nCrystallize: When you play this character, exert chosen\nopposing character.	48	t	11	4	2	54	SSK-048	5	1	2	5	\N	f	https://lorcana-api.com/images/elsa/the_fifth_spirit/elsa-the_fifth_spirit-large.png	1	f	f	f
+507	Obscurosphere	\N	Extract Of Emerald: 2{i}, Banish this item - Your\ncharacters gain Ward until the start of your next turn.\n(Opponents can't choose them except to challenge.)	99	t	11	1	3	60	SSK-099	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/obscurosphere/obscurosphere-large.png	4	f	f	f
+36	Chernabog's Followers - Creatures of Evil	Let chaos reign.	Restless Souls - Whenever this character quests, you may banish them to draw a card.	36	t	8	2	2	47	INK-036	1	1	2	1	\N	f	https://lorcana-api.com/images/chernabog's_followers/chernabog's_followers-large.png	1	f	f	f
+512	Wreck-It Ralph - Demolition Dude	\N	Refreshing Break: Whenever you ready this character, gain 1 lore for each 1 damage on him.	104	t	11	3	4	51	SSK-104	3	1	1	3	\N	f	https://lorcana-api.com/images/wreck-it_ralph/demolition_dude/wreck-it_ralph-demolition_dude-large.png	1	f	f	f
+37	Diablo - Faithful Pet	With a little ink-enhanced magic, nothing escapes his sight.	Looking For Aurora - Whenever you play a character named Maleficent, you may look at the top card of your deck. Put it on the top or the bottom of your deck.	37	t	8	1	2	47	INK-037	1	1	2	1	\N	f	https://lorcana-api.com/images/diablo/faithful_pet/diablo-faithful_pet-large.png	1	f	f	f
+395	Prince Naveen - Penniless Royal	All he's got is his charm.	\N	191	t	10	1	6	47	ROF-191	3	1	4	3	\N	f	https://lorcana-api.com/images/prince_naveen/penniless_royal/prince_naveen-penniless_royal-large.png	1	f	f	f
+610	Steel Chromicon	Strong in will, strong in battle.\n-Inscription	Steel Light: {e} - Deal 1 damage to chosen character.	202	f	11	2	6	60	SSK-202	6	\N	\N	\N	\N	f	https://lorcana-api.com/images/steel_chromicon/steel_chromicon-large.png	4	f	f	f
+459	Maleficent - Vexed Partygoer	\N	What An Awkward Situation: Whenever this\ncharacter quests, you may choose and discard a\ncard to return chosen character, item, or location\nwith cost 3 or less to their player's hand.	51	t	11	2	2	64	SSK-051	3	2	\N	4	\N	f	https://lorcana-api.com/images/maleficent/vexed_partygoer/maleficent-vexed_partygoer-large.png	1	f	f	f
+917	Hidden Cove - Tranquil Haven	Flounder, this is perfect! I can't wait to explore it.	Revitalizing Waters - Characters get +1{s} and +1{w} while here.	101	t	13	1	3	60	URS-101	1	\N	\N	6	\N	f	https://lorcana-api.com/images/hidden_cove/tranquil_haven/hidden_cove-tranquil_haven-large.png	5	f	f	f
+883	Casa Madrigal - Casita	\N	Our Home - At the start of your turn, if you have a character here gain 1 lore.	67	t	13	1	2	55	URS-067	1	\N	\N	6	\N	f	https://lorcana-api.com/images/casa_madrigal/casita/casa_madrigal-casita-large.png	5	f	f	f
+357	Mrs. Judson - Housekeeper	I know just the thing. Let me fetch you a pot of tea and some of my fresh cheese crumpets.	Tidy Up: Whenever you play a Floodborn character, you may put the top card of your deck into your inkwell facedown and exerted.	153	f	10	3	5	47	ROF-153	4	2	1	5	\N	f	https://lorcana-api.com/images/mrs._judson/housekeeper/mrs._judson-housekeeper-large.png	1	f	f	f
+463	Rafiki - Shaman Duelist	\N	Rush (This character con challenge the turn\nthey're played.)\nSurprising Skill: When you play this character,\nhe gains Challenger +4 this turn. (They get +4\nwhile challenging.)	55	f	11	3	2	49	SSK-055	4	2	1	4	\N	f	https://lorcana-api.com/images/rafiki/shaman_duelist/rafiki-shaman_duelist-large.png	1	f	f	f
+17	Pluto - Determined Defender	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Pluto.)\n\nBodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nGuard Dog - At the start of your turn, remove up to 3 damage from this character.	17	t	8	3	1	47	INK-017	7	2	3	8	\N	f	https://lorcana-api.com/images/pluto/determined_defender/pluto-determined_defender-large.png	1	f	f	f
+287	Gaston - Scheming Suitor	Don't I deserve the best?	Yes, I'm Intimidating: While one or more opponents have no cards in their hands, this character gets +3 {s}.	83	t	10	1	3	47	ROF-083	2	1	1	3	\N	f	https://lorcana-api.com/images/gaston/scheming_suitor/gaston-scheming_suitor-large.png	1	f	f	f
+465	King of Hearts - Monarch of Wonderland	By order of the king. You heard what she said!	Pleasing The Queen: {e} - Chosen exerted\ncharacter can't ready at the start of their next\nturn.	57	t	11	1	2	67	SSK-057	4	2	1	4	\N	f	https://lorcana-api.com/images/king_of_hearts/monarch_of_wonderland/king_of_hearts-monarch_of_wonderland-large.png	1	f	f	f
+178	Little John - Resourceful Outlaw	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Little John.)\n\nOkay, Big Shot - While this character is exerted, your characters with Bodyguard gain Resist +1 and get +1{l}.	178	t	8	4	6	47	INK-178	6	2	4	5	\N	f	https://lorcana-api.com/images/little_john/resourceful_outlaw/little_john-resourceful_outlaw-large.png	1	f	f	f
+327	Raya - Leader of Heart	\N	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Raya.)\nChampion Of Kumandra: Whenever this character challenges a damaged character, she takes no damage from the challenge.	123	t	10	4	4	47	ROF-123	6	2	5	3	\N	f	https://lorcana-api.com/images/raya/leader_of_heart/raya-leader_of_heart-large.png	1	f	f	f
+517	Scar - Betrayer	The second Rule of Villainy: Never settle for second place.	Long Live the King - When you play this character, you may banish chosen character named Mufasa.	109	t	11	2	4	49	SSK-109	5	2	6	3	\N	f	https://lorcana-api.com/images/scar/betrayer/scar-betrayer-large.png	1	f	f	f
+51	Maleficent - Mistress of All Evil	\N	Dark Knowledge - Whenever this character quests, you may draw a card.\n\nDivination - During your turn, whenever you draw a card, you may move 1 damage counter from chosen character to chosen opposing character.	51	t	8	5	2	47	INK-051	5	2	2	3	\N	t	https://lorcana-api.com/images/maleficent/mistress_of_all_evil/maleficent-mistress_of_all_evil-large.png	1	f	f	f
+400	Tiana - Celebrating Princess	\N	Resist +2 (Damage dealt to this character is reduced by 2.)\\nWhat You Give Is What You Get: While this character is exerted and you have no cards in your hand, opponents can't play actions.	196	f	10	4	6	47	ROF-196	4	2	1	4	\N	f	https://lorcana-api.com/images/tiana/celebrating_princess/tiana-celebrating_princess-large.png	1	f	f	f
+337	You Can Fly!	\N	(A character with cost 2 or more can {e} to sing this song for free.)\nChosen character gains Evasive until the start of your next turn. (Only characters with Evasive can challenge them.)	133	t	10	2	4	47	ROF-133	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/you_can_fly!/you_can_fly!-large.png	3	f	f	f
+536	Evil Comes Prepared	\N	Ready chosen character of yours. They can't quest for the rest of this turn. If a Villain character is chosen, gain 1 lore.	128	t	11	1	4	49	SSK-128	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/evil_comes_prepared/evil_comes_prepared-large.png	2	f	f	f
+131	Voyage	We were voyagers! Why'd we stop? -Moana	Move up to 2 characters of yours to the same location for free.	131	t	8	1	4	47	INK-131	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/voyage/voyage-large.png	2	f	f	f
+240	Blue Fairy - Rewarding Good Deeds	To make geppetto's wish come true will be entirely up to you. -Blue Fairy	Evasive (Only characters with Evasive can challenge this character.)\nEthereal Glow: Whenever you play a Floodborn character, you may draw a card.	36	t	10	2	2	47	ROF-036	2	1	1	1	\N	f	https://lorcana-api.com/images/blue_fairy/rewarding_good_deeds/blue_fairy-rewarding_good_deeds-large.png	1	f	f	f
+390	Lawrence - Jealous Manservant	In this new world, the crown could finally be his.	Payback: While this character has no damage, he gets +4 {s}.	186	t	10	2	6	47	ROF-186	3	2	\N	4	\N	f	https://lorcana-api.com/images/lawrence/jealous_manservant/lawrence-jealous_manservant-large.png	1	f	f	f
+365	Winnie The Pooh - Having A Think	When he though, he though in the most thoughtful way he could think.	Hunny Pot: Whenever this character quests, you may put a card from your hand into your inkwell facedown.	161	t	10	3	5	47	ROF-161	3	2	2	3	\N	f	https://lorcana-api.com/images/winnie_the_pooh/having_a_think/winnie_the_pooh-having_a_think-large.png	1	f	f	f
+235	World's Greatest Criminal Mind	\N	(A character with cost 3 or more can {e} to sing this song for free.)\r \r Banish chosen character with 5 {s} or more.	31	t	10	3	1	47	ROF-031	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/world's_greatest_criminal_mind/world's_greatest_criminal_mind-large.png	3	f	f	f
+426	Moana - Determined Explorer	Investigate every port of the Illuminary, find the\nchromicons, restore the Illuminary, how hard con\nit-wait, what was that noise?	\N	18	f	11	1	1	58	SSK-018	3	2	3	4	\N	f	https://lorcana-api.com/images/moana/determined_explorer/moana-determined_explorer-large.png	1	f	f	f
+451	White Rabbit - Royal Herald	Oh me, oh my! Did a piece just fall off the\nIlluminary?! I've got to tell someone before it's too\nlate, late, late!	\N	43	t	11	1	2	67	SSK-043	3	1	3	4	\N	f	https://lorcana-api.com/images/white_rabbit/royal_herald/white_rabbit-royal_herald-large.png	1	f	f	f
+64	The Lamp	\N	Good Or Evil - Banish this item: If you have a character named Jafar in play, draw 2 cards. If you have a character named Genie in play, return chosen character with cost 4 or less to their players hand.	64	f	8	3	2	47	INK-064	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_lamp/the_lamp-large.png	4	f	f	f
+292	Pete - Bad Guy	\N	Ward (Opponents can't choose this character except to challenge.)\nTake That!: Whenever you play an action, this character gets +2 {s} this turn.\nWho's Next?: While this character has 7 {s} or more, he gets +2 {l}.	88	t	10	3	3	47	ROF-088	5	2	3	4	\N	f	https://lorcana-api.com/images/pete/bad_guy/pete-bad_guy-large.png	1	f	f	f
+281	Donald Duck - Perfect Gentleman	\N	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Donald Duck.)\nAllow Me: At the start of your turn, each player may draw a card.	77	t	10	2	3	47	ROF-077	4	2	2	5	\N	f	https://lorcana-api.com/images/donald_duck/perfect_gentleman/donald_duck-perfect_gentleman-large.png	1	f	f	f
+609	Plate Armor	\N	Well Crafted: {e} - Chosen character gains Resist +2 until the start of your next turn. (Damage dealt to them is reduced by 2.)	201	f	11	3	6	66	SSK-201	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/plate_armor/plate_armor-large.png	4	f	f	f
+518	Snowanna Rainbeau	When it comes to racing, she never gets cold feet.	Rush (This character can challenge the turn they're played.)	110	f	11	1	4	51	SSK-110	3	1	2	4	\N	f	https://lorcana-api.com/images/snowanna_rainbeau/snowanna_rainbeau-large.png	1	f	f	f
+519	Daisy Duck - Spotless Food-Fighter	She has an unblemished record.	Evasive (Only characters with Evasive can challenge this character.)	111	t	11	1	4	56	SSK-111	2	1	2	2	\N	f	https://lorcana-api.com/images/daisy_duck/spotless_food-fighter/daisy_duck-spotless_food-fighter-large.png	1	f	f	f
+565	Tipo - Growing Son	Mom, Mom! I think I'm still growing!	Measure Me Again: When you play this character, you may put a card from your hand into your inkwell facedown and exerted.	157	t	11	2	5	70	SSK-157	2	1	1	2	\N	f	https://lorcana-api.com/images/tipo/growing_son/tipo-growing_son-large.png	1	f	f	f
+591	Snow White - Fair-haired	Friendship is the best armor of all.	Natural Leader: This character gains Resist +1 for each other Knight character you have in play. (Damage dealt to this character is reduced by 1 for each other Knight.)	183	f	11	4	6	74	SSK-183	5	3	3	5	\N	f	https://lorcana-api.com/images/snow_white/fair-haired/snow_white-fair-haired-large.png	1	f	f	f
+196	Ba-Boom!	Bigger than your average boom!	Deal 2 damage to chosen character or location	196	t	8	1	6	47	INK-196	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/ba-boom!/ba-boom!-large.png	2	f	f	f
+198	Rise Of The Titans	Oh, we're in trouble, big trouble!	Banish chosen location or item.	198	t	8	2	6	47	INK-198	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/rise_of_the_titans/rise_of_the_titans-large.png	2	f	f	f
+323	Queen Of Hearts - Impulsive Ruler	The glow of lore in the flood caught here eye. The spellbook! she cried. Don't let it get away!	Rush (This character can challenge the turn they're played.)	119	t	10	2	4	47	ROF-119	2	1	2	2	\N	f	https://lorcana-api.com/images/queen_of_hearts/impulsive_ruler/queen_of_hearts-impulsive_ruler-large.png	1	f	f	f
+339	Peter Pan's Dagger	Like so much other lore, Peter Pan's dagger was safe in the Great Illuminary until the flood.	You characters with Evasive get +1 {s}.	135	f	10	1	4	47	ROF-135	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/peter_pan's_dagger/peter_pan's_dagger-large.png	4	f	f	f
+267	I'm Stuck!	Oh, bother-not again.	Chosen exerted character can't ready at the start of their next turn	63	t	10	1	2	47	ROF-063	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/i'm_stuck!/i'm_stuck!-large.png	2	f	f	f
+342	Basil - Great Mouse Detective	A solution always presents itself.	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Basil.)\nThere's Always A Chance: If you used Shift to play this character, you may draw 2 cards when he enters play.	138	t	10	4	5	47	ROF-138	6	3	3	4	\N	f	https://lorcana-api.com/images/basic/great_mouse_detective/basic-great_mouse_detective-large.png	1	f	f	f
+569	Royal Tantrum	I am King! King! King!	Banish any number of your items, then draw a card for each item banished this way.	161	f	11	3	5	66	SSK-161	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/royal_tantrum/royal_tantrum-large.png	2	f	f	f
+644	Dinglehopper	Enjoy the finest of human hairstyles!	Straighten Hair: {e} - Remove up to 1 damage from chosen character.	32	t	12	1	1	47	TFC-032	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/dinglehopper/dinglehopper-large.png	4	f	f	f
+437	Invited to the Ball	\N	Reveal the top 2 cards of your deck. Put revealed\ncharacter cards into your hand. Put the rest on the\nbottom of your deck in any order.	29	f	11	1	1	62	SSK-029	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/invited_to_the_ball/invited_to_the_ball-large.png	2	f	f	f
+544	Ratigan's Party - Seedy Back Room	\N	Misfits' Revelry: While you have a damaged character here, this location gets +2{l}.	136	t	11	2	4	71	SSK-136	2	\N	\N	7	\N	f	https://lorcana-api.com/images/ratigan's_party/seedy_back_room/ratigan's_party-seedy_back_room-large.png	5	f	f	f
+158	Wendy Darling - Authority on Peter Pan	\N	Ward (Opponents can't choose this character except to challenge.)\n\nSupport (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	158	t	8	4	5	47	INK-158	3	2	3	1	\N	f	https://lorcana-api.com/images/wendy_darling/authority_on_peter_pan/wendy_darling-authority_on_peter_pan-large.png	1	f	f	f
+438	Healing Decanter	\N	Renewing Essence: {e} - Remove up to 2 damage\nfrom chosen character.	30	t	11	1	1	60	SSK-030	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/healing_decanter/healing_decanter-large.png	4	f	f	f
+545	King Candy - Sovereign of Sugar	My sweet subjects, I can without a pinch of hesitation assure you that I have never been so happy.	\N	137	t	11	1	5	51	SSK-137	1	1	2	2	\N	f	https://lorcana-api.com/images/king_candy/sovereign_of_sugar/king_candy-sovereign_of_sugar-large.png	1	f	f	f
+748	Sword Of Truth	Almost as powerful as True Love's Kiss.	Final Enchantment - Banish this item - Banish chosen villain character.	136	f	12	3	4	47	TFC-136	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/sword_of_truth/sword_of_truth-large.png	4	f	f	f
+380	Cinderella - Knight In Training	She's always had the heart of a champion–now she'll have the skills, too.	Have Courage: When you play this character, you may draw a card, then choose and discard a card.	176	t	10	1	6	47	ROF-176	2	1	2	2	\N	f	https://lorcana-api.com/images/cinderella/knight_in_training/cinderella-knight_in_training-large.png	1	f	f	f
+440	Amber Chromicon	Comfort the weak and weary.\n-Inscription	Amber Light: {e} - Remove up to 1 damage from each\nof your characters.	32	t	11	1	1	60	SSK-032	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/amber_chromicon/amber_chromicon-large.png	4	f	f	f
+6	Kida - Atlantean	Welcome to the Inklands.	\N	6	t	8	1	1	47	INK-006	1	1	2	2	\N	f	https://lorcana-api.com/images/kida/atlantean/kida-atlantean-large.png	1	f	f	f
+493	Anna - Diplomatic Queen	\N	Royal Resolution: When you play this character,\nyou may pay 2{i} to choose one:\n• Each opponent chooses and discards a card.\n• Chosen character gets +2{s} this turn.\n• Banish chosen damaged character.	85	f	11	5	3	54	SSK-085	3	2	2	3	\N	f	https://lorcana-api.com/images/anna/diplomatic_queen/anna-diplomatic_queen-large.png	1	f	f	f
+41	Jafar - Lamp thief	I will rule as far as the eye can see.	I Am Your Master Now - When you play this character, look at the top 2 cards of your deck. Put one on the top of your deck and the other on the bottom.	41	t	8	2	2	47	INK-041	3	2	2	2	\N	f	https://lorcana-api.com/images/jafar/lamp_thief/jafar-lamp_thief-large.png	1	f	f	f
+382	Donald Duck - Deep-Sea Diver	You go ahead, Minnie! I'm going to see if there's any lore over here.	\N	178	t	10	1	6	47	ROF-178	5	1	6	5	\N	f	https://lorcana-api.com/images/donald_duck/deep-sea_diver/donald_duck-deep-sea_diver-large.png	1	f	f	f
+443	Maleficent - Formidable Queen	\N	Shift 6 (You may pay 6{i} to play this on top of one of\nyour characters named Maleficent.)\nListen Well, All Of You: When you play this character,\nfor each of your characters named Maleficent in play,\nreturn a chosen opposing character, item, or location\nwith cost 3 or less to their player's hand.	35	f	11	4	2	64	SSK-035	8	2	7	7	\N	f	https://lorcana-api.com/images/maleficent/formidable_queen/maleficent-formidable_queen-large.png	1	f	f	f
+164	Heart of Te Fiti	It takes a pure heart to calm the raging storm within.	Create Life - {e}, 2{i}: Put the top card of your deck into your inkwell facedown and exerted.	164	t	8	3	5	47	INK-164	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/heart_of_te_fiti/heart_of_te_fiti-large.png	4	f	f	f
+212	Gaston - Baritone Bully	No one . . . sings like Gaston!	Singer 5 ( This character counts as cost 5 to sing songs.)	8	t	10	2	1	47	ROF-008	3	1	3	3	\N	f	https://lorcana-api.com/images/gaston/baritone_bully/gaston-baritone_bully-large.png	1	f	f	f
+453	Luisa Madrigal - Entertaining Muscle	This is just o worm-up, folks! Wait 'til you see the\nbig finale!	\N	45	f	11	3	2	55	SSK-045	6	3	4	8	\N	f	https://lorcana-api.com/images/luisa_madrigal/entertaining_muscle/luisa_madrigal-entertaining_muscle-large.png	1	f	f	f
+387	Jafar - Dreadnought	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Jafar.)\\nNow Where Were We?: During your turn, whenever this character banishes another character in a challenge, you may draw a card.	183	t	10	2	6	47	ROF-183	4	1	3	4	\N	f	https://lorcana-api.com/images/jafar/dreadnought/jafar-dreadnought-large.png	1	f	f	f
+213	Grand Duke - Advisor to the King	He takes being opinionated to a higher level.	Yes, Your Majesty - Your Prince, Princess, King, and Queen characters get +1 {s}.	9	t	10	3	1	47	ROF-009	2	1	2	2	\N	f	https://lorcana-api.com/images/grand_duke/advisor_to_the_king/grand_duke-advisor_to_the_king-large.png	1	f	f	f
+278	Cheshire Cat - Always Grinning	Alice felt quite confused. But I don't see much ink here at all. How can the flood still be changing the Inklands?\r Things are always changing, you know, said the cat. It would be a change if they didn't.	\N	74	t	10	2	3	47	ROF-074	2	1	3	2	\N	f	https://lorcana-api.com/images/cheshire_cat/always_grinning/cheshire_cat-always_grinning-large.png	1	f	f	f
+320	Mother Gothel - Withered And Wicked	Her feelings are written all over her face.	What Have You Done?!: This character enters play with 3 damage.	116	t	10	2	4	47	ROF-116	2	1	3	4	\N	f	https://lorcana-api.com/images/mother_gothel/withered_and_wicked/mother_gothel-withered_and_wicked-large.png	1	f	f	f
+329	Scar - Vicious Cheater	\N	Rush (This character can challenge the turn they're played.)\nDaddy Isn't Here To Save You: During your turn, whenever this character banishes another character in a challenge, you may ready this character. He can't quest for the rest of this turn.	125	f	10	5	4	47	ROF-125	7	2	6	5	\N	f	https://lorcana-api.com/images/scar/vicious_cheater/scar-vicious_cheater-large.png	1	f	f	f
+32	Never Land - Mermaid Lagoon	The mermaids told Peter they'd seen some items floating by several days earlier, but they were more concerned that one of their sisters had gone missing.	\N	32	t	8	1	1	47	INK-032	1	1	\N	4	\N	f	https://lorcana-api.com/images/never_land/mermaid_lagoon/never_land-mermaid_lagoon-large.png	5	f	f	f
+328	Raya - Warrior Of Kumandra	My ba dreams of a united Kumandra. I fight to honor that dream.	\N	124	t	10	2	4	47	ROF-124	4	1	5	3	\N	f	https://lorcana-api.com/images/raya/warrior_of_kumandra/raya-warrior_of_kumandra-large.png	1	f	f	f
+561	Basil - Practiced Detective	This case is as good as solved!\n-Basil	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	153	t	11	1	5	71	SSK-153	1	1	2	1	\N	f	https://lorcana-api.com/images/basil/practiced_detective/basil-practiced_detective-large.png	1	f	f	f
+31	Wildcat's Wrench	The right tool makes all the difference.	Rebuild - {e}: Remove up to 2 damage from chosen location.	31	t	8	2	1	47	INK-031	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/wildcat's_wrench/wildcat's_wrench-large.png	4	f	f	f
+353	Hiram Flaversham - Toymaker	His creations are even more wondrous with the Illuminary's resources at his fingertips.	Artificer: When you play this character and whenever he quests, you may banish one of your items to draw 2 cards.	149	t	10	3	5	47	ROF-149	4	1	1	6	\N	f	https://lorcana-api.com/images/hiram_flaversham/toymaker/hiram_flaversham-toymaker-large.png	1	f	f	f
+501	Scar - Vengeful Lion	\N	Ward (Opponents can't choose this character\nexcept to challenge.)\nLife's not fair, is it?: Whenever one of your\ncharacters challenges a damaged character, you\nmay draw a card.	93	t	11	1	3	49	SSK-093	4	2	4	2	\N	f	https://lorcana-api.com/images/scar/vengeful_lion/scar-vengeful_lion-large.png	1	f	f	f
+99	Starlight Vial	In the wrong hands, this vial of magic could be disastrous.	Efficient Energy - {e}: You pay 2{i} less for the next action you play this turn.\n\nTrap - 2{i}, Banish this item: Draw 2 cards, then choose and discard a card.	99	f	8	3	3	47	INK-099	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/starlight_vial/starlight_vial-large.png	4	f	f	f
+566	Belle - Of the Ball	\N	Ward (Opponents can't choose this character except to challenge.)\nUshered into the Party: When you play this character, your other characters gain Ward until the start of your next turn.	158	f	11	3	5	65	SSK-158	4	2	2	3	\N	f	https://lorcana-api.com/images/belle/of_the_ball/belle-of_the_ball-large.png	1	f	f	f
+522	Taffyta Muttonfudge - Crowd Favorite	Never lose sight of where you're going. Second place.	Showstopper: When you play this character, if you have a location in play, each opponent loses 1 lore.	114	t	11	1	4	51	SSK-114	1	1	1	2	\N	f	https://lorcana-api.com/images/taffyta_muttonfudge/crowd_favorite/taffyta_muttonfudge-crowd_favorite-large.png	1	f	f	f
+279	Cheshire Cat - From the Shadows	\N	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Cheshire Cat.)\nEvasive (Only characters with Evasive can challenge this character.)\nWicked Smile: {e} - Banish chosen damaged character.	75	t	10	4	3	47	ROF-075	8	2	5	6	\N	f	https://lorcana-api.com/images/cheshire_cat/from_the_shadows/cheshire_cat-from_the_shadows-large.png	1	f	f	f
+500	Mother Gothel - Unwavering Schemer	\N	Shift 4 (You may pay 4{i} to play this on top of\none of your characters named Mother Gothel.)\nThe World Is Dark: When you play this\ncharacter, each opponent chooses one of their\ncharacters and returns that card to their hand.	92	t	11	4	3	63	SSK-092	6	2	4	6	\N	f	https://lorcana-api.com/images/mother_gothel/unwavering_schemer/mother_gothel-unwavering_schemer-large.png	1	f	f	f
+593	Kronk - Head of Security	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Kronk.)\nAre You on the List?: During your turn, whenever this character banishes another character in a challenge, you may play a character with cost 5 or less for free.	185	f	11	4	6	70	SSK-185	7	1	6	6	\N	f	https://lorcana-api.com/images/kronk/head_of_security/kronk-head_of_security-large.png	1	f	f	f
+219	Mulan - Free Spirit	Everything looks better when you're free to be yourself.	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	15	t	10	1	1	47	ROF-015	3	2	2	3	\N	f	https://lorcana-api.com/images/mulan/free_spirit/mulan-free_spirit-large.png	1	f	f	f
+503	Night Howler Rage	I think someone is targeting predators on purpose and\nmaking them go savage!\n-Judy Hopps	Draw a card. Chosen character gains Reckless during their\nnext turn. (They can't quest and must challenge if able.)	95	t	11	1	3	53	SSK-095	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/night_howler_rage/night_howler_rage-large.png	2	f	f	f
+615	Cinderella - Gentle and Kind	\N	Singer 5 (This character counts as cost 5 to sing songs.) \n\nA Wonderful Dream - {e} - Remove up to 3 damage from chosen Princess character.	3	t	12	2	1	47	TFC-003	4	2	2	5	\N	f	https://lorcana-api.com/images/cinderella/gentle_and_kind/cinderella-gentle_and_kind-large.png	1	f	f	f
+112	Madame Medusa - The Boss	Finding lore will be as easy as taking candy from children.	That Terrible Woman - When you play this character, banish chosen opposing character with 3{s} or less.	112	f	8	4	4	47	INK-112	6	1	4	4	\N	f	https://lorcana-api.com/images/madame_medusa/the_boss/madame_medusa-the_boss-large.png	1	f	f	f
+396	Queen Of Hearts - Capricious Monarch	The forth Rule of Villainy: Do whatever it takes to get ahead.	Off With Their Heads!: Whenever an opposing character is banished, you may ready this character.	192	t	10	3	6	47	ROF-192	7	1	5	6	\N	f	https://lorcana-api.com/images/queen_of_hearts/capricious_monarch/queen_of_hearts-capricious_monarch-large.png	1	f	f	f
+457	Genie - Main Attraction	Keep your eyes on me, folks! It's time for a little\nprestidigitation!	Phenomenal Showman: While this character is\nexerted, opposing characters can't ready at the\nstart of their turn.	49	f	11	5	2	61	SSK-049	7	2	5	5	\N	f	https://lorcana-api.com/images/genie/main_attraction/genie-main_attraction-large.png	1	f	f	f
+508	Emerald Chromicon	Trust in the winds of change.\n-Inscription	Emerald Light: During opponents' turns, whenever\none of your characters is banished, you may return\nchosen character to their player's hand.	100	f	11	2	3	60	SSK-100	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/emerald_chromicon/emerald_chromicon-large.png	4	f	f	f
+125	Stitch - Little Rocket	Who thought giving him power armor was a good idea?!\n-Nani	Rush (This character can challenge the turn they're played.)	125	f	8	1	4	47	INK-125	2	1	3	1	\N	f	https://lorcana-api.com/images/stitch/little_rocket/stitch-little_rocket-large.png	1	f	f	f
+294	Queen Of Hearts - Quick-Tempered	You know, we could make her really angry. Shall we try?\n - Cheshire Cat	Royal Rage: When you play this character, deal 1 damage to chosen damaged opposing character.	90	f	10	1	3	47	ROF-090	2	2	1	2	\N	f	https://lorcana-api.com/images/queen_of_hearts/quick-tempered/queen_of_hearts-quick-tempered-large.png	1	f	f	f
+330	Shere Khan - Menacing Predator	The sixth Rule of Villainy: Keep your mind sharp and your claws sharper.	Don't Insult My Intelligence: Whenever one of your characters challenges another character, gain 1 lore.	126	t	10	3	4	47	ROF-126	3	1	3	3	\N	f	https://lorcana-api.com/images/shere_khan/menacing_predator/shere_khan-menacing_predator-large.png	1	f	f	f
+397	Robin Hood - Capable Fighter	Capable? You don't know the half of it. - Little John	Skirmish {e} - Deal 1 damage to chosen character.	193	f	10	2	6	47	ROF-193	2	1	1	3	\N	f	https://lorcana-api.com/images/robin_hood/capable_fighter/robin_hood-capable_fighter-large.png	1	f	f	f
+572	All Funned Out	Pretty pathetic, huh?	Put chosen character of yours into your inkwell facedown and exerted.	164	t	11	2	5	70	SSK-164	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/all_funned_out/all_funned_out-large.png	2	f	f	f
+458	Olaf - Happy Passenger	\N	Clear The Path: For each exerted character\nopponents have in play, you pay 1{i} less to\nplay this character.\nEvasive (Only characters with Evasive can\nchallenge this character.)	50	t	11	3	2	54	SSK-050	9	3	6	6	\N	f	https://lorcana-api.com/images/olaf/happy_passenger/olaf-happy_passenger-large.png	1	f	f	f
+509	Sherwood Forest - Outlaw Hideaway	\N	Forest Home: Your characters named Robin Hood may move here for free.\nFamiliar Terrain: Characters gain Ward and "{e}, 1{i} - Deal 2 damage to chosen\ndamaged character" while here. (Opponents can't choose them except to challenge.)	101	t	11	3	3	59	SSK-101	2	\N	\N	7	\N	f	https://lorcana-api.com/images/sherwood_forest/outlaw_hideaway/sherwood_forest-outlaw_hideaway-large.png	5	f	f	f
+558	Mufasa - Ruler of Pride Rock	\N	A Delicate Balance: When you play this character, Exert all cards in your inkwell, then return 2 cards at random from your inkwell to your hand.\nEverything the Light Touches: Whenever this character quests, ready all cards in your inkwell.	150	f	11	5	5	49	SSK-150	8	4	4	9	\N	f	https://lorcana-api.com/images/mufasa/ruler_of_pride_rock/mufasa-ruler_of_pride_rock-large.png	1	f	f	f
+594	Grumpy - Skeptical Knight	\N	Boon of Resilience: While one of your Knight characters is at a location, that character gains Resist +2. (Damage dealt to them is reduced by 2.)\nBurst of Speed: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	186	t	11	4	6	74	SSK-186	3	1	3	1	\N	f	https://lorcana-api.com/images/grumpy/skeptical_knight/grumpy-skeptical_knight-large.png	1	f	f	f
+510	Tropical Rainforest - Jaguar Lair	\N	Snack Time: Opposing damaged characters gain Reckless. (They can't\nquest and must challenge if able.)	102	t	11	2	3	70	SSK-102	3	1	\N	6	\N	f	https://lorcana-api.com/images/tropical_rainforest/jaguar_lair/tropical_rainforest-jaguar_lair-large.png	5	f	f	f
+398	The Huntsman - Reluctant Enforcer	Run away, hide! In the woods, anywhere!	Change Of Heart: Whenever this character quests, you may draw a card, then choose and discard a card.	194	t	10	3	6	47	ROF-194	2	2	1	1	\N	f	https://lorcana-api.com/images/the_huntsman/reluctant_enforcer/the_huntsman-reluctant_enforcer-large.png	1	f	f	f
+559	Ludwig Von Drake - Self-Proclaimed Genius	So you see, there's a dark void at the edge of Lorcana. A complete absence of electromagnetic radiation! What's it made of? I don't know! The light's just gone. Kaput!	\N	151	t	11	2	5	57	SSK-151	5	3	4	4	\N	f	https://lorcana-api.com/images/ludwig_von_drake/self-proclaimed_genius/ludwig_von_drake-self-proclaimed_genius-large.png	1	f	f	f
+595	Pete - Wrestling Champ	He'll have you seeing double.	Re-Pete: {e} - Reveal the top card of your deck. If it's a character card named Pete, you may play it for free.	187	f	11	3	6	56	SSK-187	3	1	1	3	\N	f	https://lorcana-api.com/images/pete/wrestling_champ/pete-wrestling_champ-large.png	1	f	f	f
+603	Pete - Games Referee	It ain't cheatin' if you're the one makin' the rules.	Blow the Whistle: When you play this character, opponents can't play actions until the start of your next turn.	195	t	11	2	6	56	SSK-195	3	1	3	3	\N	f	https://lorcana-api.com/images/pete/games_referee/pete-games_referee-large.png	1	f	f	f
+641	Just In Time	The best heroes always arrive at the perfect moment - whether they know it or not.	You may play a character with cost 5 or less for free.	29	t	12	3	1	47	TFC-029	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/just_in_time/just_in_time-large.png	2	f	f	f
+642	Part of Your World	What would I give\nIf I could live out of these waters?	(A character with cost 3 or more can {e} to sing this song for free.)\n\nReturn a character card from your discard to your hand.	30	f	12	3	1	47	TFC-030	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/part_of_your_world/part_of_your_world-large.png	3	f	f	f
+643	You Have Forgotten Me	You are more than what you have become.\n- Mufasa	Each opponent chooses and discards 2 cards.	31	t	12	2	1	47	TFC-031	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/you_have_forgotten_me/you_have_forgotten_me-large.png	3	f	f	f
+713	Dr. Facilier's Cards	Take a little trip into your future with me! \n-Dr. Facilier	The Cards Will Tell - {e} - You pay 1 {i} less for the next action you play this turn.	101	f	12	2	3	47	TFC-101	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/dr._facilier's_cards/dr._facilier's_cards-large.png	4	f	f	f
+714	Stolen Scimitar	Sometimes you've got to take what you can get.	Slash - {e} - Chosen character gets +1 {s} this turn. If a character named Aladdin is chosen, he get +2 {s} instead.	102	t	12	1	3	47	TFC-102	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/stolen_scimitar/stolen_scimitar-large.png	4	f	f	f
+460	Monstro - Whale of a Whale	The great beast breached the surface of the\nAzurite Sea, and the cry went out, Monstro!\nMonstro!	\N	52	t	11	2	2	68	SSK-052	5	1	5	6	\N	f	https://lorcana-api.com/images/monstro/whale_of_a_whale/monstro-whale_of_a_whale-large.png	1	f	f	f
+399	The Prince - Never Gives Up	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\\nResist +1 (Damage dealt to this character is reduced by 1.)	195	t	10	2	6	47	ROF-195	3	2	1	3	\N	f	https://lorcana-api.com/images/the_prince/never_gives_up/the_prince-never_gives_up-large.png	1	f	f	f
+611	Bad-Anon - Villain Support Center	\N	There's No One I'd Rather Be Than Me: Villain characters gain "{e}, 3{i} - Play a character with the same name as this character for free" while here.	203	t	11	3	6	51	SSK-203	3	1	\N	7	\N	f	https://lorcana-api.com/images/bad-anon/villain_support_center/bad-anon-villain_support_center-large.png	5	f	f	f
+511	Taffyta Muttonfudge - Ruthless Rival	There's not a glimmer that can keep up with me. You might as well quit now.	\N	103	t	11	2	4	51	SSK-103	2	2	2	2	\N	f	https://lorcana-api.com/images/taffyta_muttonfudge/ruthless_rival/taffyta_muttonfudge-ruthless_rival-large.png	1	f	f	f
+560	Minnie Mouse - Quick-Thinking Inventor	This puts the Frosting Flinger 2000 to shame.	Cake Catapult - When you play this character, chosen character gets -2{s} this turn.	152	f	11	1	5	56	SSK-152	1	1	1	2	\N	f	https://lorcana-api.com/images/minnie_mouse/quick-thinking_inventor/minnie_mouse-quick-thinking_inventor-large.png	1	f	f	f
+596	Sir Ector - Castle Lord	Well, by Jove. Don't just stand there. Raise a glass to my son Kay . . . and may we be rid of the trickster wizard Marvin, or whatever his blasted name was.	\N	188	f	11	3	6	66	SSK-188	7	3	7	10	\N	f	https://lorcana-api.com/images/sir_ector/castle_lord/sir_ector-castle_lord-large.png	1	f	f	f
+776	One Jump Ahead	Gotta eat to live, gotta steal to eat- \nTell you all about it when I got the time	(A character with cost 2 or more can {e} to sing this song for free.)\n\nPut the top card of your deck into your inkwell facedown and exerted.	164	f	12	2	5	47	TFC-164	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/one_jump_ahead/one_jump_ahead-large.png	3	f	f	f
+777	Work Together	Pacho: Put your whole back into it! \nKuzco: This is my whole back!	Chosen Character gains Support this turn. (Whenever they quest, you may add their {s} to another chosen character's {s} this turn.)	165	t	12	1	5	47	TFC-165	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/work_together/work_together-large.png	2	f	f	f
+778	Coconut Basket	The coconut is a versatile gift from the gods, used to make nearly everything-including baskets to carry more coconuts.	Consider The Coconut - Whenever you play a character, you may remove up to 2 damage from chosen character.	166	t	12	2	5	47	TFC-166	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/coconut_basket/coconut_basket-large.png	4	f	f	f
+779	Eye Of The Fates	You can change the future once you know what you're looking at.	See The Future - {e} - Chosen character gets +1 {l} this turn.	167	t	12	2	5	47	TFC-167	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/eye_of_the_fates/eye_of_the_fates-large.png	4	f	f	f
+461	Magica De Spell - Cruel Sorceress	\N	Playing With Power: During opponents' turns,\nif an effect would cause you to discard one or\nmore cards from your hand, you don't discard.	53	t	11	3	2	57	SSK-053	4	1	2	5	\N	f	https://lorcana-api.com/images/magica_de_spell/cruel_sorceress/magica_de_spell-cruel_sorceress-large.png	1	f	f	f
+918	Ursula's Garden - Full of the Unfortunate	\N	Abandon Hope - While you have an exerted character here, opposing characters get -1{l}.	102	t	13	3	3	76	URS-102	4	1	\N	7	\N	f	https://lorcana-api.com/images/ursula's_garden/full_of_the_unfortunate/ursula's_garden-full_of_the_unfortunate-large.png	5	f	f	f
+486	Fauna - Good Fairy	The secret to a good cake is combining\neverything just right. Every ingredient is important,\nbut the magic is in how they work together.	\N	78	t	11	1	3	64	SSK-078	5	2	3	7	\N	f	https://lorcana-api.com/images/fauna/good_fairy/fauna-good_fairy-large.png	1	f	f	f
+922	Flynn Rider - Frenemy	You guys look busy-I'll just keep an eye on this lore for you.	Narrow Advantage: At the start of your turn, if you have a character in play with more {s} than each opposing character, gain 3 lore.	106	t	13	4	4	63	URS-106	2	1	2	2	\N	f	https://lorcana-api.com/images/flynn_rider/frenemy/flynn_rider-frenemy-large.png	1	f	f	f
+926	Khan - Beloved Steed	As silent as a shadow and faster than the wind: brave Khan, the mightiest stallion.	\N	110	t	13	2	4	81	URS-110	2	1	3	2	\N	f	https://lorcana-api.com/images/khan/beloved_steed/khan-beloved_steed-large.png	1	f	f	f
+953	Anna - Braving the Storm	After talking to Olaf, Anna marched into the unexpected storm to save Kristoff.	I Was Born Ready: If you have another Hero character in play, this character gets +1{l}.	137	t	13	1	5	54	URS-137	2	1	1	4	\N	f	https://lorcana-api.com/images/anna/braving_the_storm/anna-braving_the_storm-large.png	1	f	f	f
+987	Aladdin - Brave Rescuer	\N	Shift: Discard a location card (You may discard a location card to play this on top of one of your characters named Aladdin.)\nCrashing Though: Whenever this character quests, you may banish chosen item.	171	t	13	2	6	61	URS-171	3	1	3	3	\N	f	https://lorcana-api.com/images/aladdin/brave_rescuer/aladdin-brave_rescuer-large.png	1	f	f	f
+1016	Fortisphere	\N	Resourceful: When you play this item, you may draw a card.\nExtract of Steel: 1{i}, Banish this item - Chosen character of yours gains Bodyguard until the start of your next turn. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	200	t	13	1	6	60	URS-200	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/fortisphere/fortisphere-large.png	4	f	f	f
+954	Anna - True-Hearted	Make sure you know what's truly important and be willing to fight for it.	Let Me Help You: Whenever this character quests, your other Hero characters get +1{l} this turn.	138	t	13	4	5	54	URS-138	4	2	2	4	\N	f	https://lorcana-api.com/images/anna/true-hearted/anna-true-hearted-large.png	1	f	f	f
+469	We Know The Way	\N	(A character with cost 3 or more can {e} to sing this song for\nfree.)\nShuffle chosen card from your discard into your deck.\nReveal the top card of your deck. If it has the same name\nas the chosen card, you may play the revealed card for free.\nOtherwise, put it into your hand.	61	t	11	3	2	58	SSK-061	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/we_know_the_way/we_know_the_way-large.png	3	f	f	f
+293	Prince John - Greediest of All	Taxes! Taxes! Beautiful, lovely taxes!	Ward (Opponents can't choose this character except to challenge.)\nI Sentence You: Whenever your opponents discards 1 or more cards, you may draw a card for each card discarded.	89	f	10	3	3	47	ROF-089	3	2	1	2	\N	f	https://lorcana-api.com/images/prince_john/greediest_of_all/prince_john-greediest_of_all-large.png	1	f	f	f
+411	Prince Naveen - Ukulele Player	\N	Singer 6 (This-character counts as cost6 {i} to sing songs.)\r It's Beautiful, No?: When you play this character, you may play a song with cost 6 or\r less for free.	3	t	11	1	1	50	SSK-003	4	2	3	3	\N	f	https://lorcana-api.com/images/prince_naveen/ukulele_player/prince_naveen-ukulele_player-large.png	1	f	f	f
+414	Vanellope von Schweetz - Sugar Rush Champ	Look, the code may say I'm a princess, but I know\nwho I really am ... .	\N	6	t	11	1	1	51	SSK-006	1	1	2	2	\N	f	https://lorcana-api.com/images/vanellope_von_schweetz/sugar_rush_champ/vanellope_von_schweetz-sugar_rush_champ-large.png	1	f	f	f
+96	Strike A Good Match	Please bring honor to us\nPlease bring honor to us all	(A character with cost X or more can {e} to sing this song for free.)\n\nDraw 2 cards, then choose and discard a card.	96	t	8	1	3	47	INK-096	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/strike_a_good_match/strike_a_good_match-large.png	3	f	f	f
+599	Happy - Lively Knight	\N	Burst of Speed: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	191	t	11	1	6	74	SSK-191	1	1	2	1	\N	f	https://lorcana-api.com/images/happy/lively_knight/happy-lively_knight-large.png	1	f	f	f
+136	RLS Legacy - Solar Galleon	\N	This Is Our Ship - Characters gain Evasive while here. (Only characters with Evasive can challenge them.)\n\nHeave Together Now - If you have a character here, you pay 2{i} less to move a character of yours here.	136	f	8	3	4	47	INK-136	4	2	\N	8	\N	f	https://lorcana-api.com/images/rls_legacy/solar_galleon/rls_legacy-solar_galleon-large.png	5	f	f	f
+602	Arthur - King Victorius	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Arthur.)\r Knighted by the King: When you play this character, chosen character gains Challenger +2 and Resist +2 and can challenge ready characters this turn. (They get +2{s} while challenging. Damage dealt to them is reduced by 2.)	194	f	11	5	6	66	SSK-194	7	3	3	6	\N	f	https://lorcana-api.com/images/arthur/king_victorius/arthur-king_victorius-large.png	1	f	f	f
+852	Belle - Accomplished Mystic	The mixed ink had changed more than just the rose.	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Belle.)\nEnhanced Healing - When you play this character, move up to 3 damage counters from chosen character to chosen opposing character.	36	t	13	4	2	79	URS-036	5	2	4	4	\N	f	https://lorcana-api.com/images/belle/accomplished_mystic/belle-accomplished_mystic-large.png	1	f	f	f
+22	Tinker Bell - Generous Fairy	Plenty of berries - and friendship - to go around.	Make A New Friend - When you play this character, look at the top 4 cards of your deck. You may reveal a character card and put it into your hand. Put the rest on the bottom of our deck in any order.	22	f	8	2	1	47	INK-022	4	1	1	4	\N	f	https://lorcana-api.com/images/tinker_bell/generous_fairy/tinker_bell-generous_fairy-large.png	1	f	f	f
+27	Quick Patch	Good as new! Well, almost.	Remove up to 3 damage from chosen location	27	t	8	1	1	47	INK-027	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/quick_patch/quick_patch-large.png	2	f	f	f
+35	Alice - Tea Alchemist	With the right tea leaves and a little magic, she creates the perfect cup for any party guest.	Curiouser And Curiouser - {e}: Exert chosen opposing character and all other opposing characters with the same name.	35	t	8	4	2	47	INK-035	6	2	4	4	\N	f	https://lorcana-api.com/images/alice/tea_alchemist/alice-tea_alchemist-large.png	1	f	f	f
+39	Hydros - Ice Titan	Freeze Zeus!	Blizzard - {e}: Exert chosen character.	39	t	8	2	2	47	INK-039	3	2	2	2	\N	f	https://lorcana-api.com/images/hydros/ice_titan/hydros-ice_titan-large.png	1	f	f	f
+134	Agrabah - Marketplace	Welcome to Agrabah, city of mystery, of enchantment, and the finest merchandise this side of the river.\n-Merchant	\N	134	t	8	1	4	47	INK-134	3	2	\N	5	\N	f	https://lorcana-api.com/images/agrabah/marketplace/agrabah-marketplace-large.png	5	f	f	f
+405	Strength Of A Raging Fire	Tranquil as a forest\\nBut on fire within	(A character with cost 3 or more can {e} to sing this song for free.) Deal damage to chosen character equal to the number of characters you have in play.	201	t	10	3	6	47	ROF-201	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/strength_of_a_raging_fire/strength_of_a_raging_fire-large.png	3	f	f	f
+222	Piglet - Very Small Animal	For a very small animal, he has an awfully big heart.	\N	18	t	10	1	1	47	ROF-018	3	2	2	4	\N	f	https://lorcana-api.com/images/piglet/very_small_animal/piglet-very_small_animal-large.png	1	f	f	f
+49	Magica De Spell - The Midas Touch	I can feel my powers growing the closer I get to Scrooge's precious dime!	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Magica De Spell.)\n\nAll Mine - Whenever this character quests, gain lore equal to the cost of one of your items in play.	49	f	8	4	2	47	INK-049	7	\N	4	6	\N	f	https://lorcana-api.com/images/magica_de_spell/the_midas_touch/magica_de_spell-the_midas_touch-large.png	1	f	f	f
+50	Magica De Spell - Thieving Sorceress	Do you know what I call this? A good start!	Telekinesis - {e}: Return chosen item with cost equal to or less than this character's {s} to its player's hand.	50	t	8	2	2	47	INK-050	4	2	3	4	\N	f	https://lorcana-api.com/images/magica_de_spell/thieving_sorceress/magica_de_spell-thieving_sorceress-large.png	1	f	f	f
+181	Mickey Mouse - Stalwart Explorer	Mickey knew just where to start searching for the Sorcerer's Hat, but he didn't expect it to be guarded.	Let's Take A Look - This character gets +1{s} for each location you have in play.	181	t	8	1	6	47	INK-181	3	1	3	3	\N	f	https://lorcana-api.com/images/mickey_mouse/stalwart_explorer/mickey_mouse-stalwart_explorer-large.png	1	f	f	f
+225	Sleepy - Nodding Off	He never gets tired of naps.	Yawn! - This character enters play exerted.	21	t	10	1	1	47	ROF-021	2	2	2	3	\N	f	https://lorcana-api.com/images/sleepy/nodding_off/sleepy-nodding_off-large.png	1	f	f	f
+290	Pain - Underworld Imp	Get a move on! I'm a busy god, lots to do-meetings, curses, a little light scheming.\n - Hades	Coming, Your Most Lugubriousness: While this character has 5 {s} or more, he gets +2 {l}.	86	t	10	2	3	47	ROF-086	2	2	1	4	\N	f	https://lorcana-api.com/images/pain/underworld_imp/pain-underworld_imp-large.png	1	f	f	f
+598	Arthur - Wart	That boy's got real spark. Lots of spirit. Throws himself heart and soul into everything he does.\n-Merlin	\N	190	t	11	2	6	66	SSK-190	2	2	2	2	\N	f	https://lorcana-api.com/images/arthur/wart/arthur-wart-large.png	1	f	f	f
+408	Weight Set	Personally endorsed by Hercules himselff!	Training - Whenever you play a character with 4 {s} or more, you may pay 1 {i} to draw a card.	204	t	10	3	6	47	ROF-204	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/weight_set/weight_set-large.png	4	f	f	f
+468	Finders Keepers	Three wishes, comin' right up!\n-Iago	Draw 3 cards.	60	t	11	2	2	61	SSK-060	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/finders_keepers/finders_keepers-large.png	2	f	f	f
+60	Bestow A Gift	From magic ink I call this gift.\nFly my minion, thy wings be swift!\n-Maleficent	Move 1 damage counter from chosen character to chosen opposing character.	60	t	8	1	2	47	INK-060	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/bestow_a_gift/bestow_a_gift-large.png	2	f	f	f
+61	It Calls Me	I am everything I've learned and more	(A character with cost 1 or more can {e} to sing this song for free.)\n\nDraw a card. Then, choose up to 3 cards from chosen opponent's discard and shuffle them into their deck.	61	t	8	2	2	47	INK-061	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/it_calls_me/it_calls_me-large.png	3	f	f	f
+62	Last-Ditch Effort	I got your back.	Exert chosen opposing character. Then chosen character of yours gains Challenger +2 this turn. (They get +2{s} when challenging.)	62	f	8	2	2	47	INK-062	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/last-ditch_effort/last-ditch_effort-large.png	2	f	f	f
+63	The Boss Is On A Roll	Go ahead! Make your choice!	(A character with cost 3 or more can {e} to sing this song for free.)\n\nLook at the top 5 cards of your deck. Put any number of them on the top of the bottom of your deck in any order. Gain 1 lore.	63	t	8	3	2	47	INK-063	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_boss_is_on_a_roll/the_boss_is_on_a_roll-large.png	3	f	f	f
+183	Minnie Mouse - Funky Spelunker	She'll never cave under pressure.	Journey - While this character is at a location, she gets +2{s}.	183	t	8	1	6	47	INK-183	1	1	\N	3	\N	f	https://lorcana-api.com/images/minnie_mouse/funky_spelunker/minnie_mouse-funky_spelunker-large.png	1	f	f	f
+410	Nala - Mischievous Cub	The Lorcana Hide-and-Seek Championship was\nhers for the taking.	\N	2	t	11	2	1	49	SSK-002	1	1	\N	4	\N	f	https://lorcana-api.com/images/nala/mischievous_cub/nala-mischievous_cub-large.png	1	f	f	f
+470	Gathering Knowledge And Wisdom	Just think! All this knowledge was under our noses the\nwhole time. We only had to look in the right place.	Gain 2 lore.	62	f	11	1	2	60	SSK-062	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/gathering_knowledge_and_wisdom/gathering_knowledge_and_wisdom-large.png	2	f	f	f
+68	The Sorcerer's Tower - Wondrous Workspace	Everything you need to make some magic.	Broom Closet - Your characters named Magic Broom may move here for free.\n\nMagical Power - Characters get +1{l} while here.	68	t	8	2	2	47	INK-068	3	\N	\N	7	\N	f	https://lorcana-api.com/images/the_sorcerer's_tower/wondrous_workspace/the_sorcerer's_tower-wondrous_workspace-large.png	5	f	f	f
+69	Cubby - Mighty Lost Boy	With Peter holding off Hook, Cubby did what he does best: break stuff.	The Bear - Whenever this character moves to a location, he gets +3{s} this turn.	69	t	8	1	3	47	INK-069	4	1	3	5	\N	f	https://lorcana-api.com/images/cubby/mighty_lost_boy/cubby-mighty_lost_boy-large.png	1	f	f	f
+70	Cursed Merfolk - Ursula's Handiwork	Now it's happened once or twice, someone couldn't pay the price . . .\n-Ursula	Poor Souls - Whenever this character is challenged, each opponent chooses and discards a card.	70	f	8	3	3	47	INK-070	1	2	\N	1	\N	f	https://lorcana-api.com/images/cursed_merfolk/ursula's_handiwork/cursed_merfolk-ursula's_handiwork-large.png	1	f	f	f
+71	Don Karnage - Prince of Pirates	You didn't expect to find me here, did you? Well neither did I.	Evasive (Only characters with Evasive can challenge this character.)	71	t	8	1	3	47	INK-071	5	2	4	4	\N	f	https://lorcana-api.com/images/don_karnage/prince_of_pirates/don_karnage-prince_of_pirates-large.png	1	f	f	f
+184	Mr. Smee - Bumbling Mate	Catch those little - OUCH!	Oh Dear, Dear, Dear - At the end of your turn, if this character is exerted and you don't have a Captain character in play, deal 1 damage to this character.	184	t	8	2	6	47	INK-184	2	2	3	3	\N	f	https://lorcana-api.com/images/mr._smee/bumbling_mate/mr._smee-bumbling_mate-large.png	1	f	f	f
+228	Snow White - Unexpected Houseguest	Nothing says 'hello' better than a fresh-baked pie.	How Do You Do? - You pay 1 {i} less to play Seven Dwarfs Characters.	24	t	10	2	1	47	ROF-024	2	1	1	2	\N	f	https://lorcana-api.com/images/snow_white/unexpected_houseguest/snow_white-unexpected_houseguest-large.png	1	f	f	f
+76	Jetsam - Riffraff	There must be powerful lore here, very powerful.	Ward (Opponents can't choose this character except to challenge.)\n\nEerie Pair - Your characters named Flotsam gain Ward.	76	t	8	1	3	47	INK-076	3	2	2	2	\N	f	https://lorcana-api.com/images/jetsam/riffraff/jetsam-riffraff-large.png	1	f	f	f
+77	Kit Cloudkicker - Tough Guy	It's been fun, guys, but I got to be going. Yahoooo!	Skysurfing - When you play this character, you may return chosen opposing character with 2{s} or less to their player's hand.	77	t	8	2	3	47	INK-077	3	1	2	2	\N	f	https://lorcana-api.com/images/kit_clouckicker/tough_guy/kit_clouckicker-tough_guy-large.png	1	f	f	f
+78	Lyle Tiberius Rourke - Cunning Mercenary	\N	Well, Now You Know - When you play this character, chosen opposing character gains Reckless during their next turn. (They can't quest and must challenge if able.)\n\nThanks For Volunteering - Whenever one of your other characters is banished, each opponent loses 1 lore.	78	f	8	4	3	47	INK-078	3	1	2	4	\N	f	https://lorcana-api.com/images/lyle_tiberius_rourke/cunning_mercenary/lyle_tiberius_rourke-cunning_mercenary-large.png	1	f	f	f
+102	Kuzco's Palace - Home of the Emperor	Sure it's a little small, but also it DOESN'T HAVE A POOL! -Kuzco	City Walls - Whenever a character is challenged and banished while here, banish the challenging character.	102	t	8	2	3	47	INK-102	3	1	\N	7	\N	f	https://lorcana-api.com/images/kuzco's_palace/home_of_the_emperor/kuzco's_palace-home_of_the_emperor-large.png	5	f	f	f
+412	Rutt - Northern Moose	Let's find some nice twigs, eh? I could use a\nsnack!	Support (Whenever this character quests, you\nmay add their {s} to another chosen character's {s}\nthis turn.)	4	t	11	1	1	48	SSK-004	4	1	3	4	\N	f	https://lorcana-api.com/images/rutt/northern_moose/rutt-northern_moose-large.png	1	f	f	f
+74	Helga Sinclair - Femme Fatale	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Helga Sinclair.)\n\nThis Changes Everything - Whenever this character quests, you may deal 3 damage to chosen damaged character.	74	f	8	4	3	47	INK-074	5	2	4	4	\N	f	https://lorcana-api.com/images/helga_sinclair/femme_fatale/helga_sinclair-femme_fatale-large.png	1	f	f	f
+570	Ever as Before	Ever just as sure\nAs the sun will rise	(A character with cost 2 or more can {e} to sing this song for free.)\nRemove up to 2 damage from any number of chosen characters.	162	t	11	1	5	65	SSK-162	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/ever_as_before/ever_as_before-large.png	3	f	f	f
+138	Captain Amelia - First in Command	I've spotted a strange structure on the horizon. Hard to port, helmsman!	Discipline - During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	138	t	8	1	5	47	INK-138	3	1	1	5	\N	f	https://lorcana-api.com/images/captain_amelia/first_in_command/captain_amelia-first_in_command-large.png	1	f	f	f
+419	Gazelle - Pop Star	Good evening, Lorcana! We're here tonight to\ncelebrate what's possible when we stand together\nas one.	Singer 5 (This character counts as cost 5 to sing\nsongs.)	11	t	11	1	1	53	SSK-011	3	2	2	3	\N	f	https://lorcana-api.com/images/gazelle/pop_star/gazelle-pop_star-large.png	1	f	f	f
+132	Maui's Fish Hook	\N	It's Maui Time! - If you have a character named Maui in play, you may use this item's Shapeshift ability for free.\r \r Shapeshift - {e}, 2{i}: Choose one:\r - Chosen character gains Evasive until the start of your next turn. (Only characters with Evasive can challenge them.)\r - Chosen character gets +3{s} this turn.	132	t	8	3	4	47	INK-132	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/maui's_fish_hook/maui's_fish_hook-large.png	4	f	f	f
+528	Pete - Pastry Chomper	His half-baked scheme to whisk away the food almost worked. But in the end, he got his just desserts.	\N	120	t	11	1	4	56	SSK-120	3	1	4	3	\N	f	https://lorcana-api.com/images/pete/pastry_chomper/pete-pastry_chomper-large.png	1	f	f	f
+571	Hide Away	Fauna: Oh my! We dropped some . . .\nMerryweather: You mean you dropped some!	Put chosen item or location into its player's inkwell facedown and exerted.	163	t	11	2	5	64	SSK-163	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/hide_away/hide_away-large.png	2	f	f	f
+135	Jolly Roger - Hook's Ship	\N	Look Alive, You Swabs! - Characters gain Rush while here. (They can challenge the turn they're played.)\n\nAll Hands On Deck! - Your Pirate characters may move here for free.	135	f	8	2	4	47	INK-135	1	\N	\N	5	\N	f	https://lorcana-api.com/images/jolly_roger/hook's_ship/jolly_roger-hook's_ship-large.png	5	f	f	f
+614	Ariel - Spectacular Singer	\N	Singer 5 (This character counts as cost 5 to sing songs.) \n\nMusical Debut - When you play this character, look at the top 4 cards of your deck. You may reveal a song card and put it into your hand. Put the rest on the bottom of your deck in any order.	2	t	12	4	1	47	TFC-002	3	1	2	3	\N	f	https://lorcana-api.com/images/ariel/spectacular_singer/ariel-spectacular_singer-large.png	1	f	f	f
+709	Steal From The Rich	Wonder how much ol' Prince John spent on all those fancy locks. \n-Little John	Whenever one of your characters quests this turn, each opponent loses 1 lore.	97	f	12	3	3	47	TFC-097	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/steal_from_the_rich/steal_from_the_rich-large.png	2	f	f	f
+711	The Beast Is Mine!	It's only fitting that the finest hunter get the foulest beast! \n-Gaston	Chosen character gains Reckless during their next turn. (They can't quest and must challenge if able.)	99	t	12	2	3	47	TFC-099	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_beast_is_mine!/the_beast_is_mine!-large.png	2	f	f	f
+715	Abu - Mischievous Monkey	Someday, Abu, things are gonna change. We'll be rich, live in a palace, and never have any problems at all.\n-Aladdin	\N	103	t	12	1	4	47	TFC-103	3	2	3	2	\N	f	https://lorcana-api.com/images/abu/mischievous_monkey/abu-mischievous_monkey-large.png	1	f	f	f
+681	Aladdin - Prince Ali	Fabulously wealthy. Practically untouchable. Genuinely inauthentic.	Ward (Opponents can't choose this character except to challenge.) 	69	t	12	1	3	47	TFC-069	2	1	2	2	\N	f	https://lorcana-api.com/images/aladdin/prince_ali/aladdin-prince_ali-large.png	1	f	f	f
+682	Beast - Wolfsbane	I'll take on all of you if I have to!	Rush (This character can challenge the turn they're played.) \n\nRoar - When you play this character, exert all opposing damaged characters.	70	f	12	5	3	47	TFC-070	5	2	4	4	\N	f	https://lorcana-api.com/images/beast/wolfsbane/beast-wolfsbane-large.png	1	f	f	f
+810	Grab Your Sword	We don't like\nWhat we don't understand\nIn fact, it scares us	(A character with cost 5 or more can {e} to sing this song for free.)\n\nDeal 2 damage to each opposing character.	198	f	12	3	6	47	TFC-198	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/grab_your_sword/grab_your_sword-large.png	3	f	f	f
+921	Fa Zhou - Mulan's Father	I am ready to serve the Emperor.	War Injury: This character can't challenge.\nHead of The Household: {e} - Ready chosen character named Mulan. She can't quest for the rest of this turn.	105	t	13	1	4	81	URS-105	2	1	\N	4	\N	f	https://lorcana-api.com/images/fa_zhou/mulan's_father/fa_zhou-mulan's_father-large.png	1	f	f	f
+929	Lumiere - Fiery Friend	The invaders are at out gates, mes amis! It's time to show them what we're made of.	Fervent Address: Your other characters get +1{s}.	113	t	13	3	4	79	URS-113	2	1	2	2	\N	f	https://lorcana-api.com/images/lumiere/fiery_friend/lumiere-fiery_friend-large.png	1	f	f	f
+931	Mulan - Enemy of Entanglement	Ursula's messengers fled leaving behind tendrils of dark ink.	Time To Shine: Whenever you play an action, this character gets +2{s} this turn.	115	t	13	2	4	81	URS-115	2	1	1	3	\N	f	https://lorcana-api.com/images/mulan/enemy_of_entanglement/mulan-enemy_of_entanglement-large.png	1	f	f	f
+822	Daisy Duck - Lovely Lady	Sweet Daisy, the fairest duck I ever met\nEach flaxen lock a rush of flowing gold\nHer bill the color of summer sunset\nExquisite plumes, a wonder to behold	\N	6	t	13	2	1	77	URS-006	1	1	1	3	\N	f	https://lorcana-api.com/images/daisy_duck/lovely_lady/daisy_duck-lovely_lady-large.png	1	f	f	f
+823	Daisy Duck - Musketeer Spy	She has a talent for thwarting hidden schemes.	Infiltration - When you play this character, each opponent chooses and discards a card.	7	t	13	1	1	78	URS-007	4	1	2	3	\N	f	https://lorcana-api.com/images/daisy_duck/musketeer_spy/daisy_duck-musketeer_spy-large.png	1	f	f	f
+825	Felix Madrigal - Fun-Loving Family Man	Who needs a gift when you're having this much fun?	\N	9	t	13	2	1	55	URS-009	3	2	2	4	\N	f	https://lorcana-api.com/images/felix_madrigal/fun-loving_family_man/felix_madrigal-fun-loving_family_man-large.png	1	f	f	f
+864	Magic Broom - Illuminary Keeper	Just a few barnacles away from retirement . . .	Nice and Tidy - Whenever you play another character, you may banish this character to draw a card.	48	t	13	1	2	80	URS-048	1	1	1	2	\N	f	https://lorcana-api.com/images/magic_broom/illuminary_keeper/magic_broom-illuminary_keeper-large.png	1	f	f	f
+910	Make the Potion	\N	Choose one:\n- Banish chosen item.\n- Deal 2 damage to chosen damaged character	94	f	13	1	3	82	URS-094	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/make_the_potion/make_the_potion-large.png	2	f	f	f
+900	Pegasus - Gift for Hercules	His name is Pegasus. And he's all yours. . . .\n-Zeus	Evasive (Only characters with Evasive can challenge this character.)	84	t	13	1	3	73	URS-084	1	1	1	1	\N	f	https://lorcana-api.com/images/pegasus/gift_for_hercules/pegasus-gift_for_hercules-large.png	1	f	f	f
+902	Pete - Rotten Guy	Minnie: This is an outrage!\nPete: No. It's my nefarious plan to steal the throne.	\N	86	t	13	2	3	78	URS-086	4	2	1	5	\N	f	https://lorcana-api.com/images/pete/rotten_guy/pete-rotten_guy-large.png	1	f	f	f
+907	Tor - Florist	They say that his arrangements are exquisite,\nHis composites and bouquets are so divine.\nBut when the crowds try to come and visit,\nThere's always quite a fight to form a line.	\N	91	t	13	1	3	63	URS-091	5	1	4	7	\N	f	https://lorcana-api.com/images/tor/florist/tor-florist-large.png	1	f	f	f
+908	Zeus - Mr. Lightning Bolts	Ha! Now watch your old man work!	Target Practice - Whenever a this character challenges another character, he gets +{s} equal to the {s} of chosen character this turn.	92	t	13	4	3	73	URS-092	3	2	\N	5	\N	f	https://lorcana-api.com/images/zeus/mr._lightning_bolts/zeus-mr._lightning_bolts-large.png	1	f	f	f
+909	Dodge!	Missed me, you doggone bully!	Chosen character gains Ward and Evasive until the start of your next turn. (Opponents can't choose them except to challenge. Only characters with Evasive can challenge them.)	93	t	13	1	3	77	URS-093	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/dodge!/dodge!-large.png	2	f	f	f
+914	Hidden Inkcaster	It looks like it's been here forever.\n-Flounder	Fresh Ink - When you play this item, draw a card.\nUnexpected treasure - All cards in your hand count as having {n}.	98	f	13	1	3	60	URS-098	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/hidden_inkcaster/hidden_inkcaster-large.png	4	f	f	f
+915	Signed Contract	I would love to help you, of course, but there's the little matter of the contract . . .\n- Ursula	Fine Print - Whenever an opponent plays a song, you may draw a card.	99	t	13	2	3	76	URS-099	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/signed_contract/signed_contract-large.png	4	f	f	f
+916	Vision Slab	Tio Bruno! What's happening to him? We have to help!\n-Mirabel	Danger Revealed - At the start of your turn, if an opposing character has damage, gain 1 lore.\nTrapped! Damage counters can't be removed.	100	t	13	2	3	55	URS-100	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/vision_slab/vision_slab-large.png	4	f	f	f
+939	Sisu - Daring Visitor	Come on - what's the worst that can happen?	Evasive (Only characters with Evasive can challenge this character.)\nBring On The Heat!: When you play this character, banish chosen opposing character with 1{s} or less.	123	f	13	2	4	75	URS-123	3	1	1	1	\N	f	https://lorcana-api.com/images/sisu/daring_visitor/sisu-daring_visitor-large.png	1	f	f	f
+940	Sisu - Emboldened Warrior	Sometimes the only way to fight the unimaginable is with the incredible.	Surge of Power: This character gets +1{s} for each card in opponents' hands.	124	t	13	3	4	75	URS-124	3	2	1	4	\N	f	https://lorcana-api.com/images/sisu/emboldened_warrior/sisu-emboldened_warrior-large.png	1	f	f	f
+942	Tong - Survivor	I too wish to join the fellowship of Druun butt-kickery.	Reckless (This character can't quest and must attack each turn if able.)	126	f	13	1	4	75	URS-126	4	\N	3	6	\N	f	https://lorcana-api.com/images/tong/survivor/tong-survivor-large.png	1	f	f	f
+944	A Pirate's Life	Give me a career\nas a buccaneer	Sing Together 6 (Any number of you or your teammates' characters with total cost 6 or more may {e} to sing this song for free.)\nEach opponent loses 2 lore. You gain 2 lore.	128	t	13	2	4	72	URS-128	6	\N	\N	\N	\N	f	https://lorcana-api.com/images/a_pirate's_life/a_pirate's_life-large.png	3	f	f	f
+961	Hades - Meticulous Plotter	This neat little scheme has Ursula's tentacles all over it. That sneaky sea witch... Wait! I can use this. She can keep those obnoxious Illumineers busy while I roll out my own plan.	\N	145	t	13	2	5	73	URS-145	4	1	3	6	\N	f	https://lorcana-api.com/images/hades/meticulous_plotter/hades-meticulous_plotter-large.png	1	f	f	f
+962	Hans - Noble Scoundrel	Hans was confident he could bring Anna to Ursula - all he needed was something of Kristoff's to lure her in.	Royal Schemes: When you play this character, if a Princess or Queen character is in play, gain 1 lore.	146	t	13	1	5	54	URS-146	3	2	3	2	\N	f	https://lorcana-api.com/images/hans/noble_scoundrel/hans-noble_scoundrel-large.png	1	f	f	f
+963	Iduna - Caring Mother	Come my darling, homeward bound\nWhen all is lost, then all is found.	Enduring Love: When this character is banished, you may put this card into your inkwell facedown and exerted.	147	t	13	2	5	54	URS-147	4	1	3	3	\N	f	https://lorcana-api.com/images/iduna/caring_mother/iduna-caring_mother-large.png	1	f	f	f
+964	John Silver - Terror of the Realm	Strange things be at the edge of the map: sea witches, entangled glimmers, and whatnot. I'll stay with me ship, thank you.	\N	148	t	13	3	5	69	URS-148	8	3	8	8	\N	f	https://lorcana-api.com/images/john_silver/terror_of_the_realm/john_silver-terror_of_the_realm-large.png	1	f	f	f
+977	Tuk Tuk - Curious Partner	Some say he's easily distracted. They're not wrong...\n - Raya	\N	161	t	13	1	5	75	URS-161	2	1	2	3	\N	f	https://lorcana-api.com/images/tuk_tuk/curious_partner/tuk_tuk-curious_partner-large.png	1	f	f	f
+979	Glean	This could be just the thing I need to get my invention working.	Banish chosen item. Its player gains 2 lore.	163	t	13	1	5	79	URS-163	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/glean/glean-large.png	2	f	f	f
+993	Chi-Fu - Imperial Advisor	You there! Keep that fighting away from here! It is imperative that I write to the Emperor.	Overly Cautious: While this character has no damage, he gets +2{l}.	177	t	13	2	6	81	URS-177	3	1	\N	5	\N	f	https://lorcana-api.com/images/chi/fu-imperial_advisor/chi-fu-imperial_advisor-large.png	1	f	f	f
+175	Helga Sinclair - Right-Hand Woman	That was an order, not a suggestion. Let's Go!	Challenger +2 (While challenging, this character gets +2{s}.)	175	t	8	1	6	47	INK-175	3	1	2	4	\N	f	https://lorcana-api.com/images/helga_sinclair/right-hand_woman/helga_sinclair-right-hand_woman-large.png	1	f	f	f
+401	Tiana - Diligent Waitress	My place is going be special, with great food to fill people's bellies and hot jazz to feed their souls!	\N	197	t	10	1	6	47	ROF-197	1	1	1	3	\N	f	https://lorcana-api.com/images/tiana/diligent_waitress/tiana-diligent_waitress-large.png	1	f	f	f
+462	Maleficent - Vengeful Sorceress	Evidently my invitation was lost. How dreadful.\nHere, let me help with the decorations...	\N	54	t	11	1	2	64	SSK-054	2	2	2	2	\N	f	https://lorcana-api.com/images/maleficent/vengeful_sorceress/maleficent-vengeful_sorceress-large.png	1	f	f	f
+3	Chernabog - Evildoer	Darkness calls to minions everywhere	The Power Of Evil - For each character card in your discard, you pay 1{i} less to play this character.\n\nSummon The Spirits - When you play this character, shuffle all character cards from your discard into your deck.	3	f	8	4	1	47	INK-003	10	3	9	9	\N	t	https://lorcana-api.com/images/chernabog/evildoer/chernabog-evildoer-large.png	1	f	f	f
+4	Dalmatian Puppy - Tail Wagger	First they steal your heart. Then they steal your chair.	Where Did They All Come From? - You may have up to 99 copies of Dalmatian Puppy - Tail Wagger in your deck.	4	t	8	1	1	47	INK-004	2	1	2	3	\N	f	https://lorcana-api.com/images/dalmatian_puppy/tail_wagger/dalmatian_puppy-tail_wagger-large.png	1	f	f	f
+7	Kida - Protector of Atlantis	She has been chosen. - King Kashekim Nedakh	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Kida.)\n\nPerhaps We Can Save Our Future - When you play this character, all characters get -3{s} until the start of your next turn.	7	t	8	5	1	47	INK-007	5	2	3	5	\N	t	https://lorcana-api.com/images/kida/protector_of_atlantis/kida-protector_of_atlantis-large.png	1	f	f	f
+176	John Silver - Greedy Treasure Seeker	I was never much good at games. Always hated to lose.	Chart Your Own Course - For each location you have in play, this character gains Resist +1 and gets +1{l}. (Damage dealt to them is reduced by 1.)	176	t	8	3	6	47	INK-176	3	1	3	3	\N	f	https://lorcana-api.com/images/john_silver/greedy_treasure_seeker/john_silver-greedy_treasure_seeker-large.png	1	f	f	f
+285	Flynn Rider - Confident Vagabond	I love a good fan club, but they could at least try to get the nose right!	\N	81	t	10	1	3	47	ROF-081	1	1	1	3	\N	f	https://lorcana-api.com/images/flynn_rider/confident_vagabond/flynn_rider-confident_vagabond-large.png	1	f	f	f
+326	Raya - Headstrong	Two parts of bravery, one part cleverness, and a whole lot of determination.	Note To Self, Don't Die: During your turn, whenever this character banishes another character in a challenge, you may ready this character. She can't quest for the rest of this turn.	122	t	10	1	4	47	ROF-122	3	1	2	3	\N	f	https://lorcana-api.com/images/raya/headstrong/raya-headstrong-large.png	1	f	f	f
+402	Charge!	Sometime subtlety is required. This is not one of those times.	Chosen character gains Challenger +2 and Resist +2 this turn. (They get +2 {s} while challenging. Damage dealt to them is reduced by 2.)	198	t	10	1	6	47	ROF-198	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/charge!/charge!-large.png	2	f	f	f
+220	Mulan - Reflecting	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Mulan.)\n\nHonor To The Ancestors - Whenever this character quests, you may reveal the top card of your deck. If it's a song card, you may play it for free. Otherwise, put it on the top of your deck.	16	t	10	3	1	47	ROF-016	4	2	3	3	\N	f	https://lorcana-api.com/images/mulan/reflecting/mulan-reflecting-large.png	1	f	f	f
+513	Maximus - Team Champion	It's easy to get carried away when it comes to tug of war.	Royally Big Rewards: At the end of your turn, if you have any characters in play with 5{s} or more, gain 2 lore. If you have any in play with 10{s} or more, gain 5 lore instead.	105	t	11	4	4	63	SSK-105	6	2	3	5	\N	f	https://lorcana-api.com/images/maximus/team_champion/maximus-team_champion-large.png	1	f	f	f
+11	Mr. Snoops - Inept Businessman	This is simple, Snoops! I want that lore! The one that shines like a diamond!\n-Madame Medusa	\N	11	t	8	1	1	47	INK-011	6	2	4	8	\N	f	https://lorcana-api.com/images/mr._snoops/inept_businessman/mr._snoops-inept_businessman-large.png	1	f	f	f
+12	Nani - Protective Sister	Let me handle this, Lilo.	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	12	t	8	2	1	47	INK-012	5	2	3	6	\N	f	https://lorcana-api.com/images/nani/protective_sister/nani-protective_sister-large.png	1	f	f	f
+13	Orville - Ace Pilot	Boy, look at those things go! Whaddya call 'em? Inkrunners? I wish I could fly like that.	\N	13	t	8	1	1	47	INK-013	2	1	1	4	\N	f	https://lorcana-api.com/images/orville/ace_pilot/orville-ace_pilot-large.png	1	f	f	f
+14	Patch - Intimidating Pup	Just like Thunderbolt, he'll stand up to any bad guy.	Bark - {e}: Chosen character gets -2{s} until the start of your next turn.	14	t	8	1	1	47	INK-014	4	1	3	4	\N	f	https://lorcana-api.com/images/patch/intimidating_pup/patch-intimidating_pup-large.png	1	f	f	f
+177	Kida - Royal Warrior	She's seen strange things before, but nothing like this.	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	177	t	8	1	6	47	INK-177	2	1	2	3	\N	f	https://lorcana-api.com/images/kida/royal_warrior/kida-royal_warrior-large.png	1	f	f	f
+8	Lucky - The 15th Puppy	\N	Good As New - {e}: Reveal the top 3 cards of your deck. You may put each character card with cost 2 or less into your hand. Put the rest on the bottom of your deck in any order.\n\nPuppy Love - Whenever this character quests, if you have 4 or more other characters in play, your other characters get +1{l} this turn.	8	f	8	3	1	47	INK-008	4	1	2	3	\N	f	https://lorcana-api.com/images/lucky/the_15th_puppy/lucky-the_15th_puppy-large.png	1	f	f	f
+221	Nana - Darling Family Pet	Children are a dog's best friend.	Nursemaid - Whenever you play a Floodborn character, you may remove all damage from chosen character.	17	t	10	2	1	47	ROF-017	2	1	1	3	\N	f	https://lorcana-api.com/images/nana/darling_family_pet/nana-darling_family_pet-large.png	1	f	f	f
+403	Let The Storm Rage On	The cold never bothered me anyway	(A character with cost 3 or more can {e} to sing this song for free.)\\nDeal 2 damaged to chosen character. Draw a card.	199	f	10	1	6	47	ROF-199	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/let_the_storm_rage_on/let_the_storm_rage_on-large.png	3	f	f	f
+464	Anna - Eager Acolyte	Okay, I con totally move small stuff. I need\nsomething bigger... Where's Kristoff's sled?	Growing Powers: When you play this character,\neach opponent chooses and exerts one of their\nready characters.	56	f	11	1	2	54	SSK-056	3	1	1	3	\N	f	https://lorcana-api.com/images/anna/eager_acolyte/anna-eager_acolyte-large.png	1	f	f	f
+514	Turbo - Royal Hack	\N	Rush (This character can challenge the turn they're played.)\nGame Jump: This character also counts as being named King Candy for Shift.	106	f	11	2	4	51	SSK-106	2	1	2	3	\N	f	https://lorcana-api.com/images/turbo/royal_hack/turbo-royal_hack-large.png	1	f	f	f
+18	Pluto - Friendly Pooch	He just can't wait for new friends to arrive!	Good Dog - {e}: You pay 1{i} less for the next character you play this turn.	18	f	8	2	1	47	INK-018	1	1	\N	2	\N	f	https://lorcana-api.com/images/pluto/friendly_pooch/pluto-friendly_pooch-large.png	1	f	f	f
+19	Pongo - Determined Father	We'll find our way. I know we will!	Twilight Bark - Once per turn, you may pay 2{i} to reveal the top card of your deck. If it's a character card, put it into your hand. Otherwise, Put it on the bottom of your deck.	19	t	8	4	1	47	INK-019	3	1	3	2	\N	f	https://lorcana-api.com/images/pongo/determined_father/pongo-determined_father-large.png	1	f	f	f
+23	Wendy Darling - Talented Sailor	With Tink's upgrades in place, Wendy took them to the skies to find the missing mermaid.	\N	23	t	8	2	1	47	INK-023	2	2	1	3	\N	f	https://lorcana-api.com/images/wendy_darling/talented_sailor/wendy_darling-talented_sailor-large.png	1	f	f	f
+288	Little John - Loyal Friend	What's the rush, Rob? Take a load off! There's plenty of time to go lookin' for lore lost in that crazy ink.	\N	84	t	10	3	3	47	ROF-084	6	2	6	6	\N	f	https://lorcana-api.com/images/little_john/loyal_friend/little_john-loyal_friend-large.png	1	f	f	f
+355	Jasmine - Heir Of Agrabah	She may be young, but she's got the spirit of a true leader	I'm A Fast Learner: When you play this character, remove up to 1 damage from chosen character of yours.	151	t	10	1	5	47	ROF-151	1	1	1	2	\N	f	https://lorcana-api.com/images/jasmine/heir_of_agrabah/jasmine-heir_of_agrabah-large.png	1	f	f	f
+406	Last Cannon	One shot can change everything.	Arm Yourself: 1 {i}, Banish this item - Chosen character gains Challenger +3 this turn. (They get +3 {s} while challenging.)	202	t	10	1	6	47	ROF-202	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/last_cannon/last_cannon-large.png	4	f	f	f
+42	Jafar - Striking Illusionist	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Jafar.)\n\nEvasive (Only characters with Evasive can challenge this character.)\n\nPower Beyond Measure - During your turn, while this character is exerted, whenever you draw a card, gain 1 lore.	42	t	8	5	2	47	INK-042	7	1	4	5	\N	t	https://lorcana-api.com/images/jafar/striking_illusionist/jafar-striking_illusionist-large.png	1	f	f	f
+179	Little John - Robin's Pal	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nDisguised - During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	179	t	8	2	6	47	INK-179	3	1	2	4	\N	f	https://lorcana-api.com/images/little_john/robin's_pal/little_john-robin's_pal-large.png	1	f	f	f
+562	King Candy - Sweet Abomination	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named King Candy.)\nChanging the Code: When you play this character, you may draw 2 cards, then put a card from your hand on the bottom of your deck.	154	f	11	2	5	51	SSK-154	5	2	3	3	\N	f	https://lorcana-api.com/images/king_candy/sweet_abomination/king_candy-sweet_abomination-large.png	1	f	f	f
+223	Rapunzel - Gifted Artist	\N	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Rapunzel.)\n\nLet Your Power Shine - Whenever you remove 1 or more damage from one of your characters, you may draw a card.	19	t	10	2	1	47	ROF-019	5	2	\N	6	\N	f	https://lorcana-api.com/images/rapunzel/gifted_artist/rapunzel-gifted_artist-large.png	1	f	f	f
+466	Camilo Madrigal - Family Copycat	\N	Imitate: Whenever this character quests, you\nmay gain lore equal to the {l} of chosen other\ncharacter of yours. Return that character to your\nhand.	58	t	11	5	2	55	SSK-058	6	1	3	7	\N	f	https://lorcana-api.com/images/camilo_madrigal/family_copycat/camilo_madrigal-family_copycat-large.png	1	f	f	f
+515	Donald Duck - Pie Slinger	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Donald Duck.)\r Humble Pie: When you play this character, if you used Shift to play him, each opponent loses 2 lore.\r Raging Duck: While an opponent has 10 or more lore, this character gets +6{s}	107	t	11	1	4	56	SSK-107	5	1	3	6	\N	f	https://lorcana-api.com/images/donald_duck/pie_slinger/donald_duck-pie_slinger-large.png	1	f	f	f
+43	Lena Sabrewing - Rebellious Teenager	Born from the shadows. Saved by friendship.	Rush (This character can challenge the turn they're played.)	43	t	8	1	2	47	INK-043	2	1	1	3	\N	f	https://lorcana-api.com/images/lena_sabrewing/rebellious_teenager/lena_sabrewing-rebellious_teenager-large.png	1	f	f	f
+44	Magic Broom - Dancing Duster	Super-smooth tidiness.	Power Clean - When you play this character, if you have a Sorcerer character in play, you may exert chosen opposing character. They can't ready at the start of their next turn.	44	f	8	2	2	47	INK-044	6	1	3	3	\N	f	https://lorcana-api.com/images/magic_broom/dancing_duster/magic_broom-dancing_duster-large.png	1	f	f	f
+45	Magic Broom - Swift Cleaner	Super-speedy tidiness.	Rush (This character can challenge the turn they're played.)\n\nClean This, Clean That - When you play this character, you may shuffle all Broom cards from your discard into your deck.	45	f	8	1	2	47	INK-045	5	2	4	4	\N	f	https://lorcana-api.com/images/magic_broom/swift_cleaner/magic_broom-swift_cleaner-large.png	1	f	f	f
+46	Magic Broom - The Big Sweeper	Super-sized tidiness.	Clean Sweep - While this character is at a location, it gets +2{s}.	46	t	8	1	2	47	INK-046	3	1	1	5	\N	f	https://lorcana-api.com/images/magic_broom/the_big_sweeper/magic_broom-the_big_sweeper-large.png	1	f	f	f
+180	Lythos - Rock Titan	Crush Zeus!	Resist +2 (Damage dealt to this character is reduced by 2.)\n\nStone Skin - {e}: Chosen character gains Resist +2 this turn.	180	t	8	2	6	47	INK-180	4	1	4	1	\N	f	https://lorcana-api.com/images/lythos/rock_titan/lythos-rock_titan-large.png	1	f	f	f
+224	Rapunzel - Sunshine	We can all make the world a little brighter in our own way.	Magic Hair - {e}: Remove up to 2 damage from chosen character.	20	t	10	1	1	47	ROF-020	2	1	1	4	\N	f	https://lorcana-api.com/images/rapunzel/sunshine/rapunzel-sunshine-large.png	1	f	f	f
+289	Lucifer - Cunning Cat	There must be something good about him.\n - Cinderella	Mouse Catcher: When you play this character, each opponent chooses and discards either 2 cards or 1 action card.	85	f	10	3	3	47	ROF-085	5	2	2	2	\N	f	https://lorcana-api.com/images/lucifer/cunning_cat/lucifer-cunning_cat-large.png	1	f	f	f
+356	Judy Hopps - Optimistic Officer	I'll get to the bottom of what happened with that locked lorebook. You can count on me!	Don't Call Me Cute: When you play this character, you may banish chosen item. Its player draws a card.	152	t	10	2	5	47	ROF-152	3	2	2	3	\N	f	https://lorcana-api.com/images/judy_hopps/optimistic_officer/judy_hopps-optimistic_officer-large.png	1	f	f	f
+407	Mouse Armor	Built by the tiniest of hands for the bravest of hearts.	Protection - {e}: Chosen character gains Resist +1 until the start of your next turn. (Damage dealt to them is reduced by 1.)	203	f	10	2	6	47	ROF-203	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/mouse_armor/mouse_armor-large.png	4	f	f	f
+467	Hypnotic Strength	Suddenly, Basil felt a strong desire to find the broken\ncrown.	Draw a card. Chosen character gains Challenger +2\nthis turn. (They get +2{s}  while challenging.)	59	t	11	1	2	61	SSK-059	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/hypnotic_strength/hypnotic_strength-large.png	2	f	f	f
+516	Rancis Fluggerbutter - Chocolate Charger	Ingredients: Butter, sugar, unsweetened chocolate, vanilla, and arrogance.	\N	108	t	11	1	4	51	SSK-108	4	1	4	4	\N	f	https://lorcana-api.com/images/rancis_fluggerbutter/chocolate_charger/rancis_fluggerbutter-chocolate_charger-large.png	1	f	f	f
+47	Magic Carpet - Flying Rug	Carpet and I can swoop in, grab the lore, and be back before anyone knows it! -Aladdin	Evasive (Only characters with Evasive can challenge this character.)\n\nFind The Way - {e}: Move a character of yours to a location for free.	47	t	8	1	2	47	INK-047	2	1	2	1	\N	f	https://lorcana-api.com/images/magic_carpet/flying_rug/magic_carpet-flying_rug-large.png	1	f	f	f
+48	Magica De Spell - Ambitious Witch	Feed my power, Dark Eclipse. Free my form from the abyss. Dormant magic now unchain, the Shadow Queen be whole again!	\N	48	t	8	1	2	47	INK-048	2	1	2	3	\N	f	https://lorcana-api.com/images/magica_de_spell/ambitious_witch/magica_de_spell-ambitious_witch-large.png	1	f	f	f
+52	Mama Odie - Voice of Wisdom	That's the way to give it what it needs, Juju!	Listen To Your Mama Now - Whenever this character quests, you may move up to 2 damage counters from chosen character to chosen opposing character.	52	f	8	2	2	47	INK-052	6	2	3	6	\N	f	https://lorcana-api.com/images/mama_odie/voice_of_wisdom/mama_odie-voice_of_wisdom-large.png	1	f	f	f
+53	Pua - Potbellied Buddy	Always ready to lend a hand . . . er, snout.	Always There - When this character is banished, you may shuffle this card into your deck.	53	t	8	1	2	47	INK-053	2	2	2	2	\N	f	https://lorcana-api.com/images/pua/potbellied_buddy/pua-potbellied_buddy-large.png	1	f	f	f
+54	Rafiki - Mystical Fighter	Mind the stick!	Challenger +3 (While challenging, this character gets +3{s}.)\r \r Ancient Skills - Whenever he challenges a Hyena character, this character takes no damage from the challenge.	54	t	8	3	2	47	INK-054	1	1	\N	2	\N	f	https://lorcana-api.com/images/rafiki/mystical_fighter/rafiki-mystical_fighter-large.png	1	f	f	f
+182	Mickey Mouse - Trumpeter	\N	Sound The Call - {e}, 2{i}: Play a character for free.	182	f	8	5	6	47	INK-182	4	1	\N	1	\N	t	https://lorcana-api.com/images/mickey_mouse/trumpeter/mickey_mouse-trumpeter-large.png	1	f	f	f
+55	Stratos - Tornado Titan	Blow Zeus away!	Evasive (Only characters with Evasive can challenge this character.)\n\nCyclone - {e}: Gain lore equal to the number of Titan characters you have in play.	55	t	8	3	2	47	INK-055	5	\N	4	4	\N	f	https://lorcana-api.com/images/stratos/tornado_titan/stratos-tornado_titan-large.png	1	f	f	f
+56	The Firebird - Force of Destruction	It rages through the forest,\nWings spread wide with flame\nSpring sings its ancient chorus\nAnd green renews its claim	\N	56	t	8	1	2	47	INK-056	4	1	6	2	\N	f	https://lorcana-api.com/images/the_firebird/force_of_destruction/the_firebird-force_of_destruction-large.png	1	f	f	f
+226	Sneezy - Very Allergic	Look out! He's gonna blow!	Ah-Choo! Whenever you play this character or another Seven Dwarfs character, you may give chosen character -1 {s} this turn.	22	t	10	1	1	47	ROF-022	2	1	1	4	\N	f	https://lorcana-api.com/images/sneezy/very_allergic/sneezy-very_allergic-large.png	1	f	f	f
+291	Panic - Underworld Imp	Who says it's hard to find good help these days? Oh yeah... ME!\n - Hades	I Can Handle It: When you play this character, chosen character gets +2 {s} this turn. If the chosen character is named Pain, he gets +4 {s} instead.	87	f	10	1	3	47	ROF-087	3	2	2	3	\N	f	https://lorcana-api.com/images/panic/underworld_imp/panic-underworld_imp-large.png	1	f	f	f
+358	Nick Wilde - Wily Fox	It's criminal how good these things taste!	It's Called A Hustle: When play this character, you may return an item card name Pawpsicle from your discard to your hand.	154	t	10	2	5	47	ROF-154	4	2	2	4	\N	f	https://lorcana-api.com/images/nick_wilde/wily_fox/nick_wilde-wily_fox-large.png	1	f	f	f
+409	Koda - Talkative Cub	I mean, I don't want to brag or nothing, but I got some moves.	Tell Everybody: During opponents' turns, you can't lost lore.	1	t	11	3	1	48	SSK-001	2	2	2	1	\N	f	https://lorcana-api.com/images/koda/talkative_cub/koda-talkative_cub-large.png	1	f	f	f
+57	The Queen - Hateful Rival	A cobweb's strand to hold her fast\nAn eagle's eye to see her well\nSands of time to steal her past\nThus I cast my magic spell!	\N	57	t	8	1	2	47	INK-057	3	1	4	3	\N	f	https://lorcana-api.com/images/the_queen/hateful_rival/the_queen-hateful_rival-large.png	1	f	f	f
+58	Treasure Guardian - Protector of the Cave	Only one may enter here.	Who Disturbs MY Slumber? - This character can't challenge or quest unless it is at a location.	58	f	8	3	2	47	INK-058	4	2	6	6	\N	f	https://lorcana-api.com/images/treasure_guardian/protector_of_the_cave/treasure_guardian-protector_of_the_cave-large.png	1	f	f	f
+59	Ursula - Sea Witch	The secret contract has already been written	You're Too Late - Whenever this character quests, chosen opposing character can't ready at the start of their next turn.	59	f	8	3	2	47	INK-059	3	1	3	3	\N	f	https://lorcana-api.com/images/ursula/sea_witch/ursula-sea_witch-large.png	1	f	f	f
+66	Forbidden Mountain - Maleficent's Castle	An eerie quiet surrounds the castle - but beware of the dangerous occupant within.	\N	66	t	8	1	2	47	INK-066	2	1	\N	6	\N	f	https://lorcana-api.com/images/forbidden_mountain/maleficent's_castle/forbidden_mountain-maleficent's_castle-large.png	5	f	f	f
+471	Magical Aid	You've got some power in your corner now!\n-Genie	Chosen character gains Challenger +3 and "When this\ncharacter is banished in a challenge, return this card to\nyour hand" this turn. (They get +3{s} while challenging.)	63	t	11	2	2	61	SSK-063	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/magical_aid/magical_aid-large.png	2	f	f	f
+67	The Queen's Castle - Mirror Chamber	Those who visit the mirror can choose their question - but not the answer.	Using The Mirror - At the start of your turn, for each character you have here, you may draw a card.	67	t	8	3	2	47	INK-067	4	2	\N	7	\N	f	https://lorcana-api.com/images/the_queen's_castle/mirror_chamber/the_queen's_castle-mirror_chamber-large.png	5	f	f	f
+72	Flotsam - Riffraff	Ursula needs lore to complete her plan. . . .	Eerie Pair - Your characters named Jetsam get +3{s}.	72	t	8	1	3	47	INK-072	3	1	5	2	\N	f	https://lorcana-api.com/images/flotsam/riffraff/flotsam-riffraff-large.png	1	f	f	f
+73	Friar Tuck - Priest of Nottingham	Get outta my church! Out! Out! Out!	You Thieving Scoundrel - When you play this character, the player or players with the most cards in their hand chooses and discards a card.	73	t	8	2	3	47	INK-073	4	2	2	4	\N	f	https://lorcana-api.com/images/friar_tuck/priest_of_nottingham/friar_tuck-priest_of_nottingham-large.png	1	f	f	f
+100	De Vil Manor - Cruella's Estate	They say the ol' place is haunted, or bewitched, or some such fiddle-faddle.\n-Colonel	\N	100	t	8	1	3	47	INK-100	1	1	\N	4	\N	f	https://lorcana-api.com/images/de_vil_manor/cruella's_estate/de_vil_manor-cruella's_estate-large.png	5	f	f	f
+80	Milo Thatch - King of Atlantis	You don't know what you're tampering with.	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Milo Thatch.)\n\nTake Them By Surprise - When this character is banished, return all opposing characters to their player's hands.	80	f	8	5	3	47	INK-080	7	3	4	4	\N	f	https://lorcana-api.com/images/milo_thatch/king_of_atlantis/milo_thatch-king_of_atlantis-large.png	1	f	f	f
+81	Morph - Space Goo	You jiggle-headed blob of mischief!\n-John Silver	Mimicry - You may play any character with Shift on this character as if this character had any name.	81	t	8	3	3	47	INK-081	2	1	2	1	\N	t	https://lorcana-api.com/images/morph/space_goo/morph-space_goo-large.png	1	f	f	f
+82	Peter Pan - Lost Boy Leader	The Illumineers needed someone to find a missing spellbook, and Peter was the first to volunteer.	I Came To Listen To The Stories - Once per turn, when this character moves to a location, gain lore equal to that location's {l}.	82	t	8	3	3	47	INK-082	4	1	3	3	\N	f	https://lorcana-api.com/images/peter_pan/lost_boy_leader/peter_pan-lost_boy_leader-large.png	1	f	f	f
+83	Prince John - Phony King	Too late to be known as John the First, he's sure to be known as John the Worst!\n-Sheriff of Nottingham	Collect Taxes - Whenever this character quests, each opponent with more lore than you loses 2 lore.	83	f	8	2	3	47	INK-083	5	2	2	4	\N	f	https://lorcana-api.com/images/prince_john/phony_king/prince_john-phony_king-large.png	1	f	f	f
+84	Robin Hood - Daydreamer	Some days, it's nice to let the river do the running.	\N	84	t	8	3	3	47	INK-084	6	4	4	5	\N	f	https://lorcana-api.com/images/robin_hood/daydreamer/robin_hood-daydreamer-large.png	1	f	f	f
+101	Fang - River City	A nation protected by fierce assassins and their even fiercer cats.	Surrounded By Water - Characters gain Ward and Evasive while here. (Opponents can't choose them except to challenge. Only characters with Evasive can challenge them.)	101	t	8	3	3	47	INK-101	4	2	\N	6	\N	f	https://lorcana-api.com/images/fang/river_city/fang-river_city-large.png	5	f	f	f
+107	HeiHei - Accidental Explorer	Considering the coconut.	Mindless Wandering - Once per turn, when this character moves to a location, each opponent loses 1 lore.	107	t	8	2	4	47	INK-107	2	1	3	2	\N	f	https://lorcana-api.com/images/heihei/accidental_explorer/heihei-accidental_explorer-large.png	1	f	f	f
+114	Maui - Whale	Always ready to make a splash.	This Mission Is Cursed - This character can't ready at the start of your turn.\n\nI Got Your Back - 2{i}: Ready this character. He can't quest for the rest of the turn.	114	t	8	3	4	47	INK-114	7	1	8	8	\N	f	https://lorcana-api.com/images/maui/whale/maui-whale-large.png	1	f	f	f
+123	Simba - Scrappy Cub	He'll join the hunt for lore after he's had a quick snack.	\N	123	f	8	3	4	47	INK-123	2	3	1	1	\N	f	https://lorcana-api.com/images/simba/scrappy_cub/simba-scrappy_cub-large.png	1	f	f	f
+413	Kenai - Big Brother	You have to look after your little brother, no matter\nhow big a pain he is.\n-Kenai	Brothers Forever:\r While this character is exerted,\r your characters named Koda can't be challenged.	5	t	11	1	1	48	SSK-005	2	1	1	4	\N	f	https://lorcana-api.com/images/kenai/big_brother/kenai-big_brother-large.png	1	f	f	f
+85	Shenzi - Hyena Pack Leader	Why not stick around for dinner?	I'll Handle This - While this character is at a location, she gets +3{s}.\r \rWhat's The Hurry? - While this character is at a location, whenever she challenges another character, you may draw a card.	85	t	8	4	3	47	INK-085	4	1	\N	6	\N	f	https://lorcana-api.com/images/shenzi/hyena_pack_leader/shenzi-hyena_pack_leader-large.png	1	f	f	f
+98	Robin's Bow	The forest always provides just what you need.\n-Robin Hood	Forest's Gift - {e}: Deal 1 damage to chosen damaged character or location.\n\nA Bit Of A Lark - Whenever a character of yours named Robin Hood quests, you may ready this item.	98	f	8	2	3	47	INK-098	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/robin's_bow/robin's_bow-large.png	4	f	f	f
+86	Sir Hiss - Aggravating Asp	Prince John isn't the only one collecting taxes!	Evasive (Only characters with Evasive can challenge this character.)	86	t	8	1	3	47	INK-086	2	1	3	1	\N	f	https://lorcana-api.com/images/sir_hiss/aggravating_asp/sir_hiss-aggravating_asp-large.png	1	f	f	f
+87	Skippy - Energetic Rabbit	Even the bravest outlaw knows when to lie low.	Ward (Opponents can't choose this character except to challenge.)	87	t	8	1	3	47	INK-087	2	1	2	2	\N	f	https://lorcana-api.com/images/skippy/energetic_rabbit/skippy-energetic_rabbit-large.png	1	f	f	f
+88	Starkey - Devious Pirate	Point him in the right direction, and he'll do the rest	\N	88	t	8	2	3	47	INK-088	7	3	6	6	\N	f	https://lorcana-api.com/images/starkey/devious_pirate/starkey-devious_pirate-large.png	1	f	f	f
+89	Stitch - Covert Agent	For such a flashy dresser, he sure is hard to spot.	Evasive (Only characters with Evasive can challenge this character.)\n\nHide - While this character is at a location, he gains Ward. (Opponents can't choose them except to challenge.)	89	t	8	3	3	47	INK-089	5	2	3	3	\N	f	https://lorcana-api.com/images/stitch/covert_agent/stitch-covert_agent-large.png	1	f	f	f
+93	Zazu - Steward of the Pride Lands	I'd be lyin' if I said I ran the place, but welcome to the Pride Lands all the same!	It's Time To Go! - While this character is at a location, he gets +1{l}.	93	t	8	1	3	47	INK-093	1	1	2	1	\N	f	https://lorcana-api.com/images/zazu/steward_of_the_pride_lands/zazu-steward_of_the_pride_lands-large.png	1	f	f	f
+94	Has Set My Heaaaaaaart . . .	He's not real smart\nAnd yet, he's touched my little cowhide heart	(A character with cost 2 or more can {e} to sing this song for free.)\n\nBanish chosen item.	94	t	8	2	3	47	INK-094	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/has_set_my_heaaaaaaart_._._/has_set_my_heaaaaaaart_._._.-large.png	3	f	f	f
+95	I Will Find My Way	I would go most anywhere\nTo feel like I belong	(A character with cost X or more can {e} to sing this song for free.)\r \r Chosen character of yours gets +2{s} this turn. They may move to a location for free.	95	t	8	1	3	47	INK-095	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/i_will_find_my_way/i_will_find_my_way-large.png	3	f	f	f
+97	Airfoil	Discovered in the lost Sea Duck, it looked good as new.	I Got To Be Going - {e}: If you've played 2 or more actions this turn, draw a card.	97	t	8	1	3	47	INK-097	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/airfoil/airfoil-large.png	4	f	f	f
+103	Ariel - Adventurous Collector	Shipwrecks are great places to find lore - and hide from sharks!	Evasive (Only characters with Evasive can challenge this character.)\n\nInspiring Voice - Whenever you play a song, chosen character of yours gains Evasive until the start of your next turn.	103	t	8	4	4	47	INK-103	3	1	2	3	\N	f	https://lorcana-api.com/images/ariel/adventurous_collector/ariel-adventurous_collector-large.png	1	f	f	f
+567	Merlin - Intellectual Visionary	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Merlin.)\nOverdeveloped Brain: When you play this character, if you used Shift to play him, you may search your deck for any card, put that card into your hand, then shuffle your deck.	159	f	11	5	5	66	SSK-159	6	2	3	7	\N	f	https://lorcana-api.com/images/merlin/intellectual_visionary/merlin-intellectual_visionary-large.png	1	f	f	f
+104	Billy Bones - Keeper of the Map	He's after me chest, that fiendish cyborg and his band of cutthroats.	\N	104	t	8	1	4	47	INK-104	5	1	6	5	\N	f	https://lorcana-api.com/images/billy_bones/keeper_of_the_map/billy_bones-keeper_of_the_map-large.png	1	f	f	f
+106	Della Duck - Unstoppable Mom	I survived the moon. How tough could the flooded Inklands be?	Reckless (This character can't quest and must challenge each turn if able.)	106	f	8	1	4	47	INK-106	2	\N	3	3	\N	f	https://lorcana-api.com/images/della_duck/unstoppable_mom/della_duck-unstoppable_mom-large.png	1	f	f	f
+415	Tuke - Northern Moose	I'd love a snack, but I'm kinda tied up right now.	\N	7	t	11	1	1	48	SSK-007	4	1	4	4	\N	f	https://lorcana-api.com/images/tuke/northern_moose/tuke-northern_moose-large.png	1	f	f	f
+613	Ariel - On Human Legs	...	Voiceless - This character can't {e} to sing songs.	1	t	12	2	1	47	TFC-001	4	2	3	4	\N	f	https://lorcana-api.com/images/ariel/on_human_legs/ariel-on_human_legs-large.png	1	f	f	f
+616	Goofy - Musketeer	En Gawrsh	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nAnd Two For Tea! - When you play this character, you may remove up to 2 damage from each of your Musketeer characters.	4	t	12	2	1	47	TFC-004	5	1	3	6	\N	f	https://lorcana-api.com/images/goofy/musketeer/goofy-musketeer-large.png	1	f	f	f
+617	Hades - King of Olympus	Oh hey, I'm gonna need new business cards.	Shift 6 (You may pay 6 {i} to play this on top of one of your characters named Hades.) \n\nSinister Plot - This character gets +1 {l} for each other Villain character you have in play.	5	f	12	3	1	47	TFC-005	8	1	6	7	\N	f	https://lorcana-api.com/images/hades/king_of_olympus/hades-king_of_olympus-large.png	1	f	f	f
+105	Captain Hook - Master Swordsman	\N	Nemesis - During your turn, whenever this character banishes another character in a challenge, ready this character. He can't quest for the rest of this turn.\n\nMan-To-Man - Characters named Peter Pan lose Evasive and can't gain Evasive.	105	t	8	3	4	47	INK-105	5	1	5	4	\N	t	https://lorcana-api.com/images/captain_hook/master_swordsman/captain_hook-master_swordsman-large.png	1	f	f	f
+524	Pete - Steamboat Rival	\N	Scram!: When you play this character, if you have another character named Pete in play, you may banish chosen opposing character.	116	t	11	4	4	56	SSK-116	7	2	6	6	\N	f	https://lorcana-api.com/images/pete/steamboat_rival/pete-steamboat_rival-large.png	1	f	f	f
+525	Taffyta Muttonfudge - Sour Speedster	\N	Shift 2 (You may pay 2{i} to play this on top of one of your characters named Taffyta Muttonfudge.)\nNew Roster: Once per turn, when this character moves to a location, gain 2 lore.	117	t	11	2	4	51	SSK-117	4	1	3	3	\N	f	https://lorcana-api.com/images/taffyta_muttonfudge/sour_speedster/taffyta_muttonfudge-sour_speedster-large.png	1	f	f	f
+109	Jim Hawkins - Space Traveler	You're gonna rattle the stars, you are.\n-John Silver	This Is It! - When you play this character, you may play a location with cost 4 or less for free.\n\nTake The Helm - Whenever you play a location, this character may move there for free.	109	t	8	5	4	47	INK-109	5	2	4	4	\N	f	https://lorcana-api.com/images/jim_hawkins/space_traveler/jim_hawkins-space_traveler-large.png	1	f	f	f
+110	Jim Hawkins - Thrill Seeker	If you want a bigger reward, you've got to take bigger risks.	\N	110	t	8	1	4	47	INK-110	2	1	3	2	\N	f	https://lorcana-api.com/images/jim_hawkins/thrill_seeker/jim_hawkins-thrill_seeker-large.png	1	f	f	f
+111	Kakamora - Menacing Sailor	There's a bunch more where he came from.	Plunder - When you play this character, each opponent loses 1 lore.	111	f	8	1	4	47	INK-111	3	1	3	2	\N	f	https://lorcana-api.com/images/kakamora/menacing_sailor/kakamora-menacing_sailor-large.png	1	f	f	f
+416	Lilo - Junior Cake Decorator	Peanut butter and pineapple! This'll be the best\ncake ever!	Support (Whenever this character quests, you\nmay add their {s} to another chosen character's\n{s} this turn.)	8	t	11	1	1	52	SSK-008	2	1	1	3	\N	f	https://lorcana-api.com/images/lilo/junior_cake_decorator/lilo-junior_cake_decorator-large.png	1	f	f	f
+116	Moana - Born Leader	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Moana.)\n\nWelcome To My Boat - Whenever this character quests while at a location, ready all other characters here, they can't quest for the rest of this turn.	116	t	8	3	4	47	INK-116	5	2	4	4	\N	f	https://lorcana-api.com/images/moana/born_leader/moana-born_leader-large.png	1	f	f	f
+526	Robin Hood - Sharpshooter	\N	My Greatest Performance: Whenever this character quests, look at the top 4 cards of your deck. You my reveal an action card with cost 6 or less and play it for free. Put the rest in your discard.	118	f	11	5	4	59	SSK-118	4	2	1	4	\N	f	https://lorcana-api.com/images/robin_hood/sharpshooter/robin_hood-sharpshooter-large.png	1	f	f	f
+117	Moana - Undeterred Voyager	No fire or storm will keep her from her goal.	Evasive (Only characters with Evasive can challenge this character.)	117	t	8	1	4	47	INK-117	4	1	3	4	\N	f	https://lorcana-api.com/images/moana/undeterred_voyager/moana-undeterred_voyager-large.png	1	f	f	f
+118	Nutsy - Vulture Henchman	Nutsy, button your beak.\n-Trigger	\N	118	t	8	1	4	47	INK-118	2	1	2	3	\N	f	https://lorcana-api.com/images/nutsy/vulture_henchman/nutsy-vulture_henchman-large.png	1	f	f	f
+119	Peter Pan - Never Land Hero	With Peter, plans often meant diving headlong into danger.	Rush (This character can challenge the turn they're played.)\r \r Over Here, Tink - While you have a character named Tinker Bell in play, this character gets +2{s}.	119	t	8	1	4	47	INK-119	3	2	1	3	\N	f	https://lorcana-api.com/images/peter_pan/neve_land_hero/peter_pan-neve_land_hero-large.png	1	f	f	f
+417	Vanellope von Schweetz - Candy Mechanic	I'll take whatever you've got... as long as it's got\nsugar in it.	You've Got To Pay To Play:Whenever this\r character quests, chosen opposing character gets\r -1{s} until the start of your next turn.	9	t	11	1	1	51	SSK-009	2	1	2	2	\N	f	https://lorcana-api.com/images/vanellope_von_schweetz/candy_mechanic/vanellope_von_schweetz-candy_mechanic-large.png	1	f	f	f
+120	Peter Pan - Pirate's Bane	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Peter Pan.)\n\nEvasive (Only characters with Evasive can challenge this character.)\n\nYou're Next! - Whenever he challenges a Pirate character, this character takes no damage from the challenge.	120	t	8	3	4	47	INK-120	6	2	4	5	\N	f	https://lorcana-api.com/images/peter_pan/pirate's_bane/peter_pan-pirate's_bane-large.png	1	f	f	f
+527	Gaston - Pure Paragon	\N	A Man Among Men!: For each damaged character you have in play, you pay 2{i} less to play this character.\nRush (This character can challenge the turn they're played.)	119	f	11	3	4	65	SSK-119	9	2	10	6	\N	f	https://lorcana-api.com/images/gaston/pure_paragon/gaston-pure_paragon-large.png	1	f	f	f
+121	Prince Eric - Expert Helmsman	The storm came out of nowhere, forcing Eric to turn back before he reached the mysterious structure at the edge of Lorcana.	Surprise Maneuver - When this character is banished, you may banish chosen character.	121	f	8	4	4	47	INK-121	4	2	2	2	\N	f	https://lorcana-api.com/images/prince_eric/expert_helmsman/prince_eric-expert_helmsman-large.png	1	f	f	f
+122	Scroop - Backstabber	Always keep him in front of you. And downwind, if possible.	Brute - While this character has damage, he gets +3{s}.	122	t	8	2	4	47	INK-122	5	2	2	5	\N	f	https://lorcana-api.com/images/scroop/backstabber/scroop-backstabber-large.png	1	f	f	f
+124	Slightly - Lost Boy	Pirates sure are easy to trick!	The Fox - If you have a character named Peter Pan in play, you pay 1{i} less to play this character.\n\nEvasive (Only characters with Evasive can challenge this character.)	124	t	8	2	4	47	INK-124	4	1	4	3	\N	f	https://lorcana-api.com/images/slightly/lost_boy/slightly-lost_boy-large.png	1	f	f	f
+418	Fix-It Felix, Jr. - Trusty Builder	Golly, this place is going to take some real fixing!	Bodyguard (This character may enter play exerted.\nAn opposing character who challenges one of\nyour characters must choose one with Bodyguard\nif able.)	10	t	11	1	1	51	SSK-010	3	1	2	4	\N	f	https://lorcana-api.com/images/fix-it_felix,_jr/trusty_builder/fix-it_felix,_jr.-trusty_builder-large.png	1	f	f	f
+133	Sumerian Talisman	Summoned spirit from the dark\nShow thyself before this arc.\n-Lena Sabrewing	Source Of Magic - During your turn, whenever one of your characters is banished in a challenge, you may draw a card.	133	t	8	2	4	47	INK-133	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/sumerian_talisman/sumerian_talisman-large.png	4	f	f	f
+137	Audrey Ramirez - The Engineer	How'd you break this thing, anyway?	Ward (Opponents can't choose this character except to challenge.)\n\nSpare Parts - Whenever this character quests, ready one of your items.	137	t	8	3	5	47	INK-137	5	2	2	5	\N	f	https://lorcana-api.com/images/audrey_ramirez/the_engineer/audrey_ramirez-the_engineer-large.png	1	f	f	f
+420	Fix-It Felix, Jr. - Niceland Steward	\N	Shift 3 (You may pay 3{i} to play this on top of\r one of your characters named Fix-lt Felix, Jr.)\r Building Together: Your locations get +2 {w}.	12	t	11	2	1	51	SSK-012	5	1	4	5	\N	f	https://lorcana-api.com/images/fix-it_felix,_jr/niceland_steward/fix-it_felix,_jr.-niceland_steward-large.png	1	f	f	f
+139	Dewey - Showy Nephew	I got it! I knew I could do it! Dewey for the win!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	139	t	8	2	5	47	INK-139	3	2	2	3	\N	f	https://lorcana-api.com/images/dewey/showy_nephew/dewey-showy_nephew-large.png	1	f	f	f
+140	Flintheart Glomgold - Lone Cheater	Nobody tells Flintheart Glomgold what to do!	They'll Never See It Coming! - During your turn, this character gains Evasive. (They can challenge characters with Evasive.	140	t	8	2	5	47	INK-140	4	2	3	4	\N	f	https://lorcana-api.com/images/flintheart_glomgold/flintheart_glomgold-large.png	1	f	f	f
+185	Mufasa - Champion of the Pride Lands	Even his name makes enemies quiver in fear.	\N	185	t	8	3	6	47	INK-185	7	3	3	10	\N	f	https://lorcana-api.com/images/mufasa/champion_of_the_pride_lands/mufasa-champion_of_the_pride_lands-large.png	1	f	f	f
+529	Arthur - Novice Sparrow	Hold it, boy. Not so fast.	Reckless (This character can't quest and must challenge each turn if able.)	121	f	11	1	4	66	SSK-121	1	\N	2	3	\N	f	https://lorcana-api.com/images/arthur/novice_sparrow/arthur-novice_sparrow-large.png	1	f	f	f
+618	Hades - Lord of the Underworld	Production is up, costs are down, the rivers are full. Time to talk expansion.	Well of Souls - When you play this character, return a character card from your discard to your hand.	6	f	12	3	1	47	TFC-006	4	1	3	2	\N	f	https://lorcana-api.com/images/hades/lord_of_the_underworld/hades-lord_of_the_underworld-large.png	1	f	f	f
+694	John Silver - Alien Pirate	Don't be too put off by this . . . hunk of hardware.	Pick Your Fights - When you play this character and whenever he quests, chosen opposing character gains Reckless during their next turn. (They can't quest and must challenge if able.)	82	t	12	5	3	47	TFC-082	6	2	5	5	\N	f	https://lorcana-api.com/images/john_silver/alien_pirate/john_silver-alien_pirate-large.png	1	f	f	f
+699	Megara - Pulling the Strings	A deal's a deal. But falling in love was never supposed to be a part of it.	Wonder Boy - When you play this character, chosen character gets +2 {s} this turn.	87	t	12	1	3	47	TFC-087	2	1	2	1	\N	f	https://lorcana-api.com/images/megara/pulling_the_strings/megara-pulling_the_strings-large.png	1	f	f	f
+703	Peter Pan - Never Landing	What's the matter, Hook? Can't you fly?	Evasive (Only characters with Evasive can challenge this character.) 	91	t	12	1	3	47	TFC-091	3	1	3	2	\N	f	https://lorcana-api.com/images/peter_pan/never_landing/peter_pan-never_landing-large.png	1	f	f	f
+706	Do It Again!	. . . Then scrub the terrace, sweep the halls and the stairs, clean the chimneys. And of course there's the mending, and the sewing, and the laundry . . .\n - Lady Tremaine	Return an action card from your discard to your hand.	94	f	12	3	3	47	TFC-094	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/do_it_again!/do_it_again!-large.png	2	f	f	f
+622	Maximus - Palace Horse	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nSupport (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	10	t	12	4	1	47	TFC-010	5	1	4	5	\N	f	https://lorcana-api.com/images/maximus/palace_horse/maximus-palace_horse-large.png	1	f	f	f
+619	HeiHei - Boat Snack	Sometimes, our strengths lie beneath the surface. Far beneath, in some cases. . . . \n-Moana	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	7	t	12	1	1	47	TFC-007	1	1	1	2	\N	f	https://lorcana-api.com/images/heihei/boat_snack/heihei-boat_snack-large.png	1	f	f	f
+695	Jumba Jookiba - Renegade Scientist	Created something? Ha! But that would be irresponsible and unethical. I would never, ever . . . make more than one.	\N	83	t	12	2	3	47	TFC-083	5	2	4	5	\N	f	https://lorcana-api.com/images/jumba_jookiba/renegade_scientist/jumba_jookiba-renegade_scientist-large.png	1	f	f	f
+700	Mickey Mouse - Artful Rogue	Quiet as a... well, you know.	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Mickey Mouse.) \n\nMisdirection - Whenever you play an action, chosen opposing character can't quest during their next turn.	88	f	12	4	3	47	TFC-088	7	2	6	5	\N	f	https://lorcana-api.com/images/mickey_mouse/artful_rogue/mickey_mouse-artful_rogue-large.png	1	f	f	f
+704	Tamatoa - Drab Little Crab	Someday, I'll grow up to be the most crabulous crustacean the world has ever seen!	\N	92	t	12	2	3	47	TFC-092	2	1	1	4	\N	f	https://lorcana-api.com/images/tamatoa/drab_little_crab/tamatoa-drab_little_crab-large.png	1	f	f	f
+707	Mother Knows Best	One way or another\nSomething will go wrong, I swear	(A character with cost 3 or more can {e} to sing this song for free.)\n\nReturn chosen character to their player's hand.	95	f	12	2	3	47	TFC-095	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/mother_knows_best/mother_knows_best-large.png	3	f	f	f
+705	Tinker Bell - Most Helpful	\N	Evasive (Only characters with Evasive can challenge this character.) \n\nPixie Dust - When you play this character, chosen character gains Evasive this turn.	93	t	12	1	3	47	TFC-093	4	1	2	3	\N	f	https://lorcana-api.com/images/tinker_bell/most_helpful/tinker_bell-most_helpful-large.png	1	f	f	f
+623	Maximus - Relentless Pursuer	He pursues his quarry with courage, discipline, and a touch of class.	Horse Kick - When you play this character, chosen character gets -2 {s} this turn.	11	t	12	2	1	47	TFC-011	3	1	3	3	\N	f	https://lorcana-api.com/images/maximus/relentless_pursuer/maximus-relentless_pursuer-large.png	1	f	f	f
+696	Kuzco - Temperamental Emperor	I asked for emerald and that is clearly jade! What is wrong with you people?	Ward (Opponents can't choose this character except to challenge.) \n\nNo Touchy! - When this character is challenged and banished, you may banish the challenging character.	84	f	12	3	3	47	TFC-084	5	3	2	4	\N	f	https://lorcana-api.com/images/kuzco/temperamental_emperor/kuzco-temperamental_emperor-large.png	1	f	f	f
+701	Mickey Mouse - Steamboat Pilot	On rivers throughout the Inklands, the little steamboat's whistle answers the cheery tunes of its pilot.	\N	89	t	12	1	3	47	TFC-089	3	1	3	4	\N	f	https://lorcana-api.com/images/mickey_mouse/steamboat_pilot/mickey_mouse-steamboat_pilot-large.png	1	f	f	f
+708	Stampede	A wildebeest stampede is like a raging river: best experienced from a distance.	Deal 2 damage to chosen damaged character.	96	f	12	1	3	47	TFC-096	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/stampede/stampede-large.png	2	f	f	f
+710	Sudden Chill	Cruella De Vil, Cruella De Vil, If she doesn't scare you, no evil thing will	(A character with cost 2 or more can {e} to sing this song for free.)\n\nEach opponent chooses and discards a card.	98	t	12	1	3	47	TFC-098	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/sudden_chill/sudden_chill-large.png	3	f	f	f
+712	Vicious Betrayal	A true king takes matters into his own claws.\n -Scar	Chosen character gets +2 {s} this turn. If a villain character is chosen, they get +3 {s} instead.	100	t	12	1	3	47	TFC-100	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/vicious_betrayal/vicious_betrayal-large.png	2	f	f	f
+630	Rapunzel - Gifted with Healing	\N	Gleam and Glow - When you play this character, remove up to 3 damage from one of your characters. Draw a card for each 1 damage removed this way.	18	t	12	5	1	47	TFC-018	4	2	1	5	\N	f	https://lorcana-api.com/images/rapunzel/gifted_with_healing/rapunzel-gifted_with_healing-large.png	1	f	f	f
+625	Minnie Mouse - Beloved Princess	Wherever the princess goes, her musketeers are . . . well, they're around somewhere, probably.	\N	13	t	12	1	1	47	TFC-013	2	1	2	3	\N	f	https://lorcana-api.com/images/minnie_mouse/beloved_princess/minnie_mouse-beloved_princess-large.png	1	f	f	f
+626	Moana - Of Motunui	I am Moana of Motunui. You will board my boar, sail across the sea, and restore the heart of Te Fiti.	We Can Fix It - Whenever this character quests, you may ready your other Princess Characters. They can't quest for the rest of this turn.	14	t	12	3	1	47	TFC-014	5	3	1	6	\N	f	https://lorcana-api.com/images/moana/of_motunui/moana-of_motunui-large.png	1	f	f	f
+627	Mr. Smee - Loyal First Mate	Mr. Smee is a kind, gentle soul who lives to bring comfort and aid to a twisted old villain. Now, what good is kindness like that? \n- Peter Pan	\N	15	t	12	1	1	47	TFC-015	3	1	2	5	\N	f	https://lorcana-api.com/images/mr._smee/loyal_first_mate/mr._smee-loyal_first_mate-large.png	1	f	f	f
+628	Prince Phillip - Dragonslayer	The road to true love may be barred by still many more dangers, which you alone will have to face. \n- Flora	Heroism - When this character challenges and is banished, you may banish the challenged character.	16	f	12	2	1	47	TFC-016	4	2	3	3	\N	f	https://lorcana-api.com/images/prince_phillip/dragonslayer/prince_phillip-dragonslayer-large.png	1	f	f	f
+629	Pumbaa - Friendly Warthog	You gotta put your behind in your past.	\N	17	t	12	1	1	47	TFC-017	4	1	3	5	\N	f	https://lorcana-api.com/images/pumbaa/friendly_warthog/pumbaa-friendly_warthog-large.png	1	f	f	f
+631	Sebastian - Court Composer	I should be writing symphonies, not tagging along after some headstrong teenager.	Singer 4 (This character counts as cost 4 to sing songs.)	19	t	12	1	1	47	TFC-019	2	1	2	2	\N	f	https://lorcana-api.com/images/sebastion/court_composer/sebastion-court_composer-large.png	1	f	f	f
+632	Simba - Protective Cub	Courage comes in all sizes.	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	20	t	12	1	1	47	TFC-020	2	1	2	3	\N	f	https://lorcana-api.com/images/simba/protective_cub/simba-protective_cub-large.png	1	f	f	f
+633	Stitch - Carefree Surfer	So you're from outer space, huh? I hear the surfing's choice. \n- David	Ohana - When you play this character, if you have 2 or more other characters in play, you may draw 2 cards.	21	t	12	5	1	47	TFC-021	7	2	4	8	\N	f	https://lorcana-api.com/images/stitch/carefree_surfer/stitch-carefree_surfer-large.png	1	f	f	f
+697	Lady Tremaine - Wicked Stepmother	If your chores are done, then clearly you don't have enough of them.	Do It Again! - When you play this character, you may return an action card from your discard to your hand.	85	f	12	3	3	47	TFC-085	6	1	1	5	\N	f	https://lorcana-api.com/images/lady_tremaine/wicked_stepmother/lady_tremaine-wicked_stepmother-large.png	1	f	f	f
+702	Mother Gothel - Selfish Manipulator	Great. Now I'm the bad guy.	Skip The Drama, Stay With Mama - While this character is exerted, opposing characters can't quest.	90	t	12	4	3	47	TFC-090	6	2	3	6	\N	f	https://lorcana-api.com/images/mother_gothel/selfish_manipulator/mother_gothel-selfish_manipulator-large.png	1	f	f	f
+637	Be Our Guest	\N	(A character with cost 2 or more can {e} to sing this song for free.) \n\nLook at the top 4 cards of your deck. You may reveal a character card and put it into your hand. Put the rest on the bottom of your deck in any order.	25	t	12	2	1	47	TFC-025	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/be_our_guest/be_our_guest-large.png	3	f	f	f
+638	Control Your Temper!	\N	Chosen character gets -2 {s} this turn.	26	t	12	1	1	47	TFC-026	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/control_your_temper!/control_your_temper!-large.png	2	f	f	f
+634	Stitch - New Dog	Lilo: David! I got a new dog! \nDavid: Auwe! . . . You sure it's a dog? \nLilo: Uh-huh. He used to be a collie before he got ran over.	\N	22	t	12	1	1	47	TFC-022	1	1	2	2	\N	f	https://lorcana-api.com/images/stitch/new_dog/stitch-new_dog-large.png	1	f	f	f
+635	Stitch - Rock Star	The best part about a beachside concert is that there's always room for one more.	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Stitch.) \n\nAdoring Fans - Whenever you play a character with cost 2 or less, you may exert them to draw a card.	23	t	12	4	1	47	TFC-023	6	3	3	5	\N	f	https://lorcana-api.com/images/stitch/rock_star/stitch-rock_star-large.png	1	f	f	f
+636	Timon - Grub Rustler	There's all manner of tasty treats in the world - ya just gotta know where to look.	Tastes Like Chicken - When you play this character, you may remove up to 1 damage from chosen character.	24	t	12	1	1	47	TFC-024	1	1	1	2	\N	f	https://lorcana-api.com/images/timon/grub_rustler/timon-grub_rustler-large.png	1	f	f	f
+639	Hakuna Matata	What a wonderful phrase!	(A character with cost 4 or more can {e} to sing this song for free.)\n\nRemove up to 3 damage from each of your characters.	27	t	12	1	1	47	TFC-027	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/hakuna_matata/hakuna_matata-large.png	3	f	f	f
+640	Healing Glow	Don't freak out!\n-Rapunzel	Remove up to 2 damage from chosen character.	28	t	12	1	1	47	TFC-028	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/healing_glow/healing_glow-large.png	2	f	f	f
+649	Dr. Facilier - Agent Provocateur	\N	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Dr. Facilier.) \n\nInto The Shadows - Whenever one of your other characters is banished in a challenge, you may return that card to your hand.	37	f	12	3	2	47	TFC-037	7	3	4	5	\N	f	https://lorcana-api.com/images/dr._facilier/agent_provocateur/dr._facilier-agent_provocateur-large.png	1	f	f	f
+645	Lantern	Lanterns fill the sky on one special night, beacons of hope and love.	Birthday Lights - {e} - You play 1 {i} less for the next character you play this turn.	33	f	12	3	1	47	TFC-033	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/lantern/lantern-large.png	4	f	f	f
+646	Ursula's Shell Necklace	Singing is a lovely pastime . . . if you've got the voice for it.  - Ursula	Now, Sing! - Whenever you play a song, you may pay 1 {i} to draw a card.	34	f	12	3	1	47	TFC-034	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/ursula's_shell_necklace/ursula's_shell_necklace-large.png	4	f	f	f
+647	Anna - Heir to Arendelle	Two sisters, one mind.	Loving Heart - When you play this character, if you have a character named Elsa in play, choose an opposing character. The chosen character doesn't ready at the start of their next turn.	35	t	12	2	2	47	TFC-035	4	2	2	4	\N	f	https://lorcana-api.com/images/anna/heir_to_arendelle/anna-heir_to_arendelle-large.png	1	f	f	f
+648	Archimedes - Highly Educated Owl	Flying is not merely some crude, mechanical process. It is a delicate art. Purely aesthetic. Poetry of motion. And the best way to learn it is to do it!	\N	36	t	12	1	2	47	TFC-036	1	1	2	2	\N	f	https://lorcana-api.com/images/archimedes/highly_educated_owl/archimedes-highly_educated_owl-large.png	1	f	f	f
+650	Dr. Facilier - Charlatan	Enchant?e. A tip of the hat from Dr. Facilier.	Challenger +2 (When challenging, this character get +2 {s}.) 	38	t	12	1	2	47	TFC-038	2	1	\N	4	\N	f	https://lorcana-api.com/images/dr._facilier/charlatan/dr._facilier-charlatan-large.png	1	f	f	f
+651	Dr. Facilier - Remarkable Gentleman	\N	Dreams Made Real - Whenever you play a song, you may look at the top 2 cards of your deck. Put one on the top of your deck and the other on the bottom.	39	t	12	3	2	47	TFC-039	3	1	2	4	\N	f	https://lorcana-api.com/images/dr._facilier/remarkable_gentleman/dr._facilier-remarkable_gentleman-large.png	1	f	f	f
+652	Elsa - Queen Regent	I never knew what I was capable of.	\N	40	t	12	1	2	47	TFC-040	4	1	4	4	\N	f	https://lorcana-api.com/images/elsa/queen_regent/elsa-queen_regent-large.png	1	f	f	f
+653	Elsa - Snow Queen	Recreated by magical ink, Elsa found herself in an entirely new world. Fortunately, ice works the same way everywhere.	Freeze -{e} - Exert chosen opposing character.	41	t	12	2	2	47	TFC-041	3	1	2	3	\N	f	https://lorcana-api.com/images/elsa/snow_queen/elsa-snow_queen-large.png	1	f	f	f
+654	Elsa - Spirit of Winter	Ice is stronger than you may think.	Shift 6 (You may pay 6 {i} to play this on top of one of your characters named Elsa.) \n\nDeep Freeze - When you play this character, exert up to 2 chosen characters. They can't ready at the start of their next turn.	42	f	12	5	2	47	TFC-042	8	3	4	6	\N	f	https://lorcana-api.com/images/elsa/spirit_of_winter/elsa-spirit_of_winter-large.png	1	f	f	f
+655	Flotsam - Ursula's Spy	We know someone who can help you . . . for a price.	Rush (This character can challenge the turn they're played.) \n\nDexterous Lunge - Your characters named Jetsam gain Rush.	43	f	12	3	2	47	TFC-043	5	2	3	4	\N	f	https://lorcana-api.com/images/flotsam/ursula's_spy/flotsam-ursula's_spy-large.png	1	f	f	f
+656	Jafar - Keeper of Secrets	There's more than one way to bury secrets.	Hidden Wonders - This character gets +1 {s} for each card in your hand.	44	t	12	3	2	47	TFC-044	4	2	\N	5	\N	f	https://lorcana-api.com/images/jafar/keeper_of_secrets/jafar-keeper_of_secrets-large.png	1	f	f	f
+657	Jafar - Wicked Sorcerer	Enough skulking about. It's time to show that sniveling sultan what a sorcerer can do.	Challenger +3 (When challenging, this character gets +3 {s}.) 	45	t	12	1	2	47	TFC-045	4	1	2	5	\N	f	https://lorcana-api.com/images/jafar/wicked_sorcerer/jafar-wicked_sorcerer-large.png	1	f	f	f
+658	Jetsam - Ursula's Spy	We can help you get anything you want. . . .	Evasive (Only characters with Evasive can challenge this character.) \n\nSinister Slither - Your characters named Flotsam gain Evasive.	46	t	12	1	2	47	TFC-046	4	1	3	3	\N	f	https://lorcana-api.com/images/jetsam/ursula's_spy/jetsam-ursula's_spy-large.png	1	f	f	f
+659	Magic Broom - Bucket Brigade	In the immense story-forge known as the Great Illuminary, there is always work to be done.	Sweep - When you play this character, you may shuffle a card from any discard into its player's deck.	47	t	12	1	2	47	TFC-047	2	1	2	2	\N	f	https://lorcana-api.com/images/magic_broom/bucket_brigade/magic_broom-bucket_brigade-large.png	1	f	f	f
+660	Maleficent - Biding Her Time	One mustn't rush these things, or the greatest plan might come to nothing.	\N	48	f	12	3	2	47	TFC-048	1	2	1	1	\N	f	https://lorcana-api.com/images/maleficent/biding_her_time/maleficent-biding_her_time-large.png	1	f	f	f
+661	Maleficent - Sorceress	You dare challenge me? Fool, my magic is more powerful than you could possibly imagine!	Cast My Spell! - When you play this character, you may draw a card.	49	t	12	1	2	47	TFC-049	3	1	2	2	\N	f	https://lorcana-api.com/images/maleficent/sorceress/maleficent-sorceress-large.png	1	f	f	f
+662	Marshmallow - Persistent Guardian	Hey! We were just talking about you! All good things, all good things. \n- Olaf	Durable - When this character is banished in a challenge, you may return this card to your hand.	50	f	12	4	2	47	TFC-050	6	1	5	5	\N	f	https://lorcana-api.com/images/marshmallow/persistent_guardian/marshmallow-persistent_guardian-large.png	1	f	f	f
+663	Mickey Mouse - Wayward Sorcerer	He always goes for the clean sweep.	Animate Broom - You pay 1 {i} less to play Broom characters.\n\nCeaseless Worker - Whenever one of your Broom characters is banished in a challenge, you may return that card to your hand.	51	t	12	4	2	47	TFC-051	4	2	3	4	\N	f	https://lorcana-api.com/images/mickey_mouse/wayward_sorcerer/mickey_mouse-wayward_sorcerer-large.png	1	f	f	f
+664	Olaf - Friendly Snowman	I'm Olaf and I like warm hugs!	\N	52	t	12	2	2	47	TFC-052	1	1	1	3	\N	f	https://lorcana-api.com/images/olaf/friendly_snowman/olaf-friendly_snowman-large.png	1	f	f	f
+665	Pascal - Rapunzel's Companion	A true friend is always there for you, whether you can see them or not.	Camouflage -  While you have another character in play, this character gains Evasive. (Only characters with Evasive can challenge them.)	53	t	12	2	2	47	TFC-053	1	1	1	1	\N	f	https://lorcana-api.com/images/pascal/rapunzel's_companion/pascal-rapunzel's_companion-large.png	1	f	f	f
+666	Rafiki - Mysterious Sage	The past can hurt. But the way I see it, you can either run from it or learn from it.	Rush (This character can challenge the turn they're played.) 	54	f	12	2	2	47	TFC-054	3	1	3	3	\N	f	https://lorcana-api.com/images/rafiki/mysterious_sage/rafiki-mysterious_sage-large.png	1	f	f	f
+667	Sven - Official Ice Deliverer	Reindeer comin' through! \n- Kristoff	\N	55	t	12	2	2	47	TFC-055	6	1	5	7	\N	f	https://lorcana-api.com/images/sven/official_ice_deliverer/sven-official_ice_deliverer-large.png	1	f	f	f
+670	Tinker Bell - Peter Pan's Ally	\N	Evasive (Only characters with Evasive can challenge this character.) \r \r Loyal and Devoted - Your characters named Peter Pan gain Challenger +1.	58	f	12	1	2	47	TFC-058	5	2	3	3	\N	f	https://lorcana-api.com/images/tinker_bell/peter_pan's_ally/tinker_bell-peter_pan's_ally-large.png	1	f	f	f
+668	The Queen - Wicked and Vain	Sublime beauty matched with peerless cunning. Is there any question who is fairest?	I Summon Thee - {e} - Draw a card.	56	t	12	4	2	47	TFC-056	5	1	4	5	\N	f	https://lorcana-api.com/images/the_queen/wicked_and_vain/the_queen-wicked_and_vain-large.png	1	f	f	f
+669	The Wardrobe - Belle's Confidant	When you simply must have the hautest couture.	\N	57	t	12	1	2	47	TFC-057	3	1	3	4	\N	f	https://lorcana-api.com/images/the_wardrobe/belle's_confidant/the_wardrobe-belle's_confidant-large.png	1	f	f	f
+671	Ursula - Power Hungry	The first rule of Villainy: If you're going to be evil, you've got to have style.	It's Too Easy! - When you play this character, each opponent loses 1 lore. You may draw a card for each 1 lore lost this way.	59	f	12	5	2	47	TFC-059	7	3	2	8	\N	f	https://lorcana-api.com/images/ursula/power_hungry/ursula-power_hungry-large.png	1	f	f	f
+672	Yzma - Alchemist	When I want your opinion, I will give it to you!	You're Excused - Whenever this character quests, look at the top card of your deck. Put it on either the top or the bottom of your deck	60	t	12	1	2	47	TFC-060	2	1	2	2	\N	f	https://lorcana-api.com/images/yzma/alchemist/yzma-alchemist-large.png	1	f	f	f
+673	Zeus - God of Lightning	A little lightning solves a whole lot of problems.	Rush (This character can challenge the turn they're played.) \n\nChallenger +4 (While challenging, this character get +4 {s}.) 	61	f	12	3	2	47	TFC-061	4	2	\N	4	\N	f	https://lorcana-api.com/images/zeus/god_of_lightning/zeus-god_of_lightning-large.png	1	f	f	f
+674	Befuddle	Never be afraid to have your mind boggled now and then.	Return a character or item with cost 2 or less to their player's hand.	62	t	12	2	2	47	TFC-062	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/befuddle/befuddle-large.png	2	f	f	f
+675	Freeze	It's time for you to chill.	Exert chosen opposing character.	63	f	12	1	2	47	TFC-063	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/freeze/freeze-large.png	2	f	f	f
+676	Friends On The Other Side	The cards, the cards\nthe cards will tell . . .	(A character with cost 3 or more can {e} to sing this song for free.)\n\nDraw 2 Cards	64	t	12	1	2	47	TFC-064	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/friends_on_the_other_side/friends_on_the_other_side-large.png	3	f	f	f
+677	Reflection	When will my reflection show\nWho I am inside?	(A character with cost 1 or more can {e} to sing this song for free.)\n\nLook at the top 3 cards of your deck. Put them back on the top of your deck in any order.	65	t	12	2	2	47	TFC-065	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/reflection/reflection-large.png	3	f	f	f
+678	Magic Mirror	What wouldst thou know, my Queen?	Speak! - {e}, 4 {i} - Draw a card.	66	f	12	3	2	47	TFC-066	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/magic_mirror/magic_mirror-large.png	4	f	f	f
+679	Ursula's Cauldron	Perfect for mixing potions and stealing voices.	Peer Into The Depths - {e} - Look at the top 2 cards of your deck. Put one on the top of your deck and the other on the bottom.	67	f	12	2	2	47	TFC-067	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/ursula's_cauldron/ursula's_cauldron-large.png	4	f	f	f
+680	White Rabbit's Pocket Watch	No wonder you're late. Why, this watch is exactly two days slow. - The Mad Hatter	I'm Late! - {e}, 1{i} - Chosen character gains Rush this turn. (They can challenge the turn they're played.)	68	t	12	3	2	47	TFC-068	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/white_rabbit's_pocket_watch/white_rabbit's_pocket_watch-large.png	4	f	f	f
+684	Cruella De Vil - Miserable as Usual	When she stops by, misery is company.	You'll Be Sorry! - When this character is challenged and banished, you may return chosen character to their player's hand.	72	t	12	3	3	47	TFC-072	2	1	1	3	\N	f	https://lorcana-api.com/images/cruella_de_vil/miserable_as_usual/cruella_de_vil-miserable_as_usual-large.png	1	f	f	f
+685	Duke Of Weselton - Opportunistic Official	Sorcery! I knew there was something dubious going on here.	\N	73	t	12	1	3	47	TFC-073	1	1	2	2	\N	f	https://lorcana-api.com/images/duke_of_weselton/opportunistic_official/duke_of_weselton-opportunistic_official-large.png	1	f	f	f
+686	Flynn Rider - Charming Rogue	I didn't want to have to do this, but you leave me no choice. . . .	Here Comes The Smolder - Whenever this character is challenged, the challenging player chooses and discards a card.	74	t	12	2	3	47	TFC-074	2	2	1	2	\N	f	https://lorcana-api.com/images/flynn_rider/charming_rogue/flynn_rider-charming_rogue-large.png	1	f	f	f
+687	Genie - On the Job	Can your friends go 'Abracadabra, let 'er rip' and then make the sucker disappear?	Evasive (Only characters with Evasive can challenge this character.) \n\nDisappear - When you play this character, you may return chosen character to their player's hand.	75	f	12	4	3	47	TFC-075	6	2	3	4	\N	f	https://lorcana-api.com/images/genie/on_the_job/genie-on_the_job-large.png	1	f	f	f
+688	Genie - Powers Unleashed	\N	Shift 6 (You may pay 6 {i} to play this on top of one of your characters named Genie.) \n\nEvasive (Only characters with Evasive can challenge this character.) \n\nPhenomenal Cosmic Power! - Whenever this character quests, you may play an action with cost 5 or less for free.	76	f	12	3	3	47	TFC-076	8	3	3	5	\N	f	https://lorcana-api.com/images/genie/powers_unleashed/genie-powers_unleashed-large.png	1	f	f	f
+692	Iago - Loud-Mouthed Parrot	\N	You Got A Problem? - {e} - Chosen character gains Reckless during their next turn. (They can't quest and must challenge if able.)	80	t	12	3	3	47	TFC-080	3	1	1	4	\N	f	https://lorcana-api.com/images/iago/loud-mouthed_parrot/iago-loud-mouthed_parrot-large.png	1	f	f	f
+689	Genie - The Ever Impressive	You can wish for nearly anything! Do you want the short version, or should I give you the whole song and dance?	\N	77	t	12	1	3	47	TFC-077	2	1	2	3	\N	f	https://lorcana-api.com/images/genie/the_ever_impressive/genie-the_ever_impressive-large.png	1	f	f	f
+690	Hans - Scheming Prince	Rules are like older siblings. All they do is get in the way.	\N	78	t	12	3	3	47	TFC-078	4	3	3	3	\N	f	https://lorcana-api.com/images/hans/scheming_prince/hans-scheming_prince-large.png	1	f	f	f
+691	Horace - No-Good Scoundrel	Well, they ain't in here, Jasper.	\N	79	t	12	1	3	47	TFC-079	3	1	4	3	\N	f	https://lorcana-api.com/images/horace/no-good_scoundrel/horace-no-good_scoundrel-large.png	1	f	f	f
+693	Jasper - Common Crook	Now, look here, Horace, I warned you about thinkin'.	Puppynapping - Whenever this character quests, chosen opposing character can't quest during their next turn.	81	t	12	2	3	47	TFC-081	3	1	2	4	\N	f	https://lorcana-api.com/images/jasper/common_crook/jasper-common_crook-large.png	1	f	f	f
+698	Mad Hatter - Gracious Host	Mad Hatter: Would you like a little more tea? \nAlice: I haven't had any yet, so I can't very well take more.	Tea Party - Whenever this character is challenged, you may draw a card.	86	t	12	2	3	47	TFC-086	5	3	2	4	\N	f	https://lorcana-api.com/images/mad_hatter/gracious_host/mad_hatter-gracious_host-large.png	1	f	f	f
+716	Aladdin - Heroic Outlaw	\N	Shift 5 (You may pay 5 {i} to play this on top of one of your characters named Aladdin.) \r \r Daring Exploit - During your turn, whenever this character banishes another character in a challenge, you gain 2 lore and each opponent loses 2 lore.	104	t	12	4	4	47	TFC-104	7	2	5	5	\N	f	https://lorcana-api.com/images/aladdin/heroic_outlaw/aladdin-heroic_outlaw-large.png	1	f	f	f
+717	Aladdin - Street Rat	It can be hard to tell the difference between a diamond in the rough and someone who's just, well, rough.	Improvise - When you play this character, each opponent loses 1 lore.	105	t	12	1	4	47	TFC-105	3	1	2	2	\N	f	https://lorcana-api.com/images/aladdin/street_rat/aladdin-street_rat-large.png	1	f	f	f
+718	Captain - Colonel's Lieutenant	Barking signal. It's an alert. Report to the Colonel at once!	\N	106	t	12	2	4	47	TFC-106	5	1	6	5	\N	f	https://lorcana-api.com/images/captain/colonel's_lieutenant/captain-colonel's_lieutenant-large.png	1	f	f	f
+719	Captain Hook - Ruthless Pirate	You wouldn't dare fight old hook man-to-man!	Rush (This character can challenge the turn they're played.) \n\nYou Coward! - While this character is exerted, opposing characters with Evasive gain Reckless. (They can't quest and must challenge if able.)	107	f	12	3	4	47	TFC-107	7	2	5	5	\N	f	https://lorcana-api.com/images/captain_hook/ruthless_pirate/captain_hook-ruthless_pirate-large.png	1	f	f	f
+720	Donald Duck - Boisterous Fowl	Who you callin' boisterous, buster?	\N	108	t	12	2	4	47	TFC-108	2	1	2	3	\N	f	https://lorcana-api.com/images/donald_duck/boisterous_fowl/donald_duck-boisterous_fowl-large.png	1	f	f	f
+721	Elsa - Ice Surfer	My sister has always been there for me. I need to be there for her.	That's No Blizzard! - Whenever you play a character named Anna, ready this character. This character can't quest for the rest of this turn.	109	t	12	1	4	47	TFC-109	4	1	3	4	\N	f	https://lorcana-api.com/images/elsa/ice_surfer/elsa-ice_surfer-large.png	1	f	f	f
+722	Gaston - Arrogant Hunter	It's not arrogance when you really are the best.	Reckless (This character can't quest and must challenge each turn if able.) 	110	t	12	1	4	47	TFC-110	2	\N	4	2	\N	f	https://lorcana-api.com/images/gaston/arrogant_hunter/gaston-arrogant_hunter-large.png	1	f	f	f
+723	Goofy - Daredevil	Sometimes you gotta give it the ol' jump and hyuck.	Evasive (Only characters with Evasive can challenge this character.)	111	t	12	1	4	47	TFC-111	5	2	3	4	\N	f	https://lorcana-api.com/images/goofy/daredevil/goofy-daredevil-large.png	1	f	f	f
+724	Lefou - Instigator	All a mob needs is a push in the wrong direction.	Fan The Flames - When you play this character, ready chosen character. They can't quest for the rest of this turn.	112	t	12	3	4	47	TFC-112	2	1	2	2	\N	f	https://lorcana-api.com/images/lefou/instigator/lefou-instigator-large.png	1	f	f	f
+725	Maleficent - Monstrous Dragon	The ninth Rule of Villainy: When all else fails, turn into a dragon.	Dragon Fire - When you play this character, you may banish chosen character.	113	t	12	5	4	47	TFC-113	9	2	7	5	\N	f	https://lorcana-api.com/images/maleficent/monstrous_dragon/maleficent-monstrous_dragon-large.png	1	f	f	f
+726	Maui - Hero to All	What I believe you were trying to say is 'Thank you.'	Rush (This character can challenge the turn they're played.) \n\nReckless (This character can't quest and must challenge each turn if able.) 	114	t	12	3	4	47	TFC-114	5	\N	6	5	\N	f	https://lorcana-api.com/images/maui/hero_to_all/maui-hero_to_all-large.png	1	f	f	f
+730	Mulan - Imperial Soldier	\N	Lead By Example - During your turn, whenever this character banishes another character in a challenge, your other characters get +1 {l} this turn.	118	t	12	4	4	47	TFC-118	5	1	4	5	\N	f	https://lorcana-api.com/images/mulan/imperial_soldier/mulan-imperial_soldier-large.png	1	f	f	f
+727	Mickey Mouse - Brave Little Tailor	When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through shear determination.	Evasive (Only characters with Evasive can challenge this character.)	115	t	12	5	4	47	TFC-115	8	4	5	5	\N	f	https://lorcana-api.com/images/mickey_mouse/brave_little_tailor/mickey_mouse-brave_little_tailor-large.png	1	f	f	f
+728	Minnie Mouse - Always Classy	Her fashion sense is always spot on.	\N	116	t	12	1	4	47	TFC-116	1	1	1	3	\N	f	https://lorcana-api.com/images/minnie_mouse/always_classy/minnie_mouse-always_classy-large.png	1	f	f	f
+729	Moana - Chosen by the Ocean	You know who you are.	This Is Not Who You Are - When you play this character, you may banish chosen character named Te Ka.	117	t	12	2	4	47	TFC-117	5	2	2	6	\N	f	https://lorcana-api.com/images/moana/chosen_by_the_ocean/moana-chosen_by_the_ocean-large.png	1	f	f	f
+731	Peter Pan - Fearless Fighter	Nobody calls Pan a coward and lives! I'll fight you man-to-man, with one hand behind my back.	Rush (This character can challenge the turn they're played.) 	119	f	12	1	4	47	TFC-119	3	1	3	2	\N	f	https://lorcana-api.com/images/peter_pan/fearless_fighter/peter_pan-fearless_fighter-large.png	1	f	f	f
+732	Pongo - Ol' Rascal	At first I had no particular plan, just anything to attract attention. You know, stir things up a bit.	Evasive (Only characters with Evasive can challenge this character.) 	120	t	12	1	4	47	TFC-120	4	2	2	3	\N	f	https://lorcana-api.com/images/pongo/ol'_rascal/pongo-ol'_rascal-large.png	1	f	f	f
+733	Rapunzel - Letting Down Her Hair	Who are you? And how did you find me?	Tangle - When you play this character, each opponent loses 1 lore.	121	f	12	2	4	47	TFC-121	6	2	5	4	\N	f	https://lorcana-api.com/images/rapunzel/letting_down_her_hair/rapunzel-letting_down_her_hair-large.png	1	f	f	f
+734	Scar - Fiery Usurper	Consumed by the flames of ambition.	\N	122	t	12	1	4	47	TFC-122	4	1	5	3	\N	f	https://lorcana-api.com/images/scar/fiery_usurper/scar-fiery_usurper-large.png	1	f	f	f
+735	Scar - Shameless Firebrand	The time has come to take what is ours!	Shift 6 (You may pay 6 {i} to play this on top of one of your characters named Scar.) \n\nRousing Speech - When you play this character, ready your characters with cost 3 or less. They can't quest for the rest of this turn.	123	f	12	3	4	47	TFC-123	8	1	6	6	\N	f	https://lorcana-api.com/images/scar/shameless_firebrand/scar-shameless_firebrand-large.png	1	f	f	f
+736	Sergeant Tibbs - Courageous Cat	Yes, sir. Righto, sir. Right away, sir!	\N	124	t	12	1	4	47	TFC-124	1	1	2	2	\N	f	https://lorcana-api.com/images/sergeant_tibbs/courageous_cat/sergeant_tibbs-courageous_cat-large.png	1	f	f	f
+803	Starkey - Hook's Henchman	A pirate must be tough, loyal, and strong. Smart doesn't even make the list.	Aye Aye, Captain - While you have a Captain character in play, this character gets +1 {l}.	191	t	12	2	6	47	TFC-191	5	1	5	4	\N	f	https://lorcana-api.com/images/starkey/hook's_henchman/starkey-hook's_henchman-large.png	1	f	f	f
+808	Break	No one throws a tantrum like a beast.	Banish chosen item.	196	t	12	1	6	47	TFC-196	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/break/break-large.png	2	f	f	f
+737	Stitch - Abomination	His destructive programming is taking effect. He will be irresistibly drawn to large cities, where he will back up sewers, reverse street signs, and steal everyone's left shoe. \n-Jumba Jookiba	\N	125	t	12	3	4	47	TFC-125	6	3	4	6	\N	f	https://lorcana-api.com/images/stitch/abomination/stitch-abomination-large.png	1	f	f	f
+738	Te Ka - The Burning One	She burns for that which was stolen from her.	Reckless (This character can't quest and must challenge each turn if able.) 	126	f	12	4	4	47	TFC-126	6	\N	8	6	\N	f	https://lorcana-api.com/images/te_ka/the_burning_one/te_ka-the_burning_one-large.png	1	f	f	f
+739	Tigger - Wonderful Thing	I'm the bounciest bouncer that ever bounced!	Evasive (Only characters with Evasive can challenge this character.) 	127	t	12	2	4	47	TFC-127	6	2	4	4	\N	f	https://lorcana-api.com/images/tigger/wonderful_thing/tigger-wonderful_thing-large.png	1	f	f	f
+740	Be Prepared	Our teeth and ambitions are bared!	(A character with cost 7 or more can {e} to sing this song for free.)\n\nBanish all Characters.	128	f	12	3	4	47	TFC-128	7	\N	\N	\N	\N	f	https://lorcana-api.com/images/be_prepared/be_prepared-large.png	3	f	f	f
+741	Cut To The Chase	Surprise!	Chosen character gains Rush this turn. (They can challenge the turn they're played.)	129	t	12	2	4	47	TFC-129	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/cut_to_the_chase/cut_to_the_chase-large.png	2	f	f	f
+742	Dragon Fire	Rare is the hero who can withstand a dragon's wrath.	Banish chosen character	130	f	12	2	4	47	TFC-130	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/dragon_fire/dragon_fire-large.png	2	f	f	f
+743	Fan The Flames	Pretty words can move a crowd, but so can ugly ones.	Ready chosen character. They can't quest for the rest of this turn.	131	t	12	2	4	47	TFC-131	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/fan_the_flames/fan_the_flames-large.png	2	f	f	f
+744	He's Got A Sword!	We've all got swords! \n-Razoul	Chosen Character gets +2 {s} this turn.	132	t	12	1	4	47	TFC-132	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/he's_got_a_sword!/he's_got_a_sword!-large.png	2	f	f	f
+745	Tangle	Stay right there! I mean, you don't have a choice, I guess. But still! Don't move! \n-Rapunzel	Each opponent loses 1 lore.	133	t	12	1	4	47	TFC-133	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/tangle/tangle-large.png	2	f	f	f
+749	Ariel - Whoseit Collector	You want thingamabobs? I got twenty.	Look At This Stuff - Whenever you play an item, you may ready this character.	137	f	12	3	5	47	TFC-137	4	1	3	3	\N	f	https://lorcana-api.com/images/ariel/whoseit_collector/ariel-whoseit_collector-large.png	1	f	f	f
+750	Aurora - Briar Rose	There was something strange about that voice. Too beautiful to be real . . .\n-Prince Phillip	Disarming Beauty - When you play this character, chosen character gets -2 {s} this turn.	138	t	12	1	5	47	TFC-138	4	1	2	5	\N	f	https://lorcana-api.com/images/aurora/briar_rose/aurora-briar_rose-large.png	1	f	f	f
+751	Aurora - Dreaming Guardian	As the princess slumbered, her power awoke.	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Aurora.) \r \r Protective Embrace - Your other characters gain Ward. (Opponents can't choose them except to challenge.)	139	t	12	4	5	47	TFC-139	5	2	3	5	\N	f	https://lorcana-api.com/images/aurora/dreaming_gaurdian/aurora-dreaming_gaurdian-large.png	1	f	f	f
+752	Aurora - Regal Princess	They say if you dream a thing more than once, it's sure to come true!	\N	140	t	12	2	5	47	TFC-140	2	2	2	2	\N	f	https://lorcana-api.com/images/aurora/regal_princess/aurora-regal_princess-large.png	1	f	f	f
+753	Belle - Inventive Engineer	A little ingenuity and a lot of heart will take you far in this world.	Tinker - Whenever this character quests, you pay 1 {i} less for the next item you play this turn.	141	t	12	2	5	47	TFC-141	3	2	2	3	\N	f	https://lorcana-api.com/images/belle/inventive_engineer/belle-inventive_engineer-large.png	1	f	f	f
+754	Belle - Strange but special	Far-off places, daring sword fights, magic spells, a prince in disguise . . .	Read A Book - During your turn, you may put an additional card from your hand into your inkwell facedown.\n\nMy Favorite Part! - While you have 10 or more cards in your inkwell, this character gets +4 {l}.	142	t	12	5	5	47	TFC-142	4	1	2	4	\N	f	https://lorcana-api.com/images/belle/strange_but_special/belle-strange_but_special-large.png	1	f	f	f
+755	Chief Tui - Respected Leader	You can always rely on the strength of those who love you.	Support (Whenever this character quests, you may add their {s} to another chosen character‘s {s} this turn.) 	143	t	12	2	5	47	TFC-143	7	3	3	6	\N	f	https://lorcana-api.com/images/chief_tui/respected_leader/chief_tui-respected_leader-large.png	1	f	f	f
+756	Donald Duck - Strutting His Stuff	Walk smarter, not harder.	Ward (Opponents can't choose this character except to challenge.) 	144	t	12	1	5	47	TFC-144	5	2	4	3	\N	f	https://lorcana-api.com/images/donald_duck/strutting_his_stuff/donald_duck-strutting_his_stuff-large.png	1	f	f	f
+757	Flounder - Voice Of Reason	Excitement . . . adventure . . . danger lurking around every cor- AAAAAGGH!	\N	145	t	12	1	5	47	TFC-145	1	1	2	2	\N	f	https://lorcana-api.com/images/flounder/voice_of_reason/flounder-voice_of_reason-large.png	1	f	f	f
+758	Gramma Tala - Storyteller	Moana: Is there something you want to tell me? \nGramma Tala: Is there something you want to hear?	I Will Be With You - When this character is banished, you may put this card into your inkwell facedown and exerted.	146	t	12	2	5	47	TFC-146	2	1	1	1	\N	f	https://lorcana-api.com/images/gramma_tala/storyteller/gramma_tala-storyteller-large.png	1	f	f	f
+761	Jasmine - Queen Of Agrabah	\N	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Jasmine.) \n\nCaretaker - When you play this character and whenever she quests, you may remove up to 2 damage from each of your characters.	149	t	12	3	5	47	TFC-149	5	2	2	5	\N	f	https://lorcana-api.com/images/jasmine/queen_of_agrabah/jasmine-queen_of_agrabah-large.png	1	f	f	f
+764	Maurice - World-Famous Inventor	\N	Give It A Try - Whenever this character quests, you pay 2 {i} less for the next item you play this turn.\n\nIt Works! - Whenever you play an item, you may draw a card.	152	t	12	3	5	47	TFC-152	6	2	2	7	\N	f	https://lorcana-api.com/images/maurice/world-famous_inventor/maurice-world-famous_inventor-large.png	1	f	f	f
+759	Hades - Infernal Schemer	He's gotta have a weakness, because everybody's got a weakness.	Is There A Downside To This? - When you play this character, you may put chosen opposing character into their player's inkwell facedown.	147	f	12	5	5	47	TFC-147	7	2	3	6	\N	f	https://lorcana-api.com/images/hades/infernal_schemer/hades-infernal_schemer-large.png	1	f	f	f
+760	Jasmine - Disguised	Try to understand. I've never done a thing on my own. I've never had any real friends. . . . I've never even been outside the palace walls.	\N	148	t	12	1	5	47	TFC-148	3	2	3	3	\N	f	https://lorcana-api.com/images/jasmine/disguised/jasmine-disguised-large.png	1	f	f	f
+762	Maleficent - Sinister Visitor	The princess shall indeed grow in grace and beauty, beloved by all who know her. But before the sun sets on her sixteenth birthday, she shall prick her finger on the spindle of a spinning wheel. . . .	\N	150	t	12	1	5	47	TFC-150	4	2	3	4	\N	f	https://lorcana-api.com/images/maleficent/sinister_visitor/maleficent-sinister_visitor-large.png	1	f	f	f
+763	Maleficent - Uninvited	She had no invitation-and needed no introduction.	\N	151	t	12	3	5	47	TFC-151	5	3	3	6	\N	f	https://lorcana-api.com/images/maleficent/uninvited/maleficent-uninvited-large.png	1	f	f	f
+765	Merlin - Self-Appointed Mentor	What a mess! What a medieval muddle! We'll have to modernize it.	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	153	t	12	1	5	47	TFC-153	4	1	3	4	\N	f	https://lorcana-api.com/images/merlin/self-appointed_mentor/merlin-self-appointed_mentor-large.png	1	f	f	f
+766	Mickey Mouse - Detective	Wherever the seaweed had come from, Mickey was sure of one thing: something fishy was going on.	Get A Clue - When you play this character, you may put the top card of your deck into your inkwell facedown and exerted.	154	f	12	1	5	47	TFC-154	3	1	1	3	\N	f	https://lorcana-api.com/images/mickey_mouse/detective/mickey_mouse-detective-large.png	1	f	f	f
+767	Mufasa - King of the Pride Lands	A king must care for all of the creatures in his kingdom, no matter their size.	\N	155	t	12	1	5	47	TFC-155	6	3	4	6	\N	f	https://lorcana-api.com/images/mufasa/king_of_the_pride_lands/mufasa-king_of_the_pride_lands-large.png	1	f	f	f
+768	Philoctetes - Trainer of Heroes	Ya gotta be the best to train the best. And I train the best!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	156	t	12	1	5	47	TFC-156	2	1	3	1	\N	f	https://lorcana-api.com/images/philoctetes/trainer_of_heroes/philoctetes-trainer_of_heroes-large.png	1	f	f	f
+769	Robin Hood - Unrivaled Archer	We never rob. We just sort of borrow a bit from those who can afford it.	Feed The Poor - When you play this character, if an opponent has more cards in their hand than you, draw a card.\r \r Good Shot - During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	157	t	12	4	5	47	TFC-157	6	2	4	4	\N	f	https://lorcana-api.com/images/robin_hood/unrivaled_archer/robin_hood-unrivaled_archer-large.png	1	f	f	f
+770	Scar - Mastermind	The best plans involve a little danger. Just not for me.	Insidious Plot - When you play this character, chosen opposing character gets -5 {s} this turn.	158	t	12	3	5	47	TFC-158	6	2	5	4	\N	f	https://lorcana-api.com/images/scar/mastermind/scar-mastermind-large.png	1	f	f	f
+771	Tamatoa - So Shiny!	Watch me dazzle like a diamond in the rough!	What Have We Here? - When you play this character and whenever he quests, you may return an item card from your discard to your hand.\n\nGlam - This character gets +1 {l} for each item you have in play.	159	t	12	4	5	47	TFC-159	8	1	5	8	\N	f	https://lorcana-api.com/images/tamatoa/so_shiny!/tamatoa-so_shiny!-large.png	1	f	f	f
+772	Triton - The Sea King	Isn't 'Because I said so' enough of a reason?	\N	160	t	12	2	5	47	TFC-160	7	2	5	9	\N	f	https://lorcana-api.com/images/triton/the_sea_king/triton-the_sea_king-large.png	1	f	f	f
+773	Develop Your Brain	Knowledge, wisdom-there's the real power! \n-Merlin	Look at the top 2 cards of your deck. Put one into your hand and the other on the bottom of the deck.	161	t	12	1	5	47	TFC-161	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/develop_your_brain/develop_your_brain-large.png	2	f	f	f
+774	If It's Not Baroque	. . . Don't fix it.	Return an item card from your discard to your hand.	162	f	12	3	5	47	TFC-162	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/if_it's_not_baroque/if_it's_not_baroque-large.png	2	f	f	f
+775	Let It Go	It's time to see what I can do \nTo test the limits and break through	(A character with cost 5 or more can {e} to sing this song for free.)\n\nPut chosen character into their player's inkwell facedown and exerted.	163	t	12	3	5	47	TFC-163	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/let_it_go/let_it_go-large.png	3	f	f	f
+782	Scepter Of Arendelle	\N	Command - {e}- Chosen character gains Support this turn. (Whenever they quest, you may add their {s} to another chosen character's {s} this turn.)	170	t	12	2	5	47	TFC-170	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/scepter_of_arendelle/scepter_of_arendelle-large.png	4	f	f	f
+781	Magic Golden Flower	Once upon a time, a single drop of sunlight fell from the heavens. . . . \n-Flynn Rider	Healing Pollen - Banish this item - Remove up to 3 damage from chosen character.	169	t	12	1	5	47	TFC-169	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/magic_golden_flower/magic_golden_flower-large.png	4	f	f	f
+783	Aladdin - Cornered Swordsman	Oh ho! So the street rat found a sword and a backbone! \n-Razoul	\N	171	t	12	1	6	47	TFC-171	2	2	2	1	\N	f	https://lorcana-api.com/images/aladdin/cornered_swordsman/aladdin-cornered_swordsman-large.png	1	f	f	f
+784	Beast - Hardheaded	She'll never see me as anything . . . but a monster.	Break - When you play this character, you may banish chosen item.	172	t	12	2	6	47	TFC-172	5	2	4	4	\N	f	https://lorcana-api.com/images/beast/hardheaded/beast-hardheaded-large.png	1	f	f	f
+785	Captain Hook - Captain of the Jolly Roger	A pretty sight, Mr. Smee. We'll pot 'em like sitting ducks.	Double The Powder - When you play this character, you may return an action card named Fire the Cannons! from your discard to your hand.	173	f	12	3	6	47	TFC-173	4	1	3	4	\N	f	https://lorcana-api.com/images/captain_hook/captain_of_the_jolly_roger/captain_hook-captain_of_the_jolly_roger-large.png	1	f	f	f
+786	Captain Hook - Forceful Duelist	He loves to make light of a foe's predicament	Challenger +2 (When challenging, this character gets +2 {s}.) 	174	t	12	1	6	47	TFC-174	1	1	1	2	\N	f	https://lorcana-api.com/images/captain_hook/forceful_duelist/captain_hook-forceful_duelist-large.png	1	f	f	f
+787	Captain Hook - Thinking a Happy Thought	\N	Shift 3 (You may pay 3 {i} to play this on top of one of your characters named Captain Hook.) \n\nChallenger +3 When challenging, this character get +3 {s}.) \n\nStolen Dust - Characters with cost 3 or less can't challenge this character.	175	f	12	3	6	47	TFC-175	5	1	2	5	\N	f	https://lorcana-api.com/images/captain_hook/thinking_a_happy_thought/captain_hook-thinking_a_happy_thought-large.png	1	f	f	f
+789	Donald Duck - Musketeer	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.) \n\nStay Alert! - During your turn, your Musketeer characters gain Evasive. (They can challenge characters with Evasive.)	177	t	12	2	6	47	TFC-177	4	1	2	5	\N	f	https://lorcana-api.com/images/donald_duck/musketeer/donald_duck-musketeer-large.png	1	f	f	f
+788	Cerberus - Three-Headed Dog	Always vigilant. Always fierce. Always fighting for the ball.	\N	176	t	12	1	6	47	TFC-176	5	1	5	6	\N	f	https://lorcana-api.com/images/cerberus/three-headed_dog/cerberus-three-headed_dog-large.png	1	f	f	f
+790	Gantu - Galactic Federation Captain	Relax, enjoy the trip... and don't get any ideas!	Under Arrest - Characters with cost 2 or less can't challenge your characters.	178	t	12	5	6	47	TFC-178	8	2	6	6	\N	f	https://lorcana-api.com/images/gantu/galactic_federation_captain/gantu-galactic_federation_captain-large.png	1	f	f	f
+791	Goons - Maleficent's Underlings	They may be useless, but they came with the castle.	\N	179	t	12	1	6	47	TFC-179	1	1	2	2	\N	f	https://lorcana-api.com/images/goons/maleficent's_underlings/goons-maleficent's_underlings-large.png	1	f	f	f
+798	Mickey Mouse - Musketeer	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\n\nAll For One - Your other musketeer character get +1 {s}.	186	t	12	3	6	47	TFC-186	6	2	2	7	\N	f	https://lorcana-api.com/images/mickey_mouse/musketeer/mickey_mouse-musketeer-large.png	1	f	f	f
+792	Hans - Thirteenth in Line	Tired of being last, he decided to cut the line.	Stage A Little Accident - Whenever this character quests, you may deal 1 damage to chosen character.	180	t	12	4	6	47	TFC-180	4	2	3	3	\N	f	https://lorcana-api.com/images/hans/thirteenth_in_line/hans-thirteenth_in_line-large.png	1	f	f	f
+793	Hercules - True Hero	You gotta admit, that was pretty heroic.	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	181	t	12	1	6	47	TFC-181	3	1	3	3	\N	f	https://lorcana-api.com/images/hercules/true_hero/hercules-true_hero-large.png	1	f	f	f
+794	Kristoff - Offical Ice Master	Kristoff: You want to talk about a supply and demand problem? I sell ice for a living \nAnna: Ooh, that's a rough business to be in right now. I mean, that is really-ah, mm. That's unfortunate.	\N	182	t	12	1	6	47	TFC-182	3	2	3	3	\N	f	https://lorcana-api.com/images/kristoff/offical_ice_master/kristoff-offical_ice_master-large.png	1	f	f	f
+795	Kronk - Right-Hand Man	Oh yeah. It's all coming together!	\N	183	t	12	2	6	47	TFC-183	6	2	6	6	\N	f	https://lorcana-api.com/images/kronk/right-hand_man/kronk-right-hand_man-large.png	1	f	f	f
+796	Lilo - Galactic Hero	Space. That's where the aliens come from. And also tourists!	\N	184	t	12	2	6	47	TFC-184	3	2	4	2	\N	f	https://lorcana-api.com/images/lilo/galactic_hero/lilo-galactic_hero-large.png	1	f	f	f
+797	Maui - Demigod	When the gods gift you a boat, you take it. The boat's owner is optional.	\N	185	t	12	3	6	47	TFC-185	8	3	8	8	\N	f	https://lorcana-api.com/images/maui/demigod/maui-demigod-large.png	1	f	f	f
+804	Te Ka - Heartless	Maui: Ever defeat a lava monster? \nMoana: No, have you?	Seek The Heart - During your turn, whenever this character banishes another character in a challenge, you gain 2 lore.	192	t	12	5	6	47	TFC-192	6	2	5	5	\N	f	https://lorcana-api.com/images/te_ka/heartless/te_ka-heartless-large.png	1	f	f	f
+799	Prince Eric - Dashing and Brave	I lost her once! I'm not gonna lose her again!	Challenger +2 (When challenging, this character get +2 {s}.) 	187	t	12	1	6	47	TFC-187	2	1	1	3	\N	f	https://lorcana-api.com/images/prince_eric/dashing_and_brave/prince_eric-dashing_and_brave-large.png	1	f	f	f
+800	Simba - Future King	I'm gonna be the best king the Pride Lands have ever seen!	Guess What? - When you play this character, you may draw a card, then choose and discard a card.	188	t	12	1	6	47	TFC-188	1	1	1	2	\N	f	https://lorcana-api.com/images/simba/future_king/simba-future_king-large.png	1	f	f	f
+801	Simba - Returned King	I'll do whatever it takes to save my kingdom.	Challenger +4 (While challenging, this character gets +4 {s}.)\n\nPOUNCE: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	189	t	12	3	6	47	TFC-189	7	2	4	6	\N	f	https://lorcana-api.com/images/simba/returned_king/simba-returned_king-large.png	1	f	f	f
+802	Simba - Rightful Heir	I can't hide anymore. It's time to accept my destiny.	I Know What I Have To Do - During your turn, whenever this character banishes another character in a challenge, you gain 1 lore.	190	f	12	2	6	47	TFC-190	5	2	3	5	\N	f	https://lorcana-api.com/images/simba/rightful_heir/simba-rightful_heir-large.png	1	f	f	f
+805	Tinker Bell - Giant Fairy	\N	Shift 4 (You may pay 4 {i} to play this on top of one of your characters named Tinker Bell.) \n\nROCK THE BOAT: When you play this character, deal 1 damage to each opposing character.\n\nPuny Pirate! - During your turn, whenever this character banishes another character in a challenge, you may deal 2 damage to chosen opposing character.	193	t	12	4	6	47	TFC-193	6	2	4	5	\N	f	https://lorcana-api.com/images/tinker_bell/giant_fairy/tinker_bell-giant_fairy-large.png	1	f	f	f
+919	Beast - Wounded	It wasn't the severity of the wounds but the sickly substance that caused such unbearable pain.	That Hurts!: This character enters play with 4 damage.	103	t	13	2	4	79	URS-103	3	2	2	6	\N	f	https://lorcana-api.com/images/beast/wounded/beast-wounded-large.png	1	f	f	f
+923	Goofy - Super Goof	Never underestimate the power of a Goof.	Rush (This character can challenge the turn they're played.)\nSuper Peanut Powers: Whenever this character challenges another character, gain 2 lore.	107	t	13	3	4	77	URS-107	4	1	2	4	\N	f	https://lorcana-api.com/images/goofy/super_goof/goofy-super_goof-large.png	1	f	f	f
+927	Li Shang - General's Son	His training was unsurpassed, but it was his courage that would see him through this fight.	\N	111	t	13	1	4	81	URS-111	1	1	2	2	\N	f	https://lorcana-api.com/images/li_shang/general's_son/li_shang-general's_son-large.png	1	f	f	f
+928	Li Shang - Valorous General	\N	Shift: Discard a character card (You may discard a character card to play this on top of one of your characters name Li Shang.)\nLead the Charge: Your characters with 4{s} or more get +1{l}.	112	t	13	2	4	81	URS-112	3	1	3	2	\N	f	https://lorcana-api.com/images/li_shang/valorous_general/li_shang-valorous_general-large.png	1	f	f	f
+930	Mulan - Elite Archer	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Mulan.)\nStraight Shooter: When you play this character, if you used Shift to play her, she gets +3{s} this turn.\nTriple Shot: During your turn, whenever this character deals damage to another character in a challenge, deal the same amount of damage to up to 2 other chosen characters.	114	t	13	5	4	81	URS-114	6	2	2	6	\N	f	https://lorcana-api.com/images/mulan/elite_archer/mulan-elite_archer-large.png	1	f	f	f
+806	Tinker Bell - Tiny Tactician	Sometimes all you need is a little tactical genius.	Battle Plans - {e} - Draw a card, then choose and discard a card.	194	t	12	1	6	47	TFC-194	3	1	2	4	\N	f	https://lorcana-api.com/images/tinker_bell/tiny_tactician/tinker_bell-tiny_tactician-large.png	1	f	f	f
+807	A Whole New World	Shining, shimmering, splendid . . .	(A character with cost 5 or more can {e} to sing this song for free.)\n\nEach player discards their hand and draws 7 cards.	195	f	12	4	6	47	TFC-195	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/a_whole_new_world/a_whole_new_world-large.png	3	f	f	f
+920	Benja - Bold United	We must work together to heal the entangled.	\N	104	t	13	1	4	75	URS-104	4	1	5	3	\N	f	https://lorcana-api.com/images/benja/bold_united/benja-bold_united-large.png	1	f	f	f
+924	Hercules - Clumsy Kid	Nice catch, Jerkules.\n-Village boy	Rush (This character can challenge the turn they're played.)\n	108	f	13	1	4	73	URS-108	3	1	3	3	\N	f	https://lorcana-api.com/images/hercules/clumsy_kid/hercules-clumsy_kid-large.png	1	f	f	f
+932	Mulan - Injured Soldier	She'll never give up	Battle Wound - This character enters play with 2 damage.	116	t	13	1	4	81	URS-116	1	1	2	3	\N	f	https://lorcana-api.com/images/mulan/injured_soldier/mulan-injured_soldier-large.png	1	f	f	f
+925	Hercules - Daring Demigod	\N	Rush (This character can challenge the turn they're played.)\nReckless (This character can't quest and must challenge each turn if able.)	109	f	13	2	4	73	URS-109	5	\N	7	3	\N	f	https://lorcana-api.com/images/hercules/daring_demigod/hercules-daring_demigod-large.png	1	f	f	f
+809	Fire The Cannons!	Captain Hook: Double the powder and shorten the fuse! \nMr. Smee: Shorten the powder and double the fuse!	Deal 2 damage to chosen character.	197	f	12	1	6	47	TFC-197	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/fire_the_cannons!/fire_the_cannons!-large.png	2	f	f	f
+811	Ransack	Who has time to read labels?	Draw 2 cards, then choose and discard 2 cards.	199	t	12	2	6	47	TFC-199	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/ransack/ransack-large.png	2	f	f	f
+812	Smash	Go away!	Deal 3 damage to chosen character.	200	t	12	2	6	47	TFC-200	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/smash/smash-large.png	2	f	f	f
+813	Beast's Mirror	Ashamed of his monstrous form, the Beast concealed himself inside his castle, with a magic mirror as his only window to the outside world.	Show Me - {e}, 3 {i} - If you have no cards in your hand, draw a card.	201	t	12	1	6	47	TFC-201	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/beast's_mirror/beast's_mirror-large.png	4	f	f	f
+814	Frying Pan	It's a fine piece of cookware, but as a weapon it's truly stunning.	Clang! - Banish this item - Chosen character can't challenge during their next turn.	202	t	12	2	6	47	TFC-202	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/frying_pan/frying_pan-large.png	4	f	f	f
+815	Musketeer Tabard	There's no such thing as a lone musketeer.	All For One And One For All - Whenever one of your characters with Bodyguard is banished, you may draw a card.	203	f	12	3	6	47	TFC-203	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/musketeer_tabard/musketeer_tabard-large.png	4	f	f	f
+816	Plasma Blaster	You don't have to say 'pew pew' when you use it, but it doesn't hurt. \n-Lilo, galactic hero	Quick Shot - {e}, 2 {i}: Deal 1 damage to chosen character.	204	f	12	3	6	47	TFC-204	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/plasma_blaster/plasma_blaster-large.png	4	f	f	f
+817	Agustin Madrigal - Clumsy Dad	Falling for Julieta was the easiest thing he'd ever done.	\N	1	t	13	1	1	55	URS-001	1	1	2	2	\N	f	https://lorcana-api.com/images/agustin_madrigal/clumsy_dad/agustin_madrigal-clumsy_dad-large.png	1	f	f	f
+818	Alma Madrigal - Family Matriarch	Let's be clear, Abuela runs this show.\n-Mirabel	To the Table - When you play this character, you may search your deck for a Madrigal character card and reveal that card to all players. Shuffle your deck and put that card on top of it.	2	f	13	3	1	55	URS-002	3	2	1	3	\N	f	https://lorcana-api.com/images/alma_madrigal/family_matriarch/alma_madrigal-family_matriarch-large.png	1	f	f	f
+819	Ariel - Singing Mermaid	Watch and you'll see-some day I'll be part of your world!	Singer 7 (This character counts as cost 7 to sing songs.)	3	t	13	3	1	76	URS-003	4	2	3	3	\N	f	https://lorcana-api.com/images/ariel/singing_mermaid/ariel-singing_mermaid-large.png	1	f	f	f
+820	Cinderella - Melody Weaver	\N	Singer 9 (This character counts as cost 9 to sing songs.)\nBeautiful Voice - Whenever this character sings a song, your other Princess characters get +1{l} this turn.	4	t	13	5	1	62	URS-004	5	2	1	5	\N	f	https://lorcana-api.com/images/cinderella/melody_weaver/cinderella-melody_weaver-large.png	1	f	f	f
+824	Donald Duck - Musketeer Soldier	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\nWait For Me! - When you play this character, chosen character gets +1{l} this turn.	8	t	13	2	1	78	URS-008	3	1	2	3	\N	f	https://lorcana-api.com/images/donald_duck/musketeer_soldier/donald_duck-musketeer_soldier-large.png	1	f	f	f
+821	Cogsworth - Majordomo	If it's a fight they want, we'll be ready for them.	As You Were! - Whenever this character quests, you may give chosen character -2{s} until the start of your next turn.	5	t	13	1	1	65	URS-005	4	1	3	3	\N	f	https://lorcana-api.com/images/cogsworth/majordomo/cogsworth-majordomo-large.png	1	f	f	f
+826	Gaston - Despicable Dealer	Yes, yes, everything will be ready. Just make sure you do your part.	Dubious Recruitment - {e}: You pay 2{i} less for the next character you play this turn.	10	f	13	4	1	79	URS-010	3	1	2	4	\N	f	https://lorcana-api.com/images/gaston/despicable_dealer/gaston-despicable_dealer-large.png	1	f	f	f
+827	Golden Harp - Enchanter of the Land	You'll miss her when she's gone.	Stolen Away - At the end of your turn, if you didn't play a song this turn, banish this character	11	t	13	3	1	77	URS-011	1	2	1	4	\N	f	https://lorcana-api.com/images/golden_harp/enchanter_of_the_land/golden_harp-enchanter_of_the_land-large.png	1	f	f	f
+828	Goofy - Musketeer Swordsman	Count me in!	En Gawrsh! - Whenever you play a character with Bodyguard, ready this character. He can't quest for the rest of this turn.	12	f	13	3	1	78	URS-012	4	2	3	4	\N	f	https://lorcana-api.com/images/goofy/musketeer_swordsman/goofy-musketeer_swordsman-large.png	1	f	f	f
+829	Julieta Madrigal - Excellent Cook	Eat this, mi amor.	Signature Recipe - When you play this character, you may remove up to 2 damage from chosen character. If you removed damage this way, you may draw a card.	13	t	13	2	1	55	URS-013	3	1	1	4	\N	f	https://lorcana-api.com/images/julieta_madrigal/excellent_cook/julieta_madrigal-excellent_cook-large.png	1	f	f	f
+830	Max - Loyal Sheepdog	\N	Here Boy - If you have a character named Prince Eric in play, you play 1{i} less to play this character.	14	t	13	1	1	76	URS-014	3	1	4	3	\N	f	https://lorcana-api.com/images/max/loyal_sheepdog/max-loyal_sheepdog-large.png	1	f	f	f
+831	Mickey Mouse - Leader of the Band	\N	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\nStrike Up the Music - When you play this character, chosen character gains Support this turn.	15	t	13	2	1	77	URS-015	4	1	2	5	\N	f	https://lorcana-api.com/images/mickey_mouse/leader_of_the_band/mickey_mouse-leader_of_the_band-large.png	1	f	f	f
+832	Mickey Mouse - Musketeer Captain	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Mickey Mouse.)\nBodyguard, Support\nMusketeers United - When you play this character, if you used Shift to play him, you may draw a card for each character with Bodyguard you have in play.	16	f	13	5	1	78	URS-016	7	2	3	6	\N	f	https://lorcana-api.com/images/mickey_mouse/musketeer_captain/mickey_mouse-musketeer_captain-large.png	1	f	f	f
+833	Minnie Mouse - Musketeer Champion	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)\nDramatic Entrance - When you play this character, banish chosen opposing character with 5{s} or more.	17	f	13	4	1	78	URS-017	5	2	1	5	\N	f	https://lorcana-api.com/images/minnie_mouse/musketeer_champion/minnie_mouse-musketeer_champion-large.png	1	f	f	f
+834	Mirabel Madrigal - Gift of the Family	\N	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\nSaving the Miracle - Whenever this character quests, your other Madrigal characters ger +1{l} this turn.	18	f	13	4	1	55	URS-018	5	2	3	5	\N	f	https://lorcana-api.com/images/mirabel_madrigal/gift_of_the_family/mirabel_madrigal-gift_of_the_family-large.png	1	f	f	f
+837	Prince Eric - Seafaring Prince	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	21	t	13	1	1	76	URS-021	3	1	3	3	\N	f	https://lorcana-api.com/images/prince_eric/seafaring_prince/prince_eric-seafaring_prince-large.png	1	f	f	f
+835	Mirabel Madrigal - Prophecy Finder	Why would Bruno break this prophecy? Could it be something dangerous? We have to find out!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	19	t	13	1	1	55	URS-019	2	1	2	2	\N	f	https://lorcana-api.com/images/mirabel_madrigal/prophecy_finder/mirabel_madrigal-prophecy_finder-large.png	1	f	f	f
+836	Pluto - Rescue Dog	When you need help, his is the first face you want to see.	To the Rescue - When you play this character, you may remove up to 3 damage from one of your characters.	20	t	13	1	1	77	URS-020	5	2	4	5	\N	f	https://lorcana-api.com/images/pluto/rescue_dog/pluto-rescue_dog-large.png	1	f	f	f
+838	Prince Eric - Ursula's Groom	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Prince Eric.)\nUnder Vanessa's Spell - While you have a character named Ursula in play, this character gains Bodyguard and gets +2{w}. (An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	22	t	13	2	1	76	URS-022	6	2	5	5	\N	f	https://lorcana-api.com/images/prince_eric/ursula's_groom/prince_eric-ursula's_groom-large.png	1	f	f	f
+840	Ursula - Eric's Bride	\N	Shift: Discard a song card (You may discard a song card to play this on top of one of your characters named Ursula.)\nVanessa's Design - Whenever this character quests, chosen opponent reveals their hand and discards a non-character card of your choice.	24	f	13	3	1	76	URS-024	4	2	2	4	\N	f	https://lorcana-api.com/images/ursula/eric's_bride/ursula-eric's_bride-large.png	1	f	f	f
+844	Look at this Family	\N	Sing Together 7 (Any number of your or your teammates' characters with total cost 7 or more may {e} to sing this song for free.)\nLook at the top 5 cards of your deck. You may reveal up to 2 character cards and put them into your hand. Put the rest on the bottom of your deck in any order.	28	t	13	3	1	55	URS-028	7	\N	\N	\N	\N	f	https://lorcana-api.com/images/look_at_this_family/look_at_this_family-large.png	3	f	f	f
+839	Stitch - Alien Dancer	Moving to the music, he begins to understand the true meaning of ohana and how he fits into the family he has found.	\N	23	t	13	1	1	52	URS-023	2	1	2	3	\N	f	https://lorcana-api.com/images/stitch/alien_dancer/stitch-alien_dancer-large.png	1	f	f	f
+841	Ursula - Vanessa	This magic will certainly do the trick.	Singer 4 (This character counts as cost 4 to sing songs.)	25	t	13	1	1	76	URS-025	2	1	1	4	\N	f	https://lorcana-api.com/images/ursula/vanessa/ursula-vanessa-large.png	1	f	f	f
+842	Bruno's Return	I feel like I missed something important.	Return a character card from your discard to your hand. Then remove up to 2 damage from chosen character.	26	f	13	2	1	55	URS-026	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/bruno's_return/bruno's_return-large.png	2	f	f	f
+843	First Aid	There, now-isn't that better?	Remove up to 1 damage from each of your characters.	27	t	13	1	1	77	URS-027	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/first_aid/first_aid-large.png	2	f	f	f
+846	Sign the Scroll	\N	Each opponent may choose and discard a card. For each opponent who doesn't, you gain 2 lore.	30	f	13	2	1	76	URS-030	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/sign_the_scroll/sign_the_scroll-large.png	2	f	f	f
+847	Miracle Candle	\N	Abuela's Gift - Banish this item: If you have 3 or more characters in play, gain 2 lore and remove up to 2 damage from chosen location.	31	t	13	3	1	55	URS-031	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/miracle_candle/miracle_candle-large.png	4	f	f	f
+848	Record Player	\N	Look at This! - Whenever you play a song, chosen character gets -2{s} until the start of your next turn.\nHit Parade - Your characters named Stitch count as having +1 cost to sing songs.	32	t	13	1	1	52	URS-032	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/record_player/record_player-large.png	4	f	f	f
+849	Atlantica - Concert Hall	\N	Underwater Acoustics - Characters count as having +2 cost to sing songs while here.	33	t	13	1	1	76	URS-033	1	\N	\N	6	\N	f	https://lorcana-api.com/images/atlantica/concert_hall/atlantica-concert_hall-large.png	5	f	f	f
+850	The Underworld - River Styx	\N	Save a Soul - Whenever a character quests while here, you may pay 3{i} to return a character card from your discard to your hand.	34	t	13	3	1	73	URS-034	2	1	\N	6	\N	f	https://lorcana-api.com/images/the_underworld/river_styx/the_underworld-river_styx-large.png	5	f	f	f
+845	Lost in the Woods	I'm left behind, wondering if I should follow.	(A character with cost X or more can {e} to sing this song for free.)\nAll opposing characters get -2{s} until the start of your next turn.	29	t	13	2	1	54	URS-029	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/lost_in_the_woods/lost_in_the_woods-large.png	3	f	f	f
+851	Antonio Madrigal - Animal Expert	Once upon a time, there was a casita in the mountains with a very special family. . . .	\N	35	t	13	2	2	55	URS-035	3	1	3	4	\N	f	https://lorcana-api.com/images/antonio_madrigal/animal_expert/antonio_madrigal-animal_expert-large.png	1	f	f	f
+854	Bruno Madrigal - Out of the Shadows	\N	It Was Your Vision - When you play this character, chosen character gains "When this character is banished in a challenge, you may return this card to your hand" this turn.	38	f	13	3	2	55	URS-038	5	1	4	5	\N	f	https://lorcana-api.com/images/bruno_madrigal/out_of_the_shadows/bruno_madrigal-out_of_the_shadows-large.png	1	f	f	f
+855	Bruno Madrigal - Undetected Uncle	\N	Evasive (Only characters with Evasive can challenge this character.)\nYou Just Have to See It - {e}: Name a card, then reveal the top card of your deck. If it's the named card, put that card into your hand and gain 3 lore. Otherwise, put it on the top of your deck.	39	t	13	4	2	55	URS-039	4	1	3	3	\N	f	https://lorcana-api.com/images/bruno_madrigal/undetected_uncle/bruno_madrigal-undetected_uncle-large.png	1	f	f	f
+853	Belle - Untrained Mystic	No matter what she tried, Belle couldn't completely heal Beast's wound.	Here Now, Don't Do That - When you play this character, move up to 1 damage counter from chosen character to chosen opposing character.	37	t	13	1	2	79	URS-037	3	1	3	3	\N	f	https://lorcana-api.com/images/belle/untrained_mystic/belle-untrained_mystic-large.png	1	f	f	f
+856	Camilo Madrigal - Prankster	\N	Many Forms - At the start of your turn, you may choose one:\n- This character gets +1{l} this turn.\n- This character gains Challenger +2 this turn. (While challenging, this character gets +2{s}.)	40	t	13	2	2	55	URS-040	4	1	2	5	\N	f	https://lorcana-api.com/images/camilo_madrigal/prankster/camilo_madrigal-prankster-large.png	1	f	f	f
+857	Dolores Madrigal - Easy Listener	\N	Magical Informant - When you play this character, if an opponent has an exerted character in play, you may draw a card.	41	t	13	1	2	55	URS-041	4	2	3	3	\N	f	https://lorcana-api.com/images/dolores_madrigal/easy_listener/dolores_madrigal-easy_listener-large.png	1	f	f	f
+858	Elsa - Storm Chaser	After Elsa dispersed Ursula's storm, Anna was nowhere to be found.	Tempest - {e}: Chosen character gains Challenger +2 and Rush this turn. (They get +2{s} while challenging. They can challenge the turn they're played.)	42	f	13	3	2	54	URS-042	3	1	1	4	\N	f	https://lorcana-api.com/images/elsa/storm_chaser/elsa-storm_chaser-large.png	1	f	f	f
+859	Flotsam - Ursula's "Baby"	Now the crown and the trident are mine! -Ursula	Quick Escape - When this character is banished in a challenge, return this card to your hand.\nOminous Pair - Your characters named Jetsam gain "When this character is banished in a challenge, return this card to your hand."	43	f	13	2	2	76	URS-043	3	1	4	2	\N	f	https://lorcana-api.com/images/flotsam/ursula's_baby/flotsam-ursula's_baby-large.png	1	f	f	f
+865	Magic Broom - Lively Sweeper	Clean like no one's watching.	\N	49	t	13	1	2	80	URS-049	3	1	2	4	\N	f	https://lorcana-api.com/images/magic_broom/lively_sweeper/magic_broom-lively_sweeper-large.png	1	f	f	f
+860	Flotsam & Jetsam - Entangling Eels	\N	Shift: Discard 2 cards (You may discard 2 cards to play this on top of one of your characters named Flotsam or Jetsam.)\n(This character counts as being named both Flotsam and Jetsam.)	44	t	13	2	2	76	URS-044	6	2	5	5	\N	f	https://lorcana-api.com/images/flotsam_&_jetsam/entangling_eels/flotsam_&_jetsam-entangling_eels-large.png	1	f	f	f
+861	Isabela Madrigal - Golden Child	\N	Evasive (Only characters with Evasive can challenge this character.)\nLadies First - During your turn, if no other character has quested this turn, this character gets +3{l}.\nLeave it to me - Whenever this character quests, your other characters can't quest for the rest of this turn.	45	t	13	3	2	55	URS-045	5	1	3	4	\N	f	https://lorcana-api.com/images/isabella_madrigal/isabella_madrigal-large.png	1	f	f	f
+862	Jetsam - Ursula's "Baby"	He snatched the trident from the betrayed glimmer	Challenger +2 (While challenging, this character gets +2{s}.)\nOminous Pair - Your characters named Flotsam gain Challenger +2.	46	t	13	1	2	76	URS-046	3	1	2	4	\N	f	https://lorcana-api.com/images/jetsam/ursula's_baby/jetsam-ursula's_baby-large.png	1	f	f	f
+863	Luisa Madrigal - Magically Strong One	This rock? No problem. Go get that prophecy hermana!	Rush (This character can challenge the turn they're played.)	47	f	13	1	2	55	URS-047	4	1	4	3	\N	f	https://lorcana-api.com/images/luisa_madrigal/magically_strong_one/luisa_madrigal-magically_strong_one-large.png	1	f	f	f
+868	Mrs. Potts - Enchanted Teapot	\N	It'll Turn Out All Right - When you play this character, if you have a character named Lumiere or Cogsworth in play, you may draw a card.	52	t	13	3	2	79	URS-052	4	2	3	4	\N	f	https://lorcana-api.com/images/mrs._potts/enchanted_teapot/mrs._potts-enchanted_teapot-large.png	1	f	f	f
+869	Pepa Madrigal - Weather Maker	\N	It Looks Like rain - When you play this character, you may exert chosen opposing character. That character can't ready at the start of their next turn unless they're at a location.	53	f	13	3	2	55	URS-053	5	1	1	5	\N	f	https://lorcana-api.com/images/pepa_madrigal/weather_maker/pepa_madrigal-weather_maker-large.png	1	f	f	f
+870	Peter Pan - Shadow Finder	\N	Rush (This character can challenge the turn they're played.)\nEvasive (Only characters with Evasive can challenge this character.)\nFly, of Course! - You other characters with Evasive gain Rush.	54	f	13	4	2	72	URS-054	3	1	2	3	\N	f	https://lorcana-api.com/images/peter_pan/shadow_finder/peter_pan-shadow_finder-large.png	1	f	f	f
+866	Magical Maid - Feather Duster	Have you ever seen anything so beautiful? She asked, marveling at the Amethyst trees.\nNo, cherie, Lumiere replied, never taking his eyes off her. I have not.	\N	50	t	13	2	2	79	URS-050	2	2	2	2	\N	f	https://lorcana-api.com/images/magical_maid/feather_duster/magical_maid-feather_duster-large.png	1	f	f	f
+867	Marshmallow - Terrifying Snowman	You're very strong. Do you work out?\n-Olaf	Behemoth - This character gets +1{s} for each card in your hand.	51	f	13	2	2	54	URS-051	3	1	\N	3	\N	f	https://lorcana-api.com/images/marshmallow/terrifying_snowman/marshmallow-terrifying_snowman-large.png	1	f	f	f
+874	Ursula - Sea Witch Queen	\N	Shift 5 (You may pay 5{i} to play this on top of one of your characters named Ursula.)\nNow I am the Ruler! - Whenever this character quests, exert chosen character.\nYou'll Listen to Me! - Other characters can't exert to sing songs.	58	t	13	5	2	76	URS-058	7	3	4	7	\N	f	https://lorcana-api.com/images/ursula/sea_witch_queen/ursula-sea_witch_queen-large.png	1	f	f	f
+875	Yen Sid - Powerful Sorcerer	\N	Timely Intervention - When you play this character, if you have a character named Magic Broom in play, you may draw a card.\nArcane Study - While you have 2 or more Broom characters in play, this character gets +2{l}.	59	t	13	5	2	80	URS-059	2	1	1	3	\N	f	https://lorcana-api.com/images/yen_sid/powerful_sorcerer/yen_sid-powerful_sorcerer-large.png	1	f	f	f
+871	Pico - Helpful Toucan	He spotted a mysterious glow in the mountains nearby. Could it be a missing piece of the prophecy?	\N	55	t	13	1	2	55	URS-055	2	1	3	2	\N	f	https://lorcana-api.com/images/pico/helpful_toucan/pico-helpful_toucan-large.png	1	f	f	f
+872	Tick-Tock - Ever-Present Pursuer	That cursed beast liked the taste of me so well he's followed me ever since . . . .\n-Captain Hook	Evasive (Only characters with Evasive can challenge this character.)	56	t	13	1	2	72	URS-056	6	1	4	7	\N	f	https://lorcana-api.com/images/tick/tock,_ever-present_pursuer/tick-tock,_ever-present_pursuer-large.png	1	f	f	f
+873	Ursula - Mad Sea Witch	After her, Flotsam! I can't rule Lorcana without the Hexwell Crown!	Challenger +2 (While challenging, this character gets +2{s}.)	57	t	13	2	2	76	URS-057	2	1	1	3	\N	f	https://lorcana-api.com/images/ursula/mad_sea_witch/ursula-mad_sea_witch-large.png	1	f	f	f
+878	Swing Into Action	\N	Chosen character gins Rush this turn. (They can challenge the turn they're played.)	62	t	13	1	2	55	URS-062	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/swing_into_action/swing_into_action-large.png	2	f	f	f
+880	Mystical Rose	\N	Dispel the Entanglement - Banish this item: Chosen character named Beast gets +2{l} this turn. If you have a character named Belle in play, Move up to 3 damage counters from chosen character to chosen opposing character.	64	t	13	3	2	79	URS-064	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/mystical_rose/mystical_rose-large.png	4	f	f	f
+876	Poor Unfortunate Souls	In pain, in need	(A character with cost 2 or more can {e} to sing this song for free.)\nReturn chosen character, Item, or location with cost 2 or less to their player's hand.	60	t	13	1	2	76	URS-060	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/poor_unfortunate_souls/poor_unfortunate_souls-large.png	3	f	f	f
+877	Second Star to the Right	Lead us to the land we dream of	Sing Together 10 (Any number of your or your teammates' characters with total cost 10 or more may {e} to sing this song for free.)\nChosen player draws 5 cards.	61	f	13	3	2	72	URS-061	10	\N	\N	\N	\N	f	https://lorcana-api.com/images/second_star_to_the_right/second_star_to_the_right-large.png	3	f	f	f
+879	Ursula's Plan	With both the crown and the trident, together we would be unstoppable!	Each opponent chooses and exerts one of their characters. Those characters can't ready at the start of their next turn.	63	f	13	2	2	76	URS-063	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/ursula's_plan/ursula's_plan-large.png	2	f	f	f
+881	Rose Lantern	The transformed rose made short work of the Beast's wound. But even the gentlest magic comes at a cost.	Mystical Petals - {e}, 2{i}: Move 1 damage counter from chosen character to chosen opposing character.	65	t	13	1	2	79	URS-065	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/rose_lantern/rose_lantern-large.png	4	f	f	f
+882	Triton's Trident	Just imagine all this power in the wrong hands . . .\n-Ursula	Symbol of Power - Banish this item: Chosen character gets +1{s} this turn for each card in your hand.	66	t	13	2	2	76	URS-066	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/triton's_trident/triton's_trident-large.png	4	f	f	f
+886	Diablo - Devoted Herald	\N	Shift: Discard an action card (You may discard an action card to play this on top of one of your characters named Diablo.)\nEvasive (Only characters with Evasive can challenge this character.)\nCircle Far and Wide - During each opponent's turn, whenever they draw a card while this character is exerted, you may draw a card.	70	f	13	5	3	64	URS-070	3	1	2	2	\N	f	https://lorcana-api.com/images/diablo/devoted_herald/diablo-devoted_herald-large.png	1	f	f	f
+885	Cri-Kee - Lucky Cricket	Everyone feels better just knowing he's around.	Spreading Good Fortune - When you play this character, your other characters get +3{s} this turn.	69	t	13	3	3	81	URS-069	5	3	3	4	\N	f	https://lorcana-api.com/images/cri/kee-lucky_cricket/cri-kee-lucky_cricket-large.png	1	f	f	f
+887	Diablo - Maleficent's Spy	Keep an eye on the sea witch, my pet. Tell me everything.\n-Maleficent	Scout Ahead - When you play this character, you may look at each opponent's hand.	71	t	13	1	3	64	URS-071	1	1	1	2	\N	f	https://lorcana-api.com/images/diablo/maleficent's_spy/diablo-maleficent's_spy-large.png	1	f	f	f
+888	Gunther - Interior Designer	I hate to cover this trap door. It really pulls the room together!	Sad-Eyed Puppy - When this character is challenged and banished, each opponent chooses one of their characters and returns that card to their hand.	72	t	13	1	3	63	URS-072	4	2	3	3	\N	f	https://lorcana-api.com/images/gunther/interior_designer/gunther-interior_designer-large.png	1	f	f	f
+889	Gus - Champion of Cheese	You can always rely on him when it comes to cheese.	\N	73	t	13	1	3	62	URS-073	2	1	2	3	\N	f	https://lorcana-api.com/images/gus/champion_of_cheese/gus-champion_of_cheese-large.png	1	f	f	f
+890	Hades - Double Dealer	\N	Here's the Trade-Off - {e}, Banish one of your other characters: Play a character with the same name as the banished character for free.	74	t	13	5	3	73	URS-074	4	1	3	3	\N	f	https://lorcana-api.com/images/hades/double_dealer/hades-double_dealer-large.png	1	f	f	f
+891	HeiHei - Bumbling Rooster	\N	Fatten You Up - When you play this character, if an opponent has more cards in their inkwell than you, you may put the top card of your deck into your inkwell facedown and exerted.	75	t	13	2	3	58	URS-075	3	2	2	3	\N	f	https://lorcana-api.com/images/heihei/bumbling_rooster/heihei-bumbling_rooster-large.png	1	f	f	f
+892	Hera - Queen of the Gods	\N	Ward (Opponents can't choose this character except to challenge.)\nProtective Goddess - Your characters named Zeus gain Ward.\nYou're a True Hero - Your characters named Hercules gain Evasive. (Only characters with Evasive can challenge them.)	76	t	13	3	3	73	URS-076	3	2	1	3	\N	f	https://lorcana-api.com/images/hera/queen_of_the_gods/hera-queen_of_the_gods-large.png	1	f	f	f
+893	Jaq - Connoisseur of Climbing	Teamwork makes the cheese work.	Sneaky Idea - When you play this character, chosen opposing character gains Reckless during their next turn. (They can't quest and must challenge if able.)	77	t	13	1	3	62	URS-077	3	2	1	4	\N	f	https://lorcana-api.com/images/jaq/connoisseur_of_climbing/jaq-connoisseur_of_climbing-large.png	1	f	f	f
+894	Jasmine - Desert Warrior	\N	Cunning Maneuver - When you play this character and whenever she's challenged, each opponent chooses and discards a card.	78	f	13	3	3	61	URS-078	5	2	3	3	\N	f	https://lorcana-api.com/images/jasmine/desert_warrior/jasmine-desert_warrior-large.png	1	f	f	f
+896	Megara - Liberated one	\N	Ward (Opponents can't choose this character except to challenge.)\nPeople Always Do Crazy Things - Whenever you play a character named Hercules, You may ready this character.	80	t	13	2	3	73	URS-080	5	2	4	4	\N	f	https://lorcana-api.com/images/megara/liberated_one/megara-liberated_one-large.png	1	f	f	f
+895	Megara - Captivating Cynic	With love, there's always a catch.	Shady Deal - When you play this character, choose and discard a card or banish this character.	79	f	13	1	3	73	URS-079	3	2	3	6	\N	f	https://lorcana-api.com/images/megara/captivating_cynic/megara-captivating_cynic-large.png	1	f	f	f
+897	Pain - Immortal Sidekick	We totally took care of that thing you told us to do and definitely did not spend the day in Thebes ticketing chariots and stealing people's laundry.	\N	81	t	13	2	3	73	URS-081	3	2	2	4	\N	f	https://lorcana-api.com/images/pain/immortal_sidekick/pain-immortal_sidekick-large.png	1	f	f	f
+898	Panic - Immortal Sidekick	We absolutely took care of that thing, boss. No problems, just great.	Reporting for Duty - While this character is exerted, if you have a character named pain in play, your Villain characters can't be challenged.	82	t	13	2	3	73	URS-082	4	2	3	3	\N	f	https://lorcana-api.com/images/panic/immortal_sidekick/panic-immortal_sidekick-large.png	1	f	f	f
+899	Pegasus - Cloud Racer	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Pegasus.)\nEvasive (Only characters with Evasive can challenge this character.)\nHop On! - When you play this character, if you used Shift to play him, your characters gain Evasive until the start of your next turn.	83	t	13	2	3	73	URS-083	5	2	3	3	\N	f	https://lorcana-api.com/images/pegasus/cloud_racer/pegasus-cloud_racer-large.png	1	f	f	f
+901	Pete - Born to Cheat	\N	I Clobber You! - Whenever this character quests while he has 5{s} or more, return chosen character with 2{s} or less to their player's hand.	85	f	13	4	3	78	URS-085	2	1	2	3	\N	f	https://lorcana-api.com/images/pete/born_to_cheat/pete-born_to_cheat-large.png	1	f	f	f
+903	Prince Phillip - Vanquisher of Foes	\N	Shift 6 (You may pay 6{i} to play this on top of one of your characters named Prince Philip.)\nEvasive (Only characters with Evasive can challenge this character.)\nSwift and Sure - When you play this character, banish all opposing damaged characters.	87	t	13	4	3	64	URS-087	9	3	6	6	\N	f	https://lorcana-api.com/images/prince_philip/vanquisher_of_foes/prince_philip-vanquisher_of_foes-large.png	1	f	f	f
+906	The Muses - Proclaimers of Heroes	\N	Ward (Opponents can't choose this character except to challenge.)\nThe Gospel Truth - Whenever you play a song, you may return chosen character with 2{s} or less to their player's hand.	90	t	13	3	3	73	URS-090	4	1	2	4	\N	f	https://lorcana-api.com/images/the_muses/proclaimers_of_heroes/the_muses-proclaimers_of_heroes-large.png	1	f	f	f
+904	Prince Phillip - Warden of the Woods	He stands ready to protect his friends from any threat.	Shining Beacon. You other Hero characters gain Ward. (Opponents can't choose them except to challenge.)	88	f	13	3	3	64	URS-088	4	2	3	4	\N	f	https://lorcana-api.com/images/prince_philip/warden_of_the_woods/prince_philip-warden_of_the_woods-large.png	1	f	f	f
+905	The Fates - Only One Eye	We know everything.\n-Lachesis	All Will Be Seen - When you play this character, look at the top card of each opponent's deck.	89	t	13	1	3	73	URS-089	1	1	2	1	\N	f	https://lorcana-api.com/images/the_fates/only_one_eye/the_fates-only_one_eye-large.png	1	f	f	f
+911	Under the Sea	Such wonderful things surround you	Sing Together 8 (Any number of your or your teammates' characters with total cost 8 or more may {e} to sing this song for free.)\r Put all opposing characters with 2{s} or less on the bottom of their player's decks in any order.	95	f	13	3	3	76	URS-095	8	\N	\N	\N	\N	f	https://lorcana-api.com/images/under_the_sea/under_the_sea-large.png	3	f	f	f
+912	Ursula's Trickery	How dare you double-cross me! Ursula shouted, lunging at the other glimmer.	Each opponent may choose and discard a card. For each opponent who doesn't, you draw a card.	96	f	13	2	3	76	URS-096	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/ursula's_trickery/ursula's_trickery-large.png	2	f	f	f
+913	We Don't Talk About Bruno	Your fate is sealed when your prophecy is read!	(A character with cost X or more can {e} to sing this song for free.)\nReturn chosen character to their player's hand, then that player discards a card at random.	97	t	13	3	3	55	URS-097	5	\N	\N	\N	\N	f	https://lorcana-api.com/images/we_don't_talk_about_bruno/we_don't_talk_about_bruno-large.png	3	f	f	f
+933	Namaari - Heir of Fang	\N	Two-Weapon Fighting: During your turn, whenever this character deals damage to another  character in a challenge, you may deal the same amount of damage to another chosen character.	117	f	13	3	4	75	URS-117	3	1	2	3	\N	f	https://lorcana-api.com/images/namaari/heir_of_fang/namaari-heir_of_fang-large.png	1	f	f	f
+934	Nessus - River guardian	He sent the eels away when they came with the sea witch's offer. He didn't need her help making trouble.	\N	118	t	13	2	4	73	URS-118	6	2	7	5	\N	f	https://lorcana-api.com/images/nessus/river_guardian/nessus-river_guardian-large.png	1	f	f	f
+935	Noi - Acrobatic Baby	Fortune favors the bold-no matter how small.	Fancy Footwork: Whenever you play an action, this character takes no damage from challenge this turn.	119	t	13	4	4	75	URS-119	4	1	4	4	\N	f	https://lorcana-api.com/images/noi/acrobatic_baby/noi-acrobatic_baby-large.png	1	f	f	f
+936	Pegasus - Flying Steed	He zigs, he zags - what else do ya need?\n-Phil	Evasive (Only characters with Evasive can challenge this character.)	120	t	13	1	4	73	URS-120	2	1	3	1	\N	f	https://lorcana-api.com/images/pegasus/flying_steed/pegasus-flying_steed-large.png	1	f	f	f
+937	Raya - Fierce Protector	You're gonna fight an entire army?	Don't Cross Me: Whenever this character challenges another character, gain 1 lore for each other damaged character you have in play.	121	t	13	4	4	75	URS-121	3	1	3	3	\N	f	https://lorcana-api.com/images/raya/fierce_protector/raya-fierce_protector-large.png	1	f	f	f
+938	Raya - Guardian of the Dragon Gem	There are too many of them for me. But no for us.	We Have Come Together: When you play this character, ready chosen character of yours at a  location. They can't quest for the rest of this turn.	122	t	13	1	4	75	URS-122	4	2	3	3	\N	f	https://lorcana-api.com/images/raya/guardian_of_the_dragon_gem/raya-guardian_of_the_dragon_gem-large.png	1	f	f	f
+941	Sisu - Empowered Sibling	\N	Shift 6 (You may pay 6{i} to play this on top of one of your characters named Sisu.)\nI Got This!: When you play this character, banish all opposing characters with 2{s} or less.	125	f	13	5	4	75	URS-125	8	3	5	4	\N	f	https://lorcana-api.com/images/sisu/empowered_sibling/sisu-empowered_sibling-large.png	1	f	f	f
+943	Tuk Tuk - Lively Partner	\N	Evasive (Only characters with Evasive can challenge this character.)\nOn a Roll: When you play this character, you may move him and one of your other characters to the same location for free. The other characters get +2{s} this turn.	127	t	13	3	4	75	URS-127	3	1	2	3	\N	f	https://lorcana-api.com/images/tuk_tuk/livley_partner/tuk_tuk-livley_partner-large.png	1	f	f	f
+945	Be King Undisputed	Respected, saluted	(A character with cost 4 or more can {e} to sing this song for free.)\nEach opponent chooses and banishes one of their characters.	129	f	13	3	4	49	URS-129	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/be_king_undisputed/be_king_undisputed-large.png	3	f	f	f
+948	Medallion Weights	\N	Discipline And Strength: {e}, 2{i} - Chosen character gets +2 {s} this turn. Whenever they challenge another character this turn, you may draw a card.	132	t	13	2	4	81	URS-132	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/medallion_weights/medallion_weights-large.png	4	f	f	f
+950	Vitalisphere	\N	Extract of Ruby: 1{i}, Banish this item - Chosen character gains Rush and gets +2{s} this turn. (They can challenge the turn they're played.)	134	t	13	1	4	60	URS-134	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/vitalisphere/vitalisphere-large.png	4	f	f	f
+951	Snuggly Duckling - Disreputable Pub	\N	Routine Ruckus: Whenever a character with 3{s} or more challenge another character while here, gain 1 lore. If the challenging character has 6{s} or more, gain 3 lore instead.	135	t	13	3	4	63	URS-135	2	\N	\N	9	\N	f	https://lorcana-api.com/images/snuggly_duckling/disreputable_pub/snuggly_duckling-disreputable_pub-large.png	5	f	f	f
+952	Training Grounds - Impossible Pillar	\N	Strength of Mind: 1{i} - Chosen character here gets +1{s} this turn.	136	t	13	1	4	81	URS-136	1	\N	\N	5	\N	f	https://lorcana-api.com/images/training_grounds/impossible_pillar/training_grounds-impossible_pillar-large.png	5	f	f	f
+946	Brawl	There are two ways to leave the Snuggly Duckling - the door or the window.	Banish chosen character with 2{s} or less.	130	t	13	1	4	63	URS-130	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/brawl/brawl-large.png	2	f	f	f
+947	Imperial Proclamation	By order of the Emperor, one man from every family must serve in the Imperial Army.\n- Chi Fu	Call To The Front: Whenever one of your characters challenge another character, you may pay 1{i} less for the next character you play this turn.	131	t	13	3	4	81	URS-131	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/imperial_proclamation/imperial_proclamation-large.png	4	f	f	f
+949	The Plank	It's a once-in-a-lifetime view.	Walk!: 2{i}, Banish this item - Choose one:\n• Banish chosen Hero character.\n• Ready chosen Villain character. They can't quest for the rest of this turn.	133	f	13	1	4	72	URS-133	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_plank/the_plank-large.png	4	f	f	f
+955	Ariel - Treasure Collector	\N	Ward (Opponents can't choose this character except to challenge.)\nThe Girl Who Has Everything: While you have more items in play than each opponent, this character gets +2{l}.	139	f	13	4	5	76	URS-139	6	3	3	4	\N	f	https://lorcana-api.com/images/ariel/treasure_collector/ariel-treasure_collector-large.png	1	f	f	f
+956	Aurora - Lore Guardian	\N	Shift 2 (You may pay 2 {i} to play this on top of one of your characters named Aurora.)\nPreserver: Opponents can't choose your items for abilities or effects.\nRoyal Inventory: {e} one of your items - Look at the top card of your deck and put it on either the top or the bottom of your deck.	140	t	13	4	5	64	URS-140	4	2	3	3	\N	f	https://lorcana-api.com/images/aurora/lore_guardian/aurora-lore_guardian-large.png	1	f	f	f
+957	Aurora - Tranquil Princess	Her music fills the Illuminary's gardens with joy and light	Ward (Opponents can't choose this character except to challenge.)	141	t	13	1	5	64	URS-141	2	1	1	3	\N	f	https://lorcana-api.com/images/aurora/tranquil_princess/aurora-tranquil_princess-large.png	1	f	f	f
+958	Dang Hu - Talon Chief	You can find villainy in the most unexpected places.	You Better Talk Fast: Your other Villain characters gain Support. (Whenever they quest, you may add their {s} to another chosen character's {s} this turn.)	142	t	13	3	5	75	URS-142	5	2	3	5	\N	f	https://lorcana-api.com/images/dang_hu/talon_chief/dang_hu-talon_chief-large.png	1	f	f	f
+959	Fa Li - Mulan's Mother	When far from home, Mulan often thinks of her calming presence.	\N	143	t	13	1	5	81	URS-143	1	1	1	3	\N	f	https://lorcana-api.com/images/fa_li/mulan's_mother/fa_li-mulan's_mother-large.png	1	f	f	f
+960	Flounder - Collector's Companion	Ariel, Ariel! You won't believe what I found!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\nI'm Not a Guppy: If you have a character named Ariel in play, you may pay 1 {i} less to play this character.	144	t	13	2	5	76	URS-144	3	2	2	2	\N	f	https://lorcana-api.com/images/flounder/collector's_companion/flounder-collector's_companion-large.png	1	f	f	f
+965	Olaf - Carrot Enthusiast	\N	Shift: Discard an item card (You may discard an item card to play this on top of one of your characters named Olaf.)\nCarrots All Around!: Whenever he quests, each of your other characters gets +{s} equal to this character's {s} this turn.	149	t	13	2	5	54	URS-149	3	2	1	4	\N	f	https://lorcana-api.com/images/olaf/carrot_enthusiast/olaf-carrot_enthusiast-large.png	1	f	f	f
+968	Prince Phillip - Gallant Defender	\N	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)\nBest Defense: Whenever one of your characters is chosen for Support, they gain Resist +1 this turn. (Damage dealt to them is reduced by 1.)	152	t	13	3	5	64	URS-152	3	2	1	3	\N	f	https://lorcana-api.com/images/prince_phillip/gallant_defender/prince_phillip-gallant_defender-large.png	1	f	f	f
+966	Olaf - Trusting Companion	Isn't this Kristoff's hat? If he went this way, he'll be caught in that storm!	Support (Whenever this character quests, you may add their {s} to another chosen character's {s} this turn.)	150	t	13	1	5	54	URS-150	1	1	1	2	\N	f	https://lorcana-api.com/images/olaf/trusting_companion/olaf-trusting_companion-large.png	1	f	f	f
+967	Pascal - Inquisitive Pet	If you want to find something hidden, get someone who's an expert at hiding.	Colorful Tactics: When you play this character, look at the top 3 cards of your deck and put them back in any order.	151	t	13	1	5	63	URS-151	3	1	3	3	\N	f	https://lorcana-api.com/images/pascal/inquisitive_pet/pascal-inquisitive_pet-large.png	1	f	f	f
+972	The Queen - Diviner	\N	Consult the Spellbook: {e} - Look at the top 4 cards of your deck. You may reveal an item card and put it into your hand. If that item costs 3 or less, you may play it for free instead and it enters play exerted. Put the rest on the bottom of your deck in any order.	156	t	13	5	5	82	URS-156	3	1	3	3	\N	f	https://lorcana-api.com/images/the_queen/diviner/the_queen-diviner-large.png	1	f	f	f
+969	Rapunzel - Appreciative Artist	Pascal! A new flower for the wall!	Perceptive Partner: While you have a character named Pascal in play, this character gains Ward. (Opponents can't choose them except to challenge.)	153	t	13	3	5	63	URS-153	5	3	3	5	\N	f	https://lorcana-api.com/images/rapunzel/appreciative_artist/rapunzel-appreciative_artist-large.png	1	f	f	f
+970	Scuttle - Expert on Humans	Wow. This is special. This is very, very unusual.	let Me See: When you play this character, look at the top 4 cards of your deck. You may reveal an item card and put it into your hand. Put the rest on the bottom of your deck in any order.	154	t	13	2	5	76	URS-154	2	1	1	3	\N	f	https://lorcana-api.com/images/scuttle/expert_on_humans/scuttle-expert_on_humans-large.png	1	f	f	f
+971	Sisu - Wise Friend	It may feel impossible, but sometimes, you just have to take the first step, even before you're ready.	\N	155	t	13	2	5	75	URS-155	6	2	6	6	\N	f	https://lorcana-api.com/images/sisu/wise_friend/sisu-wise_friend-large.png	1	f	f	f
+973	Transformed Chef - Castle Stove	A good, hot meal will set you right as rain.\n - Mrs. Potts	A Culinary Masterpiece: When you play this character, remove up to 2 damage from chosen character.	157	t	13	1	5	79	URS-157	4	\N	3	3	\N	f	https://lorcana-api.com/images/transformed_chef/castle_stove/transformed_chef-castle_stove-large.png	1	f	f	f
+974	Triton - Champion of Atlantica	\N	Shift 6 (You may pay 6 {i} to play this on top of one of your characters named Triton.)\nImposing Presence: Opposing characters get -1 {s} for each location you have in play.	158	t	13	5	5	76	URS-158	9	3	7	9	\N	f	https://lorcana-api.com/images/triton/champion_of_atlantica/triton-champion_of_atlantica-large.png	1	f	f	f
+976	Triton - Young Prince	\N	Superior Swimmer: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)\nKeeper of Atlantica: Whenever one of your locations is banished, you may put that card into your inkwell facedown and exerted.	160	t	13	2	5	76	URS-160	4	1	3	4	\N	f	https://lorcana-api.com/images/triton/young_prince/triton-young_prince-large.png	1	f	f	f
+978	Dig a Little Deeper	\N	Sing Together 8 (Any number of your or your teammates' characters with total cost 8 or more may {e} to sing this song for free.)\nLook at the top 7 cards of your deck. Put 2 into your hand. Put the rest on the bottom of your deck in any order.	162	f	13	2	5	50	URS-162	8	\N	\N	\N	\N	f	https://lorcana-api.com/images/dig_a_little_deeper/dig_a_little_deeper-large.png	3	f	f	f
+975	Triton - Discerning King	If this is the only way, so be it.	Consign to the Depths: {e}, Banish one of your items - Gain 3 lore.	159	f	13	3	5	76	URS-159	3	1	3	3	\N	f	https://lorcana-api.com/images/triton/discerning_king/triton-discerning_king-large.png	1	f	f	f
+982	Field of Ice	\N	Icy Defense: Whenever your play a character, they gain Resist +1 until the start of your next turn. (Damage dealt to them is reduced by 1.)	166	t	13	3	5	54	URS-166	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/field_of_ice/field_of_ice-large.png	4	f	f	f
+983	Great Stone Dragon	\N	Asleep: This item enters play exerted.\nAwaken: {e} - Put a character card from your discard into your inkwell facedown and exerted.	167	t	13	2	5	81	URS-167	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/giant_stone_dragon/giant_stone_dragon-large.png	4	f	f	f
+985	Ariel's Grotto - A Secret Place	\N	Treasure Trove: While you have 3 or more items in play, this location gets +2 {l}.	169	t	13	3	5	76	URS-169	2	\N	\N	7	\N	f	https://lorcana-api.com/images/ariel's_grotto/a_secret_place/ariel's_grotto-a_secret_place-large.png	5	f	f	f
+986	Winter Camp - Medical Tent	\N	Help the Wounded: Whenever a character quests while here, remove up to 2 damage from them. If they're a Hero character, remove up to 4 damage instead.	170	t	13	1	5	81	URS-170	3	1	\N	8	\N	f	https://lorcana-api.com/images/winter_camp/medical_tent/winter_camp-medical_tent-large.png	5	f	f	f
+980	Seldom All They Seem	I know you\nI walked with you once upon a dream	(A character with cost 2 or more can {e} to sing this song for free.)\nChosen character gets -3 {s} this turn.	164	t	13	1	5	64	URS-164	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/seldom_all_they_seem/seldom_all_they_seem-large.png	3	f	f	f
+981	Treasures Untold	How many wonders can one cavern hold?	(A character with cost 6 or more can {e} to sing this song for free.)\nReturn up to 2 item cards from your discard into your hand.	165	t	13	3	5	76	URS-165	6	\N	\N	\N	\N	f	https://lorcana-api.com/images/treasures_untold/treasures_untold-large.png	3	f	f	f
+984	Ice Block	Frozen ink can be harvested and processed to many useful ends.	Chilly Labor: {e} - Chosen character gets -1 {s} this turn.	168	f	13	1	5	54	URS-168	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/ice_block/ice_block-large.png	4	f	f	f
+988	Aladdin - Resolute Swordsman	How about we cut to the part where I make a quick escape and you yell after me? No? Can't say I didn't give you a chance.	\N	172	t	13	1	6	61	URS-172	1	1	1	3	\N	f	https://lorcana-api.com/images/aladdin/resolute_swordsman/aladdin-resolute_swordsman-large.png	1	f	f	f
+991	Ariel - Sonic Warrior	\N	Shift 4 (You may pay 4{i} to play this on top of one of your characters named Ariel.)\nAmplified Voice: Whenever you play a song, you may pay 2{i} to deal 3 damage to chosen character.	175	t	13	4	6	76	URS-175	6	2	3	8	\N	f	https://lorcana-api.com/images/ariel/sonic_warrior/ariel-sonic_warrior-large.png	1	f	f	f
+994	Chien-Po - Imperial Soldier	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.)	178	t	13	1	6	81	URS-178	5	1	4	7	\N	f	https://lorcana-api.com/images/chien/po-imperial_soldier/chien-po-imperial_soldier-large.png	1	f	f	f
+989	Arges - The Cyclops	Looks like you got some big feelings there, buddy - let's stomp 'em out!\n -Hades	\N	173	t	13	1	6	73	URS-173	2	1	3	3	\N	f	https://lorcana-api.com/images/arges/the_cyclops/arges-the_cyclops-large.png	1	f	f	f
+990	Ariel - Determined Mermaid	Everything she's ever wanted is almost in reach	I Want More: Whenever you play a song, you may draw a card, then choose and discard a card.	174	t	13	1	6	76	URS-174	3	1	2	4	\N	f	https://lorcana-api.com/images/ariel/determined_mermaid/ariel-determined_mermaid-large.png	1	f	f	f
+992	Beast - Thick-Skinned	He's even tougher than he looks.	Resist +1 (Damage dealt to this character is reduced by 1.)	176	t	13	1	6	79	URS-176	3	1	2	3	\N	f	https://lorcana-api.com/images/beast/thick-skinned/beast-thick-skinned-large.png	1	f	f	f
+996	Hercules - Beloved Hero	\N	Bodyguard (This character may enter play exerted. An opposing character who challenges on of your characters must chose one with Bodyguard if able.)\nResist +1 (Damage dealt to this character is reduced by 1)	180	t	13	3	6	73	URS-180	6	2	6	5	\N	f	https://lorcana-api.com/images/hercules/beloved_hero/hercules-beloved_hero-large.png	1	f	f	f
+997	Lefou - Opportunistic Flunky	\N	I Learned From the Best: During your turn, you may play this character for free if an opposing character was banished in a challenge this turn.	181	t	13	3	6	79	URS-181	3	1	2	3	\N	f	https://lorcana-api.com/images/lefou/opportunistic_flunky/lefou-opportunistic_flunky-large.png	1	f	f	f
+995	Donald Duck - Buccaneer	Nobody stands a change against the daring duck of the high seas!	Boarding Party: During your turn, whenever this character banishes a character in a challenge, your other characters get +1 {l} this turn.	179	t	13	5	6	57	URS-179	4	1	3	4	\N	f	https://lorcana-api.com/images/donald_duck/buccaneer/donald_duck-buccaneer-large.png	1	f	f	f
+998	Li Shang - Imperial Captain	Immovable as a mountain and fierce as a dragon- the Empire's finest warrior.	\N	182	t	13	2	6	81	URS-182	5	2	5	5	\N	f	https://lorcana-api.com/images/li_shang/imperial_captian/li_shang-imperial_captian-large.png	1	f	f	f
+999	Ling - Imperial Soldier	A good friend is handy in a fight.	Full of Spirit: Your Hero characters get +1{s}.	183	t	13	2	6	81	URS-183	3	1	3	3	\N	f	https://lorcana-api.com/images/ling/imperial_soldier/ling-imperial_soldier-large.png	1	f	f	f
+1000	Luisa Madrigal - Rock of the Family	There's no way Ursula's creatures are getting to that donkey.	I'm the Strong One: While you have another character in play, this character gets +2{s}.	184	t	13	1	6	55	URS-184	3	1	2	4	\N	f	https://lorcana-api.com/images/luisa_madrigal/rock_of_the_family/luisa_madrigal-rock_of_the_family-large.png	1	f	f	f
+1001	Magic Broom - Aerial Cleaner	It spends its days keeping the treasured glimmers in the Hall of Lorcana sparkling clean.	Winged for a Day: During your turn, this character gains Evasive. (They can challenge characters with Evasive.)	185	t	13	1	6	80	URS-185	2	1	2	3	\N	f	https://lorcana-api.com/images/magic_broom/aerial_cleaner/magic_broom-aerial_cleaner-large.png	1	f	f	f
+1002	Magic Broom - Brigade Commander	\N	Resist +1 (Damage dealt to this character is reduced by 1.)\nArmy of Brooms: This character gets +2{s} for each other character named Magic Broom you have in play	186	t	13	4	6	80	URS-186	6	2	2	6	\N	f	https://lorcana-api.com/images/magic_broom/brigade_commander/magic_broom-brigade_commander-large.png	1	f	f	f
+1003	Mickey Mouse - Playful Sorcerer	\N	Shift 3 (You may pay 3{i} to play this on top of one of your characters named Mickey Mouse.)\nResist +1 (Damage dealt to this character is reduced by 1.)\nSweep Away: When you play this character, deal damage to chosen character equal to the number of Broom characters you have in play.	187	t	13	3	6	77	URS-187	5	2	3	4	\N	f	https://lorcana-api.com/images/mickey_mouse/playful_sorcerer/mickey_mouse-playful_sorcerer-large.png	1	f	f	f
+1004	Mickey Mouse - Standard Bearer	He set the standard for intrepid adventurers everywhere.	Stand Strong: When you play this character, chosen character gains Challenger +2 this turn. (They gain +2{s} while challenging.)	188	t	13	1	6	77	URS-188	2	1	1	3	\N	f	https://lorcana-api.com/images/mickey_mouse/standard_bearer/mickey_mouse-standard_bearer-large.png	1	f	f	f
+1005	Mulan - Armored Fighter	Maybe what I really wanted was to prove I could do things right, so when I looked in a mirror, I'd see someone worthwhile.	\N	189	t	13	2	6	81	URS-189	4	1	3	6	\N	f	https://lorcana-api.com/images/mulan/armoured_fighter/mulan-armoured_fighter-large.png	1	f	f	f
+1008	Rajah - Royal Protector	As regal as his namesake and just as powerful	Steady Gaze: While you have no cards in your hand, characters with cost 4 or less can't  challenge this character.	192	t	13	3	6	61	URS-192	4	2	3	4	\N	f	https://lorcana-api.com/images/rajah/royal_protector/rajah-royal_protector-large.png	1	f	f	f
+1006	Philoctetes - No-Nonsense Instructor	\N	You Gotta Stay Focused: Your Hero characters gain Challenger +1 (They get +1{s} while challenging)\nShameless Promoter: Whenever you play a Hero character, gain 1 lore.	190	t	13	3	6	73	URs-190	4	2	2	3	\N	f	https://lorcana-api.com/images/philoctetes/no-nonsense_instructor/philoctetes-no-nonsense_instructor-large.png	1	f	f	f
+1007	Piglet - Sturdy Swordsman	\N	Resist +1 (Damage dealt to this character is reduced by 1.)\nNot So Small Anymore: While you have no cards in your hand, this character can challenge ready characters.	191	f	13	5	6	83	URS-191	5	3	3	5	\N	f	https://lorcana-api.com/images/piglet/sturdy_swordsman/piglet-sturdy_swordsman-large.png	1	f	f	f
+1010	Yao - Imperial Soldier	I'm gonna hit you so hard, it'll make your ancestors dizzy.	Challenger +2 (While challenging, this character gets +2{s})	194	t	13	1	6	81	URS-194	4	1	2	5	\N	f	https://lorcana-api.com/images/yao/imperial_soldier/yao-imperial_soldier-large.png	1	f	f	f
+1011	Avalanche	A little snow never hurt anyone. A big rock however	Deal 1 damage to each opposing character. You may banish chosen location.	195	f	13	2	6	54	URS-195	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/avalance/avalance-large.png	2	f	f	f
+1012	I Find 'Em, I Flatten 'Em	I don't ask how hard the work is\nGot a rough, indestructible surface	(A character with cost 4 or more can {e} to sing this song for free.)\nBanish all items.	196	t	13	2	6	55	URS-196	4	\N	\N	\N	\N	f	https://lorcana-api.com/images/i_find_'em,_i_flatten_'em/i_find_'em,_i_flatten_'em-large.png	3	f	f	f
+1015	Triton's Decree	Ursula's foul creatures are not welcome in my kingdom!	Each opponent chooses one of their characters and deals 2 damage to them.	199	f	13	1	6	76	URS-199	1	\N	\N	\N	\N	f	https://lorcana-api.com/images/triton's_decree/triton's_decree-large.png	2	f	f	f
+1009	Raya - Unstoppable Force	\N	Challenger +2 (While challenging, this character gets +2{s}.)\nResist +2 (Damage dealt to this character is reduced by 2.)\nYou Gave it Your Best: During your turn, whenever this character banishes another character in a challenge, you may draw a card.	193	t	13	4	6	75	URS-193	7	2	3	6	\N	f	https://lorcana-api.com/images/raya/unstoppable_force/raya-unstoppable_force-large.png	1	f	f	f
+1013	One Last Hope	\N	(A character with cost 3 or more can {e} to sing this song for free.)\nChosen character gains Resist +2 until the start of your next turn. If a Hero character is chosen, they may also challenge ready character this turn. (Damage dealt to them is reduced by 2.)	197	f	13	3	6	73	URS-197	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/one_last_hope/one_last_hope-large.png	3	f	f	f
+1014	The Mob Song	\N	Sing Together 10 (Any number of your or your teammates' characters with total cost 10 or more may {e} to sing this song for free.)\nDeal 3 damage to up to 3 chosen characters and/or locations.	198	f	13	2	6	79	URS-198	10	\N	\N	\N	\N	f	https://lorcana-api.com/images/the_mob_song/the_mob_song-large.png	3	f	f	f
+1018	RLS Legacy's Cannon	So help me, I'll use the ship's cannons to blast ya all to the kingdom come!\n -John Silver	BA-BOOM!: {e}, 2{i}, Discard a card - Deal 2 damage to chosen character or location.	202	f	13	3	6	69	URS-202	3	\N	\N	\N	\N	f	https://lorcana-api.com/images/rls_legacy's_cannon/rls_legacy's_cannon-large.png	4	f	f	f
+1017	Imperial Bow	\N	Within Range: {e}, 1{i} - Chosen Hero character gains Challenger +2 and Evasive this turn. (They get +2{s} while challenging . They can challenge characters with Evasive.)	201	t	13	2	6	81	URS-201	2	\N	\N	\N	\N	f	https://lorcana-api.com/images/imperial_bow/imperial_bow-large.png	4	f	f	f
+1019	The Wall - Border Fortress	\N	Protect The Realm: While you have an exerted character here, your other locations can't be challenged.	203	t	13	3	6	81	URS-203	4	\N	\N	8	\N	f	https://lorcana-api.com/images/the_wall/border_fortress/the_wall-border_fortress-large.png	5	f	f	f
+1020	Thebes - The Big Olive	\N	If You Can Make it Here: During your turn, whenever a character banishes another character in a challenge while here, gain 2 lore.	204	t	13	1	6	73	URS-204	2	\N	\N	7	\N	f	https://lorcana-api.com/images/thebes/the_big_olive/thebes-the_big_olive-large.png	5	f	f	f
+\.
+
+
+--
+-- Data for Name: disney_franchise; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.disney_franchise (id, franchise_name) FROM stdin;
+47	
+48	Brother Bear
+49	The Lion King
+50	The Princess and the Frog
+51	Wreck-It Ralph
+52	Lilo and Stitch
+53	Zootopia
+54	Frozen
+55	Encanto
+56	Classic Disney
+57	Duck Tales
+58	Moana
+59	Robin Hood
+60	Lorcana
+61	Aladdin
+62	Cinderella
+63	Tangled
+64	Sleeping Beauty
+65	Beauty and the Beast
+66	The Sword in the Stone
+67	Alice in Wonderland
+68	Pinocchio
+69	Treasure Planet
+70	The Emperor's New Groove
+71	The Great Mouse Detective
+72	Peter Pan
+73	Hercules
+74	Snow White and the Seven Dwarfs
+75	Raya and the Last Dragon
+76	The Little Mermaid
+77	Disney Classics
+78	The Three Musketeers
+79	The Beauty and the Beast
+80	Fantasia
+81	Mulan
+82	Snow White and the Seven Dwarves
+83	Winnie the Pooh
+84	Chip n Dale
+85	Rescue Rangers
+\.
+
+
+--
+-- Data for Name: starter_deck_cards; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.starter_deck_cards (id, starter_deck, card_id, card_qty, card_set, card_ink, starer_deck) FROM stdin;
+2	1	4	5	8	1	\N
+3	1	6	3	8	1	\N
+4	1	8	1	8	1	\N
+5	1	12	2	8	1	\N
+6	1	14	3	8	1	\N
+7	1	17	1	8	1	\N
+8	1	18	3	8	1	\N
+9	1	19	1	8	1	\N
+10	1	21	3	8	1	\N
+11	1	22	2	8	1	\N
+12	1	23	2	8	1	\N
+13	1	32	3	8	1	\N
+14	1	69	2	8	3	\N
+15	1	71	2	8	3	\N
+16	1	72	2	8	3	\N
+17	1	75	3	8	3	\N
+18	1	76	2	8	3	\N
+19	1	77	2	8	3	\N
+20	1	82	1	8	3	\N
+21	1	84	2	8	3	\N
+22	1	88	2	8	3	\N
+23	1	92	1	8	3	\N
+24	1	96	1	8	3	\N
+25	1	100	1	8	3	\N
+26	1	302	2	8	3	\N
+27	1	303	2	8	3	\N
+28	1	691	3	8	3	\N
+29	1	693	3	8	3	\N
+30	3	106	3	8	4	\N
+31	3	107	3	8	4	\N
+32	3	111	3	8	4	\N
+33	3	113	1	8	4	\N
+34	3	116	3	8	4	\N
+35	3	117	1	8	4	\N
+36	3	123	3	8	4	\N
+37	3	127	2	8	4	\N
+38	3	131	1	8	4	\N
+39	3	132	2	8	4	\N
+40	3	133	3	8	4	\N
+41	3	134	2	8	4	\N
+42	3	139	2	8	5	\N
+43	3	140	3	8	5	\N
+44	3	142	1	8	5	\N
+45	3	144	1	8	5	\N
+46	3	145	3	8	5	\N
+47	3	149	2	8	5	\N
+48	3	150	1	8	5	\N
+49	3	154	2	8	5	\N
+50	3	155	2	8	5	\N
+51	3	167	3	8	5	\N
+52	3	347	3	8	5	\N
+53	3	350	2	8	5	\N
+54	3	728	1	8	4	\N
+55	3	742	2	8	4	\N
+56	3	757	2	8	5	\N
+57	3	170	3	8	5	\N
+58	5	205	1	10	1	\N
+59	5	206	3	10	1	\N
+60	5	209	2	10	1	\N
+61	5	210	3	10	1	\N
+62	5	212	3	10	1	\N
+63	5	213	2	10	1	\N
+64	5	214	1	10	1	\N
+65	5	215	3	10	1	\N
+66	5	225	2	10	1	\N
+67	5	226	3	10	1	\N
+68	5	227	2	10	1	\N
+69	5	230	3	10	1	\N
+70	5	231	2	10	1	\N
+71	5	234	3	10	1	\N
+72	5	348	1	10	5	\N
+73	5	351	3	10	5	\N
+74	5	353	2	10	5	\N
+75	5	356	3	10	5	\N
+76	5	360	1	10	5	\N
+77	5	364	1	10	5	\N
+78	5	365	2	10	5	\N
+79	5	367	2	10	5	\N
+80	5	368	3	10	5	\N
+81	5	370	2	10	5	\N
+82	5	371	2	10	5	\N
+83	5	373	3	10	5	\N
+84	5	620	2	10	1	\N
+85	5	753	1	10	5	\N
+86	5	768	1	10	5	\N
+87	6	241	2	10	2	\N
+88	6	242	3	10	2	\N
+89	6	247	3	10	2	\N
+90	6	249	1	10	2	\N
+91	6	250	2	10	2	\N
+92	6	253	2	10	2	\N
+93	6	254	2	10	2	\N
+94	6	255	2	10	2	\N
+95	6	256	3	10	2	\N
+96	6	257	2	10	2	\N
+97	6	258	2	10	2	\N
+98	6	375	2	10	6	\N
+99	6	378	2	10	6	\N
+100	6	380	2	10	6	\N
+101	6	383	1	10	6	\N
+102	6	386	3	10	6	\N
+103	6	389	1	10	6	\N
+104	6	395	2	10	6	\N
+105	6	398	1	10	6	\N
+106	6	399	3	10	6	\N
+107	6	400	2	10	6	\N
+108	6	401	2	10	6	\N
+109	6	406	2	10	6	\N
+110	6	407	2	10	6	\N
+111	6	675	2	10	2	\N
+112	6	796	2	10	6	\N
+113	6	799	2	10	6	\N
+114	6	267	1	10	2	\N
+115	6	390	2	10	6	\N
+116	7	444	1	11	2	\N
+117	7	447	1	11	2	\N
+118	7	448	2	11	2	\N
+119	7	449	3	11	2	\N
+120	7	450	2	11	2	\N
+121	7	454	3	11	2	\N
+122	7	455	2	11	2	\N
+123	7	456	2	11	2	\N
+124	7	458	2	11	2	\N
+125	7	462	1	11	2	\N
+126	7	464	2	11	2	\N
+127	7	465	3	11	2	\N
+128	7	467	2	11	2	\N
+129	7	468	3	11	2	\N
+130	7	472	2	11	2	\N
+131	7	476	3	11	2	\N
+132	7	511	1	11	4	\N
+133	7	512	3	11	4	\N
+134	7	514	2	11	4	\N
+135	7	516	1	11	4	\N
+136	7	519	1	11	4	\N
+137	7	520	3	11	4	\N
+138	7	522	2	11	4	\N
+139	7	525	2	11	4	\N
+140	7	530	2	11	4	\N
+141	7	532	1	11	4	\N
+142	7	533	2	11	4	\N
+143	7	534	2	11	4	\N
+144	7	538	2	11	4	\N
+145	7	541	2	11	4	\N
+146	7	518	3	11	4	\N
+147	8	477	2	11	3	\N
+148	8	478	2	11	3	\N
+149	8	479	1	11	3	\N
+150	8	480	3	11	3	\N
+151	8	481	2	11	3	\N
+152	8	482	2	11	3	\N
+153	8	485	1	11	3	\N
+154	8	489	3	11	3	\N
+155	8	495	2	11	3	\N
+156	8	496	3	11	3	\N
+157	8	499	2	11	3	\N
+158	8	501	3	11	3	\N
+159	8	502	2	11	3	\N
+160	8	503	1	11	3	\N
+161	8	510	1	11	3	\N
+162	8	581	2	11	6	\N
+163	8	582	2	11	6	\N
+164	8	583	2	11	6	\N
+165	8	585	1	11	6	\N
+166	8	586	3	11	6	\N
+167	8	587	2	11	6	\N
+168	8	592	2	11	6	\N
+169	8	593	2	11	6	\N
+170	8	598	1	11	6	\N
+171	8	600	2	11	6	\N
+172	8	603	2	11	6	\N
+173	8	604	2	11	6	\N
+174	8	605	3	11	6	\N
+175	8	607	3	11	6	\N
+176	9	613	1	12	1	\N
+177	9	615	2	12	1	\N
+178	9	618	3	12	1	\N
+179	9	619	2	12	1	\N
+180	9	623	2	12	1	\N
+181	9	624	2	12	1	\N
+182	9	625	1	12	1	\N
+183	9	626	1	12	1	\N
+184	9	634	2	12	1	\N
+185	9	637	3	12	1	\N
+186	9	638	2	12	1	\N
+187	9	642	3	12	1	\N
+188	9	649	2	12	2	\N
+189	9	650	1	12	2	\N
+190	9	657	3	12	2	\N
+191	9	659	3	12	2	\N
+192	9	661	1	12	2	\N
+193	9	663	2	12	2	\N
+194	9	664	2	12	2	\N
+195	9	666	2	12	2	\N
+196	9	667	1	12	2	\N
+197	9	672	2	12	2	\N
+198	9	665	3	12	2	\N
+199	9	669	2	12	2	\N
+200	9	862	1	12	2	\N
+201	9	655	2	12	2	\N
+202	10	681	2	12	3	\N
+203	10	684	3	12	3	\N
+204	10	685	3	12	3	\N
+205	10	691	3	12	3	\N
+206	10	692	2	12	3	\N
+207	10	693	3	12	3	\N
+208	10	698	2	12	3	\N
+209	10	699	1	12	3	\N
+210	10	701	2	12	3	\N
+211	10	703	2	12	3	\N
+212	10	707	1	12	3	\N
+213	10	708	3	12	3	\N
+214	10	709	2	12	3	\N
+215	10	712	2	12	3	\N
+216	10	714	3	12	3	\N
+217	10	716	2	12	4	\N
+218	10	717	3	12	4	\N
+219	10	720	1	12	4	\N
+220	10	733	3	12	4	\N
+221	10	734	2	12	4	\N
+222	10	736	2	12	4	\N
+223	10	737	3	12	4	\N
+224	10	742	1	12	4	\N
+225	10	747	3	12	4	\N
+226	10	724	3	12	4	\N
+227	10	732	1	12	4	\N
+228	10	718	2	12	4	\N
+229	10	744	3	12	4	\N
+230	11	750	2	12	5	\N
+231	11	751	2	12	5	\N
+232	11	752	3	12	5	\N
+233	11	757	1	12	5	\N
+234	11	758	3	12	5	\N
+235	11	760	2	12	5	\N
+236	11	762	2	12	5	\N
+237	11	763	2	12	5	\N
+238	11	766	1	12	5	\N
+239	11	767	3	12	5	\N
+240	11	770	2	12	5	\N
+241	11	773	3	12	5	\N
+242	11	776	2	12	5	\N
+243	11	778	2	12	5	\N
+244	11	781	3	12	5	\N
+245	11	784	2	12	6	\N
+246	11	786	3	12	6	\N
+247	11	793	1	12	6	\N
+248	11	797	2	12	6	\N
+249	11	799	2	12	6	\N
+250	11	801	1	12	6	\N
+251	11	802	2	12	6	\N
+252	11	809	3	12	6	\N
+253	11	810	1	12	6	\N
+254	11	811	2	12	6	\N
+255	11	812	2	12	6	\N
+256	11	791	2	12	6	\N
+257	11	794	3	12	6	\N
+258	2	21	1	13	1	\N
+259	2	26	2	13	1	\N
+260	2	57	2	13	2	\N
+261	2	247	1	13	2	\N
+262	2	631	3	13	1	\N
+263	2	640	3	13	1	\N
+264	2	652	3	13	2	\N
+265	2	817	1	13	1	\N
+266	2	819	2	13	1	\N
+267	2	829	3	13	1	\N
+268	2	831	1	13	1	\N
+269	2	834	2	13	1	\N
+270	2	835	2	13	1	\N
+271	2	837	1	13	1	\N
+272	2	839	2	13	1	\N
+273	2	844	3	13	1	\N
+274	2	845	1	13	1	\N
+275	2	851	2	13	2	\N
+276	2	854	3	13	2	\N
+277	2	856	3	13	2	\N
+278	2	857	1	13	2	\N
+279	2	861	3	13	2	\N
+280	2	863	2	13	2	\N
+281	2	867	2	13	2	\N
+282	2	869	1	13	2	\N
+283	2	876	1	13	2	\N
+284	2	883	2	13	2	\N
+285	2	825	2	13	1	\N
+286	2	872	2	13	2	\N
+287	4	177	2	13	6	\N
+288	4	189	3	13	6	\N
+289	4	343	3	13	5	\N
+290	4	752	1	13	5	\N
+291	4	766	2	13	5	\N
+292	4	812	2	13	6	\N
+293	4	953	3	13	5	\N
+294	4	954	2	13	5	\N
+295	4	957	1	13	5	\N
+296	4	960	1	13	5	\N
+297	4	967	3	13	5	\N
+298	4	968	3	13	5	\N
+299	4	969	1	13	5	\N
+300	4	971	3	13	5	\N
+301	4	973	2	13	5	\N
+302	4	978	2	13	5	\N
+303	4	980	2	13	5	\N
+304	4	988	2	13	6	\N
+305	4	990	2	13	6	\N
+306	4	996	3	13	6	\N
+307	4	998	2	13	6	\N
+308	4	999	1	13	6	\N
+309	4	1004	2	13	6	\N
+310	4	1005	2	13	6	\N
+311	4	1006	2	13	6	\N
+312	4	1013	2	13	6	\N
+313	4	1017	2	13	6	\N
+314	4	1020	2	13	6	\N
+\.
+
+
+--
+-- Data for Name: starter_decks; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.starter_decks (id, deck_name, card_set) FROM stdin;
+1	Emerald and Amber	8
+2	Amber and Amethyst	13
+3	Ruby and Sapphire	8
+4	Sapphire and Steel	13
+5	Amber and Sapphire	10
+6	Amethyst and Steel	10
+7	Amethyst and Ruby	11
+8	Emerald and Steel	11
+9	Amber and Amethyst	12
+10	Emerald and Ruby	12
+11	Steel and Sapphire	12
+\.
+
+
+--
+-- Name: artists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.artists_id_seq', 720, true);
+
+
+--
+-- Name: card_artist_map_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_artist_map_id_seq', 1106, true);
+
+
+--
+-- Name: card_classification_map_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_classification_map_id_seq', 1896, true);
+
+
+--
+-- Name: card_classifications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_classifications_id_seq', 116, true);
+
+
+--
+-- Name: card_inks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_inks_id_seq', 6, true);
+
+
+--
+-- Name: card_rarity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_rarity_id_seq', 7, true);
+
+
+--
+-- Name: card_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.card_types_id_seq', 5, true);
+
+
+--
+-- Name: cards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.cards_id_seq', 1027, true);
+
+
+--
+-- Name: disney_franchise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.disney_franchise_id_seq', 85, true);
+
+
+--
+-- Name: set_names_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.set_names_id_seq', 15, true);
+
+
+--
+-- Name: starer_deck_cards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.starer_deck_cards_id_seq', 314, true);
+
+
+--
+-- Name: starter_decks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.starter_decks_id_seq', 11, true);
+
+
+--
+-- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: artists artists_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artists
+    ADD CONSTRAINT artists_unique UNIQUE (artist_name);
+
+
+--
+-- Name: card_artist_map card_artist_map_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_artist_map
+    ADD CONSTRAINT card_artist_map_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_artist_map card_artist_map_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_artist_map
+    ADD CONSTRAINT card_artist_map_unique UNIQUE (card, artist);
+
+
+--
+-- Name: card_classification_map card_classification_map_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classification_map
+    ADD CONSTRAINT card_classification_map_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_classification_map card_classification_map_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classification_map
+    ADD CONSTRAINT card_classification_map_unique UNIQUE (card, classification);
+
+
+--
+-- Name: card_classifications card_classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classifications
+    ADD CONSTRAINT card_classifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_classifications card_classifications_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classifications
+    ADD CONSTRAINT card_classifications_unique UNIQUE (classification);
+
+
+--
+-- Name: card_inks card_inks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_inks
+    ADD CONSTRAINT card_inks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_inks card_inks_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_inks
+    ADD CONSTRAINT card_inks_unique UNIQUE (ink);
+
+
+--
+-- Name: card_rarity card_rarity_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_rarity
+    ADD CONSTRAINT card_rarity_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_rarity card_rarity_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_rarity
+    ADD CONSTRAINT card_rarity_unique UNIQUE (rarity);
+
+
+--
+-- Name: card_types card_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_types
+    ADD CONSTRAINT card_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_types card_types_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_types
+    ADD CONSTRAINT card_types_unique UNIQUE (card_type);
+
+
+--
+-- Name: cards cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cards cards_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_unique UNIQUE (card_name);
+
+
+--
+-- Name: cards cards_unique_1; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_unique_1 UNIQUE (lorcana_api_id);
+
+
+--
+-- Name: disney_franchise disney_franchise_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.disney_franchise
+    ADD CONSTRAINT disney_franchise_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: disney_franchise disney_franchise_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.disney_franchise
+    ADD CONSTRAINT disney_franchise_unique UNIQUE (franchise_name);
+
+
+--
+-- Name: card_sets set_names_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_sets
+    ADD CONSTRAINT set_names_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: card_sets set_names_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_sets
+    ADD CONSTRAINT set_names_unique UNIQUE (set_name);
+
+
+--
+-- Name: card_sets set_names_unique_1; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_sets
+    ADD CONSTRAINT set_names_unique_1 UNIQUE (lorcana_api_id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_unique UNIQUE (starter_deck, card_id);
+
+
+--
+-- Name: starter_decks starter_decks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_decks
+    ADD CONSTRAINT starter_decks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: starter_decks starter_decks_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_decks
+    ADD CONSTRAINT starter_decks_unique UNIQUE (deck_name, card_set);
+
+
+--
+-- Name: card_artist_map card_artist_map_artists_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_artist_map
+    ADD CONSTRAINT card_artist_map_artists_fk FOREIGN KEY (artist) REFERENCES public.artists(id);
+
+
+--
+-- Name: card_artist_map card_artist_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_artist_map
+    ADD CONSTRAINT card_artist_map_cards_fk FOREIGN KEY (card) REFERENCES public.cards(id);
+
+
+--
+-- Name: card_classification_map card_classification_map_card_classifications_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classification_map
+    ADD CONSTRAINT card_classification_map_card_classifications_fk FOREIGN KEY (classification) REFERENCES public.card_classifications(id);
+
+
+--
+-- Name: card_classification_map card_classification_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.card_classification_map
+    ADD CONSTRAINT card_classification_map_cards_fk FOREIGN KEY (card) REFERENCES public.cards(id);
+
+
+--
+-- Name: cards cards_card_inks_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_card_inks_fk FOREIGN KEY (card_ink) REFERENCES public.card_inks(id);
+
+
+--
+-- Name: cards cards_card_rarity_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_card_rarity_fk FOREIGN KEY (card_rarity) REFERENCES public.card_rarity(id);
+
+
+--
+-- Name: cards cards_card_sets_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_card_sets_fk FOREIGN KEY (card_set) REFERENCES public.card_sets(id);
+
+
+--
+-- Name: cards cards_card_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_card_types_fk FOREIGN KEY (card_type) REFERENCES public.card_types(id);
+
+
+--
+-- Name: cards cards_disney_franchise_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_disney_franchise_fk FOREIGN KEY (card_franchise) REFERENCES public.disney_franchise(id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_card_inks_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_card_inks_fk FOREIGN KEY (card_ink) REFERENCES public.card_inks(id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_card_sets_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_card_sets_fk FOREIGN KEY (card_set) REFERENCES public.card_sets(id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+
+
+--
+-- Name: starter_deck_cards starer_deck_cards_starter_decks_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_deck_cards
+    ADD CONSTRAINT starer_deck_cards_starter_decks_fk FOREIGN KEY (starter_deck) REFERENCES public.starter_decks(id);
+
+
+--
+-- Name: starter_decks starter_decks_card_sets_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.starter_decks
+    ADD CONSTRAINT starter_decks_card_sets_fk FOREIGN KEY (card_set) REFERENCES public.card_sets(id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: -
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
