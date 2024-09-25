@@ -18,6 +18,7 @@ The current version of this database includes cards up through Shimmering Skies.
 2) Azurite Sea incomplete
 
 ### Planned Additions:
-1) FastAPI scripts to host your own api.
+1) Create requirements file and PIP Package
+2) FastAPI scripts to host your own api.
 2) Discord Bot script to show cards, and open random packs for fun.
 3) Scripts to automate the adjustment of cards - i.e. resize, rotate, overlay, etc
