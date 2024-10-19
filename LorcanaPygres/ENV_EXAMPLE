@@ -1,7 +1,7 @@
-# Create a file called '.env' using these parameters.
+db_server = '10.0.0.1' # your postres server ip address
+db_port = '5432' # your postgres port.  5432 is the default
+db_name = 'database_name' # Your database name
+db_user = 'db_username' # the username to connect to the db with
+db_secret = 'some_very_complex_Password' # used to connect to the db, and also encrypt private entries in the database as needed, so a backup doesnt expose this info.
 
-db_user = 'DBUSERNAME' # Your DB Username
-db_password = 'DBPASSWORD' # Your DB password
-db_name = 'DBNAME' # Your database name
-db_server = 'DBSERVERADDRESS' # Your server URL, IP Address, or Localhost
-db_port = 'DBPORT' # DB Port - 5432 is the common postgresql port
+# Example commands to run under psql 1)"CREATE USER your_username WITH PASSWORD 'your_secure_password'" 2) "CREATE DATABASE your_db_name OWNER your_username;"
