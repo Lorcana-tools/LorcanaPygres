@@ -17,13 +17,14 @@ def add_initial_token():
     if initial_token == '':
         print('Token not provided.  Exiting!')
         sys.exit()
-    execute_db(f"INSERT INTO control_table(ravensburg_initial_token) VALUES('{encrypt_key(initial_token)}')")
-    execute_db(f"INSERT INTO control_table(ravensburg_current_token) VALUES('Huth S0lo Rules the Metaverse')")
-    execute_db(f"INSERT INTO control_table(ravensburg_token_expire) VALUES('1999-01-01 00:00:00')")
+    encrypted_key = encrypt_key(initial_token)
+    encrypted_key = encrypted_key.replace('%', '%%').replace(':', '\\:')
+    execute_db(f"INSERT INTO control_table(name, string_value) VALUES('ravensburg_initial_token', '{encrypted_key}')")
+    execute_db(f"INSERT INTO control_table(name, string_value) VALUES('ravensburg_current_token', 'Huth S0lo Rules the Metaverse')")
+    execute_db(f"INSERT INTO control_table(name, date_value) VALUES('ravensburg_token_expire', '1999-01-01 00:00:00')")
 
 
 async def get_current_token():
-    global updated_access_token
     try:
         initial_token = query_db(f"SELECT string_value ravensburg_initial_token FROM control_table WHERE name = 'ravensburg_initial_token'")
     except:
@@ -37,10 +38,13 @@ async def get_current_token():
     token_row = int(ravensburg_current_token['token_row'][0])
     expire_row = int(ravensburg_token_expire['token_row'][0])
     ravensburg_initial_token = decrypt_key(ravensburg_initial_token['ravensburg_initial_token'][0])
-    ravensburg_current_token = decrypt_key(ravensburg_current_token['ravensburg_current_token'][0])
+    try:
+        ravensburg_current_token = decrypt_key(ravensburg_current_token['ravensburg_current_token'][0])
+    except:
+        ravensburg_current_token = None
     ravensburg_token_expire = ravensburg_token_expire['ravensburg_token_expire'][0].to_pydatetime()
     current_time = Timestamp.now(tz='utc').to_pydatetime()
-    if ravensburg_token_expire > current_time:
+    if ravensburg_token_expire > current_time and ravensburg_current_token:
         return ravensburg_current_token
     updated_access_token = await initiate_logon(ravensburg_initial_token)
     if not updated_access_token:
@@ -52,7 +56,9 @@ async def get_current_token():
 
 
 def update_token_in_db(token_row, updated_access_token, expire_time, expire_row):
-    execute_db(f"UPDATE control_table SET string_value = '{encrypt_key(updated_access_token)}' WHERE id = {token_row}")
+    encrypted_key = encrypt_key(updated_access_token)
+    encrypted_key = encrypted_key.replace('%', '%%').replace(':', '\\:')
+    execute_db(f"UPDATE control_table SET string_value = '{encrypted_key}' WHERE id = {token_row}")
     execute_db(f"UPDATE control_table SET date_value = '{expire_time}' WHERE id = {expire_row}")
 
 
