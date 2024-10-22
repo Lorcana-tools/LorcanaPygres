@@ -1,7 +1,7 @@
 # A PostgreSQL Database and Python Scripts for Lorcana
 
 
-I am not affiliated with the lorcana api.  And all copyrights beyond to their respective owners. i.e. Disney, Ravensburger, etc.  I am an enthusiast, just expanding the playability of the game.
+All copyrights beyond to their respective owners. i.e. Disney, Ravensburger, etc.  I am an enthusiast, just expanding the playability of the game.  I do not have any relationship with these entities.
 
 To install, use pip install LorcanaPygres
 
