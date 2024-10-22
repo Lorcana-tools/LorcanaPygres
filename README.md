@@ -3,6 +3,15 @@
 
 I am not affiliated with the lorcana api.  And all copyrights beyond to their respective owners. i.e. Disney, Ravensburger, etc.  I am an enthusiast, just expanding the playability of the game.
 
+To install, use pip install LorcanaPygres
+
+Copy the ENV_EXAMPLE as .env, and modify for your installation.
+
+python(3) create_db_schema.py
+python(3) ravensurger_api.py
+
+You will need to have postgres installed, with the configuration added to the .env.  You will also need to have your initial ravensburger api token available for the first run.  You can get this using MITMProxy, along with the handheld client on an iPhone or Android.  It will be the authentication token passed in the first api call.
+
 # Update - 10/19/2024
 
 Complete overhaul of postgres database.  It now uses Ravensburgs actual data.  Scripts are updated to handle this new data source.  Added encrypted to sensitive fields in database.
