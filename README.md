@@ -1,8 +1,6 @@
 # A PostgreSQL Database and Python Scripts for Lorcana
 
 
-This database and subsequent python scripts leverages the Lorcana-API https://github.com/Dogloverblue/Lorcana-API.
-
 I am not affiliated with the lorcana api.  And all copyrights beyond to their respective owners. i.e. Disney, Ravensburger, etc.  I am an enthusiast, just expanding the playability of the game.
 
 # Update - 10/19/2024
