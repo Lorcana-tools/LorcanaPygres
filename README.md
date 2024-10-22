@@ -11,7 +11,7 @@ API is the next item on the agenda.
 
 # Update - 9-25-2024
 
-The lorcana api uses a mysql database, with each entry held as a json.  I pulled a copy of all of its contents, and then created a postgres database with each piece of information in its own relational table.  I used my database visualizer to identify typos and data duplicates, which I subsequently cleaned up.
+The lorcana api uses a postgres database, with each entry held as a json.  I pulled a copy of all of its contents, and then created a postgres database with each piece of information in its own relational table.  I used my database visualizer to identify typos and data duplicates, which I subsequently cleaned up.
 
 The card_images folder is empty, as I have that included in the .gitignore for now.  The script to pull down your own copy of all images is in this repo.
 
