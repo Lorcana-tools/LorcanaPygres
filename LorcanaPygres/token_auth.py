@@ -21,7 +21,7 @@ def add_initial_token():
     encrypted_key = encrypted_key.replace('%', '%%').replace(':', '\\:')
     execute_db(f"INSERT INTO control_table(name, string_value) VALUES('ravensburg_initial_token', '{encrypted_key}')")
     execute_db(f"INSERT INTO control_table(name, string_value) VALUES('ravensburg_current_token', 'Huth S0lo Rules the Metaverse')")
-    execute_db(f"INSERT INTO control_table(name, date_value) VALUES('ravensburg_token_expire', '1999-01-01 00:00:00')")
+    execute_db(f"INSERT INTO control_table(name, date_value, string_value) VALUES('ravensburg_token_expire', '1999-01-01 00:00:00', 'Huth S0lo Rules the Metaverse')")
 
 
 async def get_current_token():
