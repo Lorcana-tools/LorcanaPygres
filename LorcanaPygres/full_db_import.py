@@ -2,12 +2,13 @@ import httpx
 from utils import query_db, execute_db
 
 from KnownValues import KnownValues
-from ravensburger_token_auth import get_current_token
+from token_auth import get_current_token
 
 
 RAVENSBURGER_API = 'https://api.lorcana.ravensburger.com/v2'
 IMAGES_URL = 'https://api.lorcana.ravensburger.com/images'
 ALL_TAGS = ['name', 'subtitle', 'strength', 'willpower', 'quest_value', 'rarity', 'ink_cost', 'author', 'deck_building_id', 'culture_invariant_id', 'sort_number', 'additional_info', 'ink_convertible', 'abilities', 'subtypes', 'flavor_text', 'rules_text', 'card_identifier', 'image_urls', 'foil_mask_url', 'card_sets', 'magic_ink_colors', 'foil_type', 'special_rarity_id', 'deck_building_limit', 'varnish_type', 'varnish_mask_url', 'move_cost']
+
 
 
 known_values = KnownValues()
