@@ -8,9 +8,14 @@ To install, use pip install LorcanaPygres
 Copy the ENV_EXAMPLE as .env, and modify for your installation.
 
 python(3) create_db_schema.py
-python(3) ravensurger_api.py
+python(3) full_db_import.py
 
 You will need to have postgres installed, with the configuration added to the .env.  You will also need to have your initial ravensburger api token available for the first run.  You can get this using MITMProxy, along with the handheld client on an iPhone or Android.  It will be the authentication token passed in the first api call.
+
+# Update - 10/23/2024
+
+Update to DB Schema.  If you are on a previous version, either drop/recreate database, or truncate database, and then rerun the create_db_schema.  Future releases are planned to handle db upgrades, without requiring this step.
+Refactored some of the tool names.
 
 # Update - 10/19/2024
 
