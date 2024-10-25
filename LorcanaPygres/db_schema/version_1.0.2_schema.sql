@@ -2295,6 +2295,9 @@ REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
+-- INSERT INTO control_table(name, string_value) VALUES('db_schema_version', '1.0.2');
+
 --
 -- PostgreSQL database dump complete
 --
+

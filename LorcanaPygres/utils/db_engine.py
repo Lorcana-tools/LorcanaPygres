@@ -23,9 +23,11 @@ def create_engine():
 
 engine = create_engine()
 
-def execute_db(query):
+def execute_db(query, force_refresh=False):
     with engine.connect() as conn, conn.begin():
         conn.execute(sqlalchemy.text(query))
+    if force_refresh:
+        refesh_session()
 
 
 def query_db(query):
@@ -37,3 +39,8 @@ def query_db(query):
 def sqlalchemy_escape(sql_string):
     fixed_string = sql_string.replace('%', '%%').replace("'", "''")
     return fixed_string
+
+def refesh_session():
+    global engine
+    engine.dispose()
+    engine = create_engine()

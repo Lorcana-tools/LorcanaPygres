@@ -25,6 +25,20 @@ SET row_security = off;
 
 ALTER SCHEMA public OWNER TO postgres;
 
+--
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -562,7 +576,8 @@ CREATE TABLE public.card_sets (
     sort_number integer NOT NULL,
     thumbnail_image_url character varying NOT NULL,
     set_type integer,
-    image_downloaded boolean DEFAULT false NOT NULL
+    image_downloaded boolean DEFAULT false NOT NULL,
+    cards_in_set integer
 );
 
 
@@ -791,7 +806,8 @@ CREATE TABLE public.cards (
     ink_convertible boolean NOT NULL,
     card_identifier character varying NOT NULL,
     details_loaded boolean DEFAULT false NOT NULL,
-    ink_id integer NOT NULL
+    ink_id integer NOT NULL,
+    card_type integer NOT NULL
 );
 
 
@@ -825,9 +841,12 @@ ALTER SEQUENCE public.cards_seq OWNED BY public.cards.id;
 
 CREATE TABLE public.control_table (
     id integer NOT NULL,
-    ravensburg_initial_token character varying,
-    ravensburg_current_token character varying,
-    ravensburg_token_expire timestamp with time zone
+    name character varying NOT NULL,
+    string_value character varying,
+    date_value timestamp with time zone,
+    integer_value integer,
+    boolean_value boolean,
+    high_sensitivity boolean DEFAULT false NOT NULL
 );
 
 
@@ -888,6 +907,82 @@ ALTER SEQUENCE public.deck_building_limits_id_seq OWNER TO s0lo_games;
 --
 
 ALTER SEQUENCE public.deck_building_limits_id_seq OWNED BY public.deck_building_limits.id;
+
+
+--
+-- Name: deck_cards; Type: TABLE; Schema: public; Owner: s0lo_games
+--
+
+CREATE TABLE public.deck_cards (
+    id integer NOT NULL,
+    deck_id integer NOT NULL,
+    card_id integer NOT NULL,
+    quantity integer NOT NULL
+);
+
+
+ALTER TABLE public.deck_cards OWNER TO s0lo_games;
+
+--
+-- Name: deck_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+--
+
+CREATE SEQUENCE public.deck_cards_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.deck_cards_id_seq OWNER TO s0lo_games;
+
+--
+-- Name: deck_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+--
+
+ALTER SEQUENCE public.deck_cards_id_seq OWNED BY public.deck_cards.id;
+
+
+--
+-- Name: decks; Type: TABLE; Schema: public; Owner: s0lo_games
+--
+
+CREATE TABLE public.decks (
+    id integer NOT NULL,
+    deck_url character varying,
+    deck_name character varying,
+    deck_ink1 integer NOT NULL,
+    deck_ink2 integer,
+    card_composite_hash character varying NOT NULL,
+    starter_pack boolean DEFAULT false NOT NULL,
+    deck_complete boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.decks OWNER TO s0lo_games;
+
+--
+-- Name: decks_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+--
+
+CREATE SEQUENCE public.decks_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.decks_id_seq OWNER TO s0lo_games;
+
+--
+-- Name: decks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+--
+
+ALTER SEQUENCE public.decks_id_seq OWNED BY public.decks.id;
 
 
 --
@@ -996,6 +1091,42 @@ ALTER SEQUENCE public.foil_types_id_seq OWNED BY public.foil_types.id;
 
 
 --
+-- Name: my_cards; Type: TABLE; Schema: public; Owner: s0lo_games
+--
+
+CREATE TABLE public.my_cards (
+    id integer NOT NULL,
+    card_id integer NOT NULL,
+    count integer NOT NULL,
+    foil boolean NOT NULL
+);
+
+
+ALTER TABLE public.my_cards OWNER TO s0lo_games;
+
+--
+-- Name: my_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+--
+
+CREATE SEQUENCE public.my_cards_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.my_cards_id_seq OWNER TO s0lo_games;
+
+--
+-- Name: my_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+--
+
+ALTER SEQUENCE public.my_cards_id_seq OWNED BY public.my_cards.id;
+
+
+--
 -- Name: special_rarity; Type: TABLE; Schema: public; Owner: s0lo_games
 --
 
@@ -1028,6 +1159,77 @@ ALTER SEQUENCE public.special_rarity_id_seq OWNER TO s0lo_games;
 --
 
 ALTER SEQUENCE public.special_rarity_id_seq OWNED BY public.special_rarity.id;
+
+
+--
+-- Name: tcg_price_monitoring; Type: TABLE; Schema: public; Owner: s0lo_games
+--
+
+CREATE TABLE public.tcg_price_monitoring (
+    id integer NOT NULL,
+    card_id integer NOT NULL,
+    usd_price character varying NOT NULL,
+    date_time timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.tcg_price_monitoring OWNER TO s0lo_games;
+
+--
+-- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+--
+
+CREATE SEQUENCE public.tcg_price_monitoring_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.tcg_price_monitoring_id_seq OWNER TO s0lo_games;
+
+--
+-- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+--
+
+ALTER SEQUENCE public.tcg_price_monitoring_id_seq OWNED BY public.tcg_price_monitoring.id;
+
+
+--
+-- Name: tcg_product_mapping; Type: TABLE; Schema: public; Owner: s0lo_games
+--
+
+CREATE TABLE public.tcg_product_mapping (
+    id integer NOT NULL,
+    card_id integer NOT NULL,
+    tcg_product_code integer NOT NULL
+);
+
+
+ALTER TABLE public.tcg_product_mapping OWNER TO s0lo_games;
+
+--
+-- Name: tcg_product_mapping_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+--
+
+CREATE SEQUENCE public.tcg_product_mapping_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.tcg_product_mapping_id_seq OWNER TO s0lo_games;
+
+--
+-- Name: tcg_product_mapping_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+--
+
+ALTER SEQUENCE public.tcg_product_mapping_id_seq OWNED BY public.tcg_product_mapping.id;
 
 
 --
@@ -1304,6 +1506,20 @@ ALTER TABLE ONLY public.deck_building_limits ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: deck_cards id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.deck_cards ALTER COLUMN id SET DEFAULT nextval('public.deck_cards_id_seq'::regclass);
+
+
+--
+-- Name: decks id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.decks ALTER COLUMN id SET DEFAULT nextval('public.decks_id_seq'::regclass);
+
+
+--
 -- Name: foil_mask_urls id; Type: DEFAULT; Schema: public; Owner: s0lo_games
 --
 
@@ -1325,10 +1541,31 @@ ALTER TABLE ONLY public.foil_types ALTER COLUMN id SET DEFAULT nextval('public.f
 
 
 --
+-- Name: my_cards id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.my_cards ALTER COLUMN id SET DEFAULT nextval('public.my_cards_id_seq'::regclass);
+
+
+--
 -- Name: special_rarity id; Type: DEFAULT; Schema: public; Owner: s0lo_games
 --
 
 ALTER TABLE ONLY public.special_rarity ALTER COLUMN id SET DEFAULT nextval('public.special_rarity_id_seq'::regclass);
+
+
+--
+-- Name: tcg_price_monitoring id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_price_monitoring ALTER COLUMN id SET DEFAULT nextval('public.tcg_price_monitoring_id_seq'::regclass);
+
+
+--
+-- Name: tcg_product_mapping id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_product_mapping ALTER COLUMN id SET DEFAULT nextval('public.tcg_product_mapping_id_seq'::regclass);
 
 
 --
@@ -1673,6 +1910,14 @@ ALTER TABLE ONLY public.control_table
 
 
 --
+-- Name: control_table control_table_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.control_table
+    ADD CONSTRAINT control_table_unique UNIQUE (name);
+
+
+--
 -- Name: deck_building_limits deck_limit_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
 --
 
@@ -1686,6 +1931,38 @@ ALTER TABLE ONLY public.deck_building_limits
 
 ALTER TABLE ONLY public.deck_building_limits
     ADD CONSTRAINT deck_limit_unique_1 UNIQUE (card_id);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.deck_cards
+    ADD CONSTRAINT dreamborn_deck_cards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.deck_cards
+    ADD CONSTRAINT dreamborn_deck_cards_unique UNIQUE (deck_id, card_id);
+
+
+--
+-- Name: decks dreamborn_decks_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.decks
+    ADD CONSTRAINT dreamborn_decks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: decks dreamborn_decks_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.decks
+    ADD CONSTRAINT dreamborn_decks_unique UNIQUE (card_composite_hash);
 
 
 --
@@ -1769,6 +2046,14 @@ ALTER TABLE ONLY public.card_move_cost
 
 
 --
+-- Name: my_cards my_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.my_cards
+    ADD CONSTRAINT my_cards_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: special_rarity special_rarity_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
 --
 
@@ -1782,6 +2067,38 @@ ALTER TABLE ONLY public.special_rarity
 
 ALTER TABLE ONLY public.special_rarity
     ADD CONSTRAINT special_rarity_unique UNIQUE (card_id);
+
+
+--
+-- Name: tcg_price_monitoring tcg_price_monitoring_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_price_monitoring
+    ADD CONSTRAINT tcg_price_monitoring_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tcg_product_mapping tcg_product_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_product_mapping
+    ADD CONSTRAINT tcg_product_mapping_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tcg_product_mapping tcg_product_mapping_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_product_mapping
+    ADD CONSTRAINT tcg_product_mapping_unique UNIQUE (card_id);
+
+
+--
+-- Name: tcg_product_mapping tcg_product_mapping_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_product_mapping
+    ADD CONSTRAINT tcg_product_mapping_unique_1 UNIQUE (tcg_product_code);
 
 
 --
@@ -1822,6 +2139,20 @@ ALTER TABLE ONLY public.varnish_type_map
 
 ALTER TABLE ONLY public.varnish_types
     ADD CONSTRAINT varnish_types_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cards_card_identifier_idx; Type: INDEX; Schema: public; Owner: s0lo_games
+--
+
+CREATE INDEX cards_card_identifier_idx ON public.cards USING btree (card_identifier);
+
+
+--
+-- Name: cards_deck_building_id_idx; Type: INDEX; Schema: public; Owner: s0lo_games
+--
+
+CREATE INDEX cards_deck_building_id_idx ON public.cards USING btree (deck_building_id);
 
 
 --
@@ -1985,11 +2316,51 @@ ALTER TABLE ONLY public.cards
 
 
 --
+-- Name: cards cards_card_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_card_types_fk FOREIGN KEY (card_type) REFERENCES public.card_types(id);
+
+
+--
 -- Name: deck_building_limits deck_building_limits_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
 --
 
 ALTER TABLE ONLY public.deck_building_limits
     ADD CONSTRAINT deck_building_limits_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.deck_cards
+    ADD CONSTRAINT dreamborn_deck_cards_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_dreamborn_decks_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.deck_cards
+    ADD CONSTRAINT dreamborn_deck_cards_dreamborn_decks_fk FOREIGN KEY (deck_id) REFERENCES public.decks(id);
+
+
+--
+-- Name: decks dreamborn_decks_card_ink_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.decks
+    ADD CONSTRAINT dreamborn_decks_card_ink_fk FOREIGN KEY (deck_ink1) REFERENCES public.card_ink(id);
+
+
+--
+-- Name: decks dreamborn_decks_card_ink_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.decks
+    ADD CONSTRAINT dreamborn_decks_card_ink_fk_1 FOREIGN KEY (deck_ink2) REFERENCES public.card_ink(id);
 
 
 --
@@ -2025,6 +2396,22 @@ ALTER TABLE ONLY public.special_rarity
 
 
 --
+-- Name: tcg_price_monitoring tcg_price_monitoring_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_price_monitoring
+    ADD CONSTRAINT tcg_price_monitoring_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+
+
+--
+-- Name: tcg_product_mapping tcg_product_mapping_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+--
+
+ALTER TABLE ONLY public.tcg_product_mapping
+    ADD CONSTRAINT tcg_product_mapping_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+
+
+--
 -- Name: varnish_mask_urls varnish_mask_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
 --
 
@@ -2054,6 +2441,10 @@ ALTER TABLE ONLY public.varnish_type_map
 
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO PUBLIC;
+
+--
+-- INSERT INTO control_table(name, string_value) VALUES('db_schema_version', '1.0.3');
+--
 
 
 --
