@@ -14,6 +14,11 @@ You will need to have postgres installed, with the configuration added to the .e
 
 # Update - 10/24/2024
 
+Updated db connection handler to refresh after a sql injection.  Updated schema to version 1.0.3.  Rerunning the db create tool now checks if db exists.  If it does, it then checks if it can patch it if needed.  Anyone on version 1.0.2 should run the create db again to get to the latest version.
+Prepared db for tcg pricing.
+
+# Update - 10/24/2024
+
 Added tool to take your Dreamborn exported csv, and sort it by the known deck popularity as of most recent import
 
 # Update - 10/23/2024
