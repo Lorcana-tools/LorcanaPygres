@@ -6,7 +6,7 @@ import ua_generator
 import pandas as pd
 
 from time import sleep
-from utils.db_queries import get_all_cards_in_db, get_known_deck_cards_sorted, lookup_card_details_by_row
+from utils.db_queries import get_all_cards_in_db, get_known_deck_cards_sorted, lookup_card_details_by_row, make_cards_consistent
 
 DREAMBORN_SETS = 'https://dreamborn.ink/cache/en/sets.json'
 TCG_PRICING = 'https://dreamborn.ink/cache/prices/USD.json'
