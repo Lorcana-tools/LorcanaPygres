@@ -108,7 +108,8 @@ def make_cards_consistent(card_name):
 
 
 def lookup_card_details_by_row(card_row):
-    query = query_db(f"SELECT cards.name, card_subtitles.subtitle, card_ink.ink_color, cards.card_identifier, cards.ink_convertible, cards.ink_cost FROM cards LEFT JOIN card_subtitles on card_subtitles.card_id = cards.id JOIN card_ink on card_ink.id = cards.ink_id WHERE cards.id = {card_row}")
+    card_int = int(card_row)
+    query = query_db(f"SELECT cards.name, card_subtitles.subtitle, card_ink.ink_color, cards.card_identifier, cards.ink_convertible, cards.ink_cost FROM cards LEFT JOIN card_subtitles on card_subtitles.card_id = cards.id JOIN card_ink on card_ink.id = cards.ink_id WHERE cards.id = {card_int}")
     card_name, card_subtitle, ink_color, card_identifier, ink_cost, inkable = query['name'][0].strip(), query['subtitle'][0], query['ink_color'][0], query['card_identifier'][0], int(query['ink_cost'][0]), bool(query['ink_convertible'][0])
     if card_subtitle is not None:
         card_name = card_name + ' - ' + card_subtitle.strip()

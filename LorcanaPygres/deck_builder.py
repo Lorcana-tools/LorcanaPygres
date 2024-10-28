@@ -1,48 +1,13 @@
-from ast import parse
-
-import httpx
-import ua_generator
-
 import pandas as pd
 
-from time import sleep
 from utils.db_queries import get_all_cards_in_db, get_known_deck_cards_sorted, lookup_card_details_by_row, make_cards_consistent
 
-DREAMBORN_SETS = 'https://dreamborn.ink/cache/en/sets.json'
-TCG_PRICING = 'https://dreamborn.ink/cache/prices/USD.json'
-
-ua = ua_generator.generate(browser=('chrome', 'edge'))
-
-client = httpx.Client(headers=ua.headers.get())
-
-def get_dreamborn_sets():
-    try:
-        response = client.get(url=DREAMBORN_SETS, timeout=10)
-        dreamborn_sets = response.json()
-    except:
-        return None
-    return dreamborn_sets
-
-# dreamborn_sets = get_dreamborn_sets()
-
-
-def get_tcg_pricing():
-    try:
-        response = client.get(url=TCG_PRICING, timeout=10)
-        dreamborn_sets = response.json()
-    except:
-        return None
-    return dreamborn_sets
-
-# tcg_pricing = get_tcg_pricing()
-
-#
 
 def parse_users_deck(user_cards, use_foils=False):
     # Ignores Promo and D23 Cards - Who would want to play with those anyways, amiright!?!
     parsed_cards, card_count = [], 0
     if len(user_cards) == 0:
-        return parsed_cards
+        return parsed_cards, card_count
     i = 0
     while i < len(user_cards):
         try:
@@ -62,15 +27,18 @@ def parse_users_deck(user_cards, use_foils=False):
 
 
 
-def get_card_db_rows(csv_file, use_foils=False):
+def get_card_db_rows(csv_file, needs_read, use_foils=False):
     cards_id_and_ink = []
-    user_cards = pd.read_csv(csv_file)
-    parsed_cards, card_count =parse_users_deck(user_cards, use_foils)
+    user_cards = csv_file
+    if needs_read:
+        user_cards = pd.read_csv(csv_file)
+    parsed_cards, card_count = parse_users_deck(user_cards, use_foils)
     cards_in_db = get_all_cards_in_db()
     for card in parsed_cards:
         card_info = cards_in_db.get(card[0], None)
         if card_info is None:
-            print(f'Card Mising - {card[0]}')
+            print(f'Card Missing - {card[0]}')
+            continue
         card_row, card_ink, count = card_info[0], card_info[1], card[3]
         cards_id_and_ink.append([card_row, card_ink, count])
     return cards_id_and_ink
@@ -86,9 +54,9 @@ def identify_user_card_popularity(user_cards_parsed):
                 break
     return users_cards_sorted
 
-def create_csv_of_users_cards_popularity(csv_file, use_foils=False):
+def create_csv_of_users_cards_popularity(csv_file, needs_read, use_foils=False):
     card_details = []
-    user_cards_parsed = get_card_db_rows(csv_file, use_foils)
+    user_cards_parsed = get_card_db_rows(csv_file, needs_read, use_foils)
     users_cards_sorted = identify_user_card_popularity(user_cards_parsed)
     for card in users_cards_sorted:
         card_row, qty = card[0], card[2]
@@ -106,9 +74,16 @@ def build_csv(concise_card_sort):
     return users_cards_dataframe
 
 def create_sorted_csv(input_csv, output_csv, use_foils=False):
-    concise_card_sort = create_csv_of_users_cards_popularity(input_csv, use_foils)
+    concise_card_sort = create_csv_of_users_cards_popularity(input_csv, True, use_foils)
     users_cards_dataframe = build_csv(concise_card_sort)
     users_cards_dataframe.to_csv(output_csv, index=False)
+
+
+def deck_builder(input_csv, use_foils):
+    concise_card_sort = create_csv_of_users_cards_popularity(input_csv, False, use_foils)
+    users_cards_dataframe = build_csv(concise_card_sort)
+    return users_cards_dataframe
+
 
 
 # input_csv = 'sample_collection.csv'

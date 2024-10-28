@@ -44,7 +44,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: card_abilities; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_abilities; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_abilities (
@@ -53,10 +53,10 @@ CREATE TABLE public.card_abilities (
 );
 
 
-ALTER TABLE public.card_abilities OWNER TO s0lo_games;
+ALTER TABLE public.card_abilities OWNER TO lorcana_33;
 
 --
--- Name: card_abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_abilities_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_abilities_id_seq
@@ -68,17 +68,17 @@ CREATE SEQUENCE public.card_abilities_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_abilities_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_abilities_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_abilities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_abilities_id_seq OWNED BY public.card_abilities.id;
 
 
 --
--- Name: card_ability_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_ability_map (
@@ -88,10 +88,10 @@ CREATE TABLE public.card_ability_map (
 );
 
 
-ALTER TABLE public.card_ability_map OWNER TO s0lo_games;
+ALTER TABLE public.card_ability_map OWNER TO lorcana_33;
 
 --
--- Name: card_ability_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_ability_map_id_seq
@@ -103,17 +103,17 @@ CREATE SEQUENCE public.card_ability_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_ability_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_ability_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_ability_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_ability_map_id_seq OWNED BY public.card_ability_map.id;
 
 
 --
--- Name: card_additional_info; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_additional_info; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_additional_info (
@@ -124,10 +124,10 @@ CREATE TABLE public.card_additional_info (
 );
 
 
-ALTER TABLE public.card_additional_info OWNER TO s0lo_games;
+ALTER TABLE public.card_additional_info OWNER TO lorcana_33;
 
 --
--- Name: card_additional_details_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_additional_details_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_additional_details_id_seq
@@ -139,17 +139,17 @@ CREATE SEQUENCE public.card_additional_details_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_additional_details_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_additional_details_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_additional_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_additional_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_additional_details_id_seq OWNED BY public.card_additional_info.id;
 
 
 --
--- Name: card_artist_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_artist_map (
@@ -159,10 +159,10 @@ CREATE TABLE public.card_artist_map (
 );
 
 
-ALTER TABLE public.card_artist_map OWNER TO s0lo_games;
+ALTER TABLE public.card_artist_map OWNER TO lorcana_33;
 
 --
--- Name: card_artist_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_artist_map_id_seq
@@ -174,17 +174,17 @@ CREATE SEQUENCE public.card_artist_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_artist_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_artist_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_artist_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_artist_map_id_seq OWNED BY public.card_artist_map.id;
 
 
 --
--- Name: card_artists; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_artists; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_artists (
@@ -193,10 +193,10 @@ CREATE TABLE public.card_artists (
 );
 
 
-ALTER TABLE public.card_artists OWNER TO s0lo_games;
+ALTER TABLE public.card_artists OWNER TO lorcana_33;
 
 --
--- Name: card_artists_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_artists_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_artists_id_seq
@@ -208,17 +208,17 @@ CREATE SEQUENCE public.card_artists_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_artists_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_artists_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_artists_id_seq OWNED BY public.card_artists.id;
 
 
 --
--- Name: card_flavor_text; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_flavor_text (
@@ -228,10 +228,10 @@ CREATE TABLE public.card_flavor_text (
 );
 
 
-ALTER TABLE public.card_flavor_text OWNER TO s0lo_games;
+ALTER TABLE public.card_flavor_text OWNER TO lorcana_33;
 
 --
--- Name: card_flavor_text_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_flavor_text_id_seq
@@ -243,17 +243,17 @@ CREATE SEQUENCE public.card_flavor_text_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_flavor_text_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_flavor_text_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_flavor_text_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_flavor_text_id_seq OWNED BY public.card_flavor_text.id;
 
 
 --
--- Name: card_image_sizes; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_image_sizes (
@@ -262,10 +262,10 @@ CREATE TABLE public.card_image_sizes (
 );
 
 
-ALTER TABLE public.card_image_sizes OWNER TO s0lo_games;
+ALTER TABLE public.card_image_sizes OWNER TO lorcana_33;
 
 --
--- Name: card_image_sizes_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_image_sizes_id_seq
@@ -277,17 +277,17 @@ CREATE SEQUENCE public.card_image_sizes_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_image_sizes_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_image_sizes_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_image_sizes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_image_sizes_id_seq OWNED BY public.card_image_sizes.id;
 
 
 --
--- Name: card_image_urls; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_image_urls (
@@ -299,10 +299,10 @@ CREATE TABLE public.card_image_urls (
 );
 
 
-ALTER TABLE public.card_image_urls OWNER TO s0lo_games;
+ALTER TABLE public.card_image_urls OWNER TO lorcana_33;
 
 --
--- Name: card_image_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_image_urls_id_seq
@@ -314,17 +314,17 @@ CREATE SEQUENCE public.card_image_urls_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_image_urls_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_image_urls_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_image_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_image_urls_id_seq OWNED BY public.card_image_urls.id;
 
 
 --
--- Name: card_ink; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_ink; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_ink (
@@ -333,10 +333,10 @@ CREATE TABLE public.card_ink (
 );
 
 
-ALTER TABLE public.card_ink OWNER TO s0lo_games;
+ALTER TABLE public.card_ink OWNER TO lorcana_33;
 
 --
--- Name: card_ink_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_ink_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_ink_id_seq
@@ -348,17 +348,17 @@ CREATE SEQUENCE public.card_ink_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_ink_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_ink_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_ink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_ink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_ink_id_seq OWNED BY public.card_ink.id;
 
 
 --
--- Name: card_quest_value; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_quest_value; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_quest_value (
@@ -368,10 +368,10 @@ CREATE TABLE public.card_quest_value (
 );
 
 
-ALTER TABLE public.card_quest_value OWNER TO s0lo_games;
+ALTER TABLE public.card_quest_value OWNER TO lorcana_33;
 
 --
--- Name: card_lore_value_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_lore_value_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_lore_value_id_seq
@@ -383,17 +383,17 @@ CREATE SEQUENCE public.card_lore_value_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_lore_value_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_lore_value_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_lore_value_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_lore_value_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_lore_value_id_seq OWNED BY public.card_quest_value.id;
 
 
 --
--- Name: card_move_cost; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_move_cost (
@@ -403,10 +403,10 @@ CREATE TABLE public.card_move_cost (
 );
 
 
-ALTER TABLE public.card_move_cost OWNER TO s0lo_games;
+ALTER TABLE public.card_move_cost OWNER TO lorcana_33;
 
 --
--- Name: card_move_cost_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_move_cost_id_seq
@@ -418,17 +418,17 @@ CREATE SEQUENCE public.card_move_cost_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_move_cost_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_move_cost_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_move_cost_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_move_cost_id_seq OWNED BY public.card_move_cost.id;
 
 
 --
--- Name: card_rarities; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_rarities; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_rarities (
@@ -437,10 +437,10 @@ CREATE TABLE public.card_rarities (
 );
 
 
-ALTER TABLE public.card_rarities OWNER TO s0lo_games;
+ALTER TABLE public.card_rarities OWNER TO lorcana_33;
 
 --
--- Name: card_rarities_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_rarities_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_rarities_id_seq
@@ -452,17 +452,17 @@ CREATE SEQUENCE public.card_rarities_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_rarities_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_rarities_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_rarities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_rarities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_rarities_id_seq OWNED BY public.card_rarities.id;
 
 
 --
--- Name: card_rules_text; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_rules_text (
@@ -472,10 +472,10 @@ CREATE TABLE public.card_rules_text (
 );
 
 
-ALTER TABLE public.card_rules_text OWNER TO s0lo_games;
+ALTER TABLE public.card_rules_text OWNER TO lorcana_33;
 
 --
--- Name: card_rules_text_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_rules_text_id_seq
@@ -487,17 +487,17 @@ CREATE SEQUENCE public.card_rules_text_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_rules_text_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_rules_text_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_rules_text_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_rules_text_id_seq OWNED BY public.card_rules_text.id;
 
 
 --
--- Name: card_set_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_set_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_set_map (
@@ -507,10 +507,10 @@ CREATE TABLE public.card_set_map (
 );
 
 
-ALTER TABLE public.card_set_map OWNER TO s0lo_games;
+ALTER TABLE public.card_set_map OWNER TO lorcana_33;
 
 --
--- Name: card_set_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_set_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_set_map_id_seq
@@ -522,17 +522,17 @@ CREATE SEQUENCE public.card_set_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_set_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_set_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_set_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_set_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_set_map_id_seq OWNED BY public.card_set_map.id;
 
 
 --
--- Name: card_set_types; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_set_types; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_set_types (
@@ -541,10 +541,10 @@ CREATE TABLE public.card_set_types (
 );
 
 
-ALTER TABLE public.card_set_types OWNER TO s0lo_games;
+ALTER TABLE public.card_set_types OWNER TO lorcana_33;
 
 --
--- Name: card_set_types_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_set_types_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_set_types_id_seq
@@ -556,17 +556,17 @@ CREATE SEQUENCE public.card_set_types_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_set_types_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_set_types_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_set_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_set_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_set_types_id_seq OWNED BY public.card_set_types.id;
 
 
 --
--- Name: card_sets; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_sets; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_sets (
@@ -581,10 +581,10 @@ CREATE TABLE public.card_sets (
 );
 
 
-ALTER TABLE public.card_sets OWNER TO s0lo_games;
+ALTER TABLE public.card_sets OWNER TO lorcana_33;
 
 --
--- Name: card_sets_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_sets_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_sets_id_seq
@@ -596,17 +596,17 @@ CREATE SEQUENCE public.card_sets_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_sets_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_sets_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_sets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_sets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_sets_id_seq OWNED BY public.card_sets.id;
 
 
 --
--- Name: card_strength; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_strength; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_strength (
@@ -616,10 +616,10 @@ CREATE TABLE public.card_strength (
 );
 
 
-ALTER TABLE public.card_strength OWNER TO s0lo_games;
+ALTER TABLE public.card_strength OWNER TO lorcana_33;
 
 --
--- Name: card_strength_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_strength_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_strength_id_seq
@@ -631,17 +631,17 @@ CREATE SEQUENCE public.card_strength_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_strength_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_strength_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_strength_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_strength_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_strength_id_seq OWNED BY public.card_strength.id;
 
 
 --
--- Name: card_subtitles; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_subtitles (
@@ -651,10 +651,10 @@ CREATE TABLE public.card_subtitles (
 );
 
 
-ALTER TABLE public.card_subtitles OWNER TO s0lo_games;
+ALTER TABLE public.card_subtitles OWNER TO lorcana_33;
 
 --
--- Name: card_subtitles_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_subtitles_id_seq
@@ -666,17 +666,17 @@ CREATE SEQUENCE public.card_subtitles_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_subtitles_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_subtitles_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_subtitles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_subtitles_id_seq OWNED BY public.card_subtitles.id;
 
 
 --
--- Name: card_subtype_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_subtype_map (
@@ -686,10 +686,10 @@ CREATE TABLE public.card_subtype_map (
 );
 
 
-ALTER TABLE public.card_subtype_map OWNER TO s0lo_games;
+ALTER TABLE public.card_subtype_map OWNER TO lorcana_33;
 
 --
--- Name: card_subtype_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_subtype_map_id_seq
@@ -701,17 +701,17 @@ CREATE SEQUENCE public.card_subtype_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_subtype_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_subtype_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_subtype_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_subtype_map_id_seq OWNED BY public.card_subtype_map.id;
 
 
 --
--- Name: card_types; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_types; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_types (
@@ -720,10 +720,10 @@ CREATE TABLE public.card_types (
 );
 
 
-ALTER TABLE public.card_types OWNER TO s0lo_games;
+ALTER TABLE public.card_types OWNER TO lorcana_33;
 
 --
--- Name: cards_types_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: cards_types_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.cards_types_id_seq
@@ -735,17 +735,17 @@ CREATE SEQUENCE public.cards_types_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.cards_types_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.cards_types_id_seq OWNER TO lorcana_33;
 
 --
--- Name: cards_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: cards_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.cards_types_id_seq OWNED BY public.card_types.id;
 
 
 --
--- Name: card_subtypes; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_subtypes; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_subtypes (
@@ -754,10 +754,10 @@ CREATE TABLE public.card_subtypes (
 );
 
 
-ALTER TABLE public.card_subtypes OWNER TO s0lo_games;
+ALTER TABLE public.card_subtypes OWNER TO lorcana_33;
 
 --
--- Name: card_willpower; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: card_willpower; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.card_willpower (
@@ -767,10 +767,10 @@ CREATE TABLE public.card_willpower (
 );
 
 
-ALTER TABLE public.card_willpower OWNER TO s0lo_games;
+ALTER TABLE public.card_willpower OWNER TO lorcana_33;
 
 --
--- Name: card_willpower_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: card_willpower_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.card_willpower_id_seq
@@ -782,17 +782,17 @@ CREATE SEQUENCE public.card_willpower_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.card_willpower_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.card_willpower_id_seq OWNER TO lorcana_33;
 
 --
--- Name: card_willpower_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: card_willpower_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.card_willpower_id_seq OWNED BY public.card_willpower.id;
 
 
 --
--- Name: cards; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: cards; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.cards (
@@ -811,10 +811,10 @@ CREATE TABLE public.cards (
 );
 
 
-ALTER TABLE public.cards OWNER TO s0lo_games;
+ALTER TABLE public.cards OWNER TO lorcana_33;
 
 --
--- Name: cards_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: cards_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.cards_seq
@@ -826,17 +826,17 @@ CREATE SEQUENCE public.cards_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.cards_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.cards_seq OWNER TO lorcana_33;
 
 --
--- Name: cards_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: cards_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.cards_seq OWNED BY public.cards.id;
 
 
 --
--- Name: control_table; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: control_table; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.control_table (
@@ -850,10 +850,10 @@ CREATE TABLE public.control_table (
 );
 
 
-ALTER TABLE public.control_table OWNER TO s0lo_games;
+ALTER TABLE public.control_table OWNER TO lorcana_33;
 
 --
--- Name: control_table_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: control_table_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.control_table_id_seq
@@ -865,17 +865,17 @@ CREATE SEQUENCE public.control_table_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.control_table_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.control_table_id_seq OWNER TO lorcana_33;
 
 --
--- Name: control_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: control_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.control_table_id_seq OWNED BY public.control_table.id;
 
 
 --
--- Name: deck_building_limits; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.deck_building_limits (
@@ -885,10 +885,10 @@ CREATE TABLE public.deck_building_limits (
 );
 
 
-ALTER TABLE public.deck_building_limits OWNER TO s0lo_games;
+ALTER TABLE public.deck_building_limits OWNER TO lorcana_33;
 
 --
--- Name: deck_building_limits_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.deck_building_limits_id_seq
@@ -900,17 +900,17 @@ CREATE SEQUENCE public.deck_building_limits_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.deck_building_limits_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.deck_building_limits_id_seq OWNER TO lorcana_33;
 
 --
--- Name: deck_building_limits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.deck_building_limits_id_seq OWNED BY public.deck_building_limits.id;
 
 
 --
--- Name: deck_cards; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: deck_cards; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.deck_cards (
@@ -921,10 +921,10 @@ CREATE TABLE public.deck_cards (
 );
 
 
-ALTER TABLE public.deck_cards OWNER TO s0lo_games;
+ALTER TABLE public.deck_cards OWNER TO lorcana_33;
 
 --
--- Name: deck_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: deck_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.deck_cards_id_seq
@@ -936,17 +936,52 @@ CREATE SEQUENCE public.deck_cards_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.deck_cards_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.deck_cards_id_seq OWNER TO lorcana_33;
 
 --
--- Name: deck_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: deck_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.deck_cards_id_seq OWNED BY public.deck_cards.id;
 
 
 --
--- Name: decks; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: deck_sources; Type: TABLE; Schema: public; Owner: lorcana_33
+--
+
+CREATE TABLE public.deck_sources (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    url character varying NOT NULL
+);
+
+
+ALTER TABLE public.deck_sources OWNER TO lorcana_33;
+
+--
+-- Name: deck_sources_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
+--
+
+CREATE SEQUENCE public.deck_sources_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.deck_sources_id_seq OWNER TO lorcana_33;
+
+--
+-- Name: deck_sources_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
+--
+
+ALTER SEQUENCE public.deck_sources_id_seq OWNED BY public.deck_sources.id;
+
+
+--
+-- Name: decks; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.decks (
@@ -957,14 +992,15 @@ CREATE TABLE public.decks (
     deck_ink2 integer,
     card_composite_hash character varying NOT NULL,
     starter_pack boolean DEFAULT false NOT NULL,
-    deck_complete boolean DEFAULT false NOT NULL
+    deck_complete boolean DEFAULT false NOT NULL,
+    deck_source integer NOT NULL
 );
 
 
-ALTER TABLE public.decks OWNER TO s0lo_games;
+ALTER TABLE public.decks OWNER TO lorcana_33;
 
 --
--- Name: decks_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: decks_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.decks_id_seq
@@ -976,17 +1012,17 @@ CREATE SEQUENCE public.decks_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.decks_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.decks_id_seq OWNER TO lorcana_33;
 
 --
--- Name: decks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: decks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.decks_id_seq OWNED BY public.decks.id;
 
 
 --
--- Name: foil_mask_urls; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.foil_mask_urls (
@@ -997,10 +1033,10 @@ CREATE TABLE public.foil_mask_urls (
 );
 
 
-ALTER TABLE public.foil_mask_urls OWNER TO s0lo_games;
+ALTER TABLE public.foil_mask_urls OWNER TO lorcana_33;
 
 --
--- Name: foil_mask_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.foil_mask_urls_id_seq
@@ -1012,17 +1048,17 @@ CREATE SEQUENCE public.foil_mask_urls_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.foil_mask_urls_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.foil_mask_urls_id_seq OWNER TO lorcana_33;
 
 --
--- Name: foil_mask_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.foil_mask_urls_id_seq OWNED BY public.foil_mask_urls.id;
 
 
 --
--- Name: foil_type_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.foil_type_map (
@@ -1032,10 +1068,10 @@ CREATE TABLE public.foil_type_map (
 );
 
 
-ALTER TABLE public.foil_type_map OWNER TO s0lo_games;
+ALTER TABLE public.foil_type_map OWNER TO lorcana_33;
 
 --
--- Name: foil_type_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.foil_type_map_id_seq
@@ -1047,17 +1083,17 @@ CREATE SEQUENCE public.foil_type_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.foil_type_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.foil_type_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: foil_type_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.foil_type_map_id_seq OWNED BY public.foil_type_map.id;
 
 
 --
--- Name: foil_types; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: foil_types; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.foil_types (
@@ -1066,10 +1102,10 @@ CREATE TABLE public.foil_types (
 );
 
 
-ALTER TABLE public.foil_types OWNER TO s0lo_games;
+ALTER TABLE public.foil_types OWNER TO lorcana_33;
 
 --
--- Name: foil_types_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: foil_types_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.foil_types_id_seq
@@ -1081,17 +1117,53 @@ CREATE SEQUENCE public.foil_types_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.foil_types_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.foil_types_id_seq OWNER TO lorcana_33;
 
 --
--- Name: foil_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: foil_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.foil_types_id_seq OWNED BY public.foil_types.id;
 
 
 --
--- Name: my_cards; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: ink_deck_urls; Type: TABLE; Schema: public; Owner: lorcana_33
+--
+
+CREATE TABLE public.ink_deck_urls (
+    id integer NOT NULL,
+    url character varying NOT NULL,
+    is_page_url boolean NOT NULL,
+    scanned boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE public.ink_deck_urls OWNER TO lorcana_33;
+
+--
+-- Name: ink_deck_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
+--
+
+CREATE SEQUENCE public.ink_deck_urls_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.ink_deck_urls_id_seq OWNER TO lorcana_33;
+
+--
+-- Name: ink_deck_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
+--
+
+ALTER SEQUENCE public.ink_deck_urls_id_seq OWNED BY public.ink_deck_urls.id;
+
+
+--
+-- Name: my_cards; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.my_cards (
@@ -1102,10 +1174,10 @@ CREATE TABLE public.my_cards (
 );
 
 
-ALTER TABLE public.my_cards OWNER TO s0lo_games;
+ALTER TABLE public.my_cards OWNER TO lorcana_33;
 
 --
--- Name: my_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: my_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.my_cards_id_seq
@@ -1117,17 +1189,17 @@ CREATE SEQUENCE public.my_cards_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_cards_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.my_cards_id_seq OWNER TO lorcana_33;
 
 --
--- Name: my_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: my_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.my_cards_id_seq OWNED BY public.my_cards.id;
 
 
 --
--- Name: special_rarity; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: special_rarity; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.special_rarity (
@@ -1137,10 +1209,10 @@ CREATE TABLE public.special_rarity (
 );
 
 
-ALTER TABLE public.special_rarity OWNER TO s0lo_games;
+ALTER TABLE public.special_rarity OWNER TO lorcana_33;
 
 --
--- Name: special_rarity_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: special_rarity_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.special_rarity_id_seq
@@ -1152,31 +1224,32 @@ CREATE SEQUENCE public.special_rarity_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.special_rarity_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.special_rarity_id_seq OWNER TO lorcana_33;
 
 --
--- Name: special_rarity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: special_rarity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.special_rarity_id_seq OWNED BY public.special_rarity.id;
 
 
 --
--- Name: tcg_price_monitoring; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.tcg_price_monitoring (
     id integer NOT NULL,
-    card_id integer NOT NULL,
-    usd_price character varying NOT NULL,
+    product_id integer NOT NULL,
+    foil boolean NOT NULL,
+    usd_price real NOT NULL,
     date_time timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
-ALTER TABLE public.tcg_price_monitoring OWNER TO s0lo_games;
+ALTER TABLE public.tcg_price_monitoring OWNER TO lorcana_33;
 
 --
--- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.tcg_price_monitoring_id_seq
@@ -1188,30 +1261,31 @@ CREATE SEQUENCE public.tcg_price_monitoring_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.tcg_price_monitoring_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.tcg_price_monitoring_id_seq OWNER TO lorcana_33;
 
 --
--- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.tcg_price_monitoring_id_seq OWNED BY public.tcg_price_monitoring.id;
 
 
 --
--- Name: tcg_product_mapping; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.tcg_product_mapping (
     id integer NOT NULL,
     card_id integer NOT NULL,
-    tcg_product_code integer NOT NULL
+    tcg_product_code integer NOT NULL,
+    product_url character varying NOT NULL
 );
 
 
-ALTER TABLE public.tcg_product_mapping OWNER TO s0lo_games;
+ALTER TABLE public.tcg_product_mapping OWNER TO lorcana_33;
 
 --
--- Name: tcg_product_mapping_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.tcg_product_mapping_id_seq
@@ -1223,17 +1297,17 @@ CREATE SEQUENCE public.tcg_product_mapping_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.tcg_product_mapping_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.tcg_product_mapping_id_seq OWNER TO lorcana_33;
 
 --
--- Name: tcg_product_mapping_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.tcg_product_mapping_id_seq OWNED BY public.tcg_product_mapping.id;
 
 
 --
--- Name: varnish_mask_urls; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_urls; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.varnish_mask_urls (
@@ -1243,10 +1317,10 @@ CREATE TABLE public.varnish_mask_urls (
 );
 
 
-ALTER TABLE public.varnish_mask_urls OWNER TO s0lo_games;
+ALTER TABLE public.varnish_mask_urls OWNER TO lorcana_33;
 
 --
--- Name: varnish_mask_url_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_url_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.varnish_mask_url_id_seq
@@ -1258,17 +1332,17 @@ CREATE SEQUENCE public.varnish_mask_url_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.varnish_mask_url_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.varnish_mask_url_id_seq OWNER TO lorcana_33;
 
 --
--- Name: varnish_mask_url_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_url_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.varnish_mask_url_id_seq OWNED BY public.varnish_mask_urls.id;
 
 
 --
--- Name: varnish_type_map; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.varnish_type_map (
@@ -1279,10 +1353,10 @@ CREATE TABLE public.varnish_type_map (
 );
 
 
-ALTER TABLE public.varnish_type_map OWNER TO s0lo_games;
+ALTER TABLE public.varnish_type_map OWNER TO lorcana_33;
 
 --
--- Name: varnish_type_map_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.varnish_type_map_id_seq
@@ -1294,17 +1368,17 @@ CREATE SEQUENCE public.varnish_type_map_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.varnish_type_map_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.varnish_type_map_id_seq OWNER TO lorcana_33;
 
 --
--- Name: varnish_type_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.varnish_type_map_id_seq OWNED BY public.varnish_type_map.id;
 
 
 --
--- Name: varnish_types; Type: TABLE; Schema: public; Owner: s0lo_games
+-- Name: varnish_types; Type: TABLE; Schema: public; Owner: lorcana_33
 --
 
 CREATE TABLE public.varnish_types (
@@ -1313,10 +1387,10 @@ CREATE TABLE public.varnish_types (
 );
 
 
-ALTER TABLE public.varnish_types OWNER TO s0lo_games;
+ALTER TABLE public.varnish_types OWNER TO lorcana_33;
 
 --
--- Name: varnish_types_id_seq; Type: SEQUENCE; Schema: public; Owner: s0lo_games
+-- Name: varnish_types_id_seq; Type: SEQUENCE; Schema: public; Owner: lorcana_33
 --
 
 CREATE SEQUENCE public.varnish_types_id_seq
@@ -1328,269 +1402,283 @@ CREATE SEQUENCE public.varnish_types_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.varnish_types_id_seq OWNER TO s0lo_games;
+ALTER SEQUENCE public.varnish_types_id_seq OWNER TO lorcana_33;
 
 --
--- Name: varnish_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: s0lo_games
+-- Name: varnish_types_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: lorcana_33
 --
 
 ALTER SEQUENCE public.varnish_types_id_seq OWNED BY public.varnish_types.id;
 
 
 --
--- Name: card_abilities id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_abilities id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_abilities ALTER COLUMN id SET DEFAULT nextval('public.card_abilities_id_seq'::regclass);
 
 
 --
--- Name: card_ability_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ability_map ALTER COLUMN id SET DEFAULT nextval('public.card_ability_map_id_seq'::regclass);
 
 
 --
--- Name: card_additional_info id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_additional_info id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_additional_info ALTER COLUMN id SET DEFAULT nextval('public.card_additional_details_id_seq'::regclass);
 
 
 --
--- Name: card_artist_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artist_map ALTER COLUMN id SET DEFAULT nextval('public.card_artist_map_id_seq'::regclass);
 
 
 --
--- Name: card_artists id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_artists id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artists ALTER COLUMN id SET DEFAULT nextval('public.card_artists_id_seq'::regclass);
 
 
 --
--- Name: card_flavor_text id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_flavor_text ALTER COLUMN id SET DEFAULT nextval('public.card_flavor_text_id_seq'::regclass);
 
 
 --
--- Name: card_image_sizes id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_sizes ALTER COLUMN id SET DEFAULT nextval('public.card_image_sizes_id_seq'::regclass);
 
 
 --
--- Name: card_image_urls id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_urls ALTER COLUMN id SET DEFAULT nextval('public.card_image_urls_id_seq'::regclass);
 
 
 --
--- Name: card_ink id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_ink id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ink ALTER COLUMN id SET DEFAULT nextval('public.card_ink_id_seq'::regclass);
 
 
 --
--- Name: card_move_cost id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_move_cost ALTER COLUMN id SET DEFAULT nextval('public.card_move_cost_id_seq'::regclass);
 
 
 --
--- Name: card_quest_value id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_quest_value id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_quest_value ALTER COLUMN id SET DEFAULT nextval('public.card_lore_value_id_seq'::regclass);
 
 
 --
--- Name: card_rarities id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_rarities id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rarities ALTER COLUMN id SET DEFAULT nextval('public.card_rarities_id_seq'::regclass);
 
 
 --
--- Name: card_rules_text id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rules_text ALTER COLUMN id SET DEFAULT nextval('public.card_rules_text_id_seq'::regclass);
 
 
 --
--- Name: card_set_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_set_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_map ALTER COLUMN id SET DEFAULT nextval('public.card_set_map_id_seq'::regclass);
 
 
 --
--- Name: card_set_types id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_set_types id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_types ALTER COLUMN id SET DEFAULT nextval('public.card_set_types_id_seq'::regclass);
 
 
 --
--- Name: card_sets id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_sets id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_sets ALTER COLUMN id SET DEFAULT nextval('public.card_sets_id_seq'::regclass);
 
 
 --
--- Name: card_strength id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_strength id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_strength ALTER COLUMN id SET DEFAULT nextval('public.card_strength_id_seq'::regclass);
 
 
 --
--- Name: card_subtitles id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtitles ALTER COLUMN id SET DEFAULT nextval('public.card_subtitles_id_seq'::regclass);
 
 
 --
--- Name: card_subtype_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtype_map ALTER COLUMN id SET DEFAULT nextval('public.card_subtype_map_id_seq'::regclass);
 
 
 --
--- Name: card_types id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_types id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_types ALTER COLUMN id SET DEFAULT nextval('public.cards_types_id_seq'::regclass);
 
 
 --
--- Name: card_willpower id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: card_willpower id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_willpower ALTER COLUMN id SET DEFAULT nextval('public.card_willpower_id_seq'::regclass);
 
 
 --
--- Name: cards id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: cards id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.cards ALTER COLUMN id SET DEFAULT nextval('public.cards_seq'::regclass);
 
 
 --
--- Name: control_table id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: control_table id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.control_table ALTER COLUMN id SET DEFAULT nextval('public.control_table_id_seq'::regclass);
 
 
 --
--- Name: deck_building_limits id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_building_limits ALTER COLUMN id SET DEFAULT nextval('public.deck_building_limits_id_seq'::regclass);
 
 
 --
--- Name: deck_cards id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: deck_cards id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_cards ALTER COLUMN id SET DEFAULT nextval('public.deck_cards_id_seq'::regclass);
 
 
 --
--- Name: decks id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: deck_sources id; Type: DEFAULT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.deck_sources ALTER COLUMN id SET DEFAULT nextval('public.deck_sources_id_seq'::regclass);
+
+
+--
+-- Name: decks id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.decks ALTER COLUMN id SET DEFAULT nextval('public.decks_id_seq'::regclass);
 
 
 --
--- Name: foil_mask_urls id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_mask_urls ALTER COLUMN id SET DEFAULT nextval('public.foil_mask_urls_id_seq'::regclass);
 
 
 --
--- Name: foil_type_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_type_map ALTER COLUMN id SET DEFAULT nextval('public.foil_type_map_id_seq'::regclass);
 
 
 --
--- Name: foil_types id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: foil_types id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_types ALTER COLUMN id SET DEFAULT nextval('public.foil_types_id_seq'::regclass);
 
 
 --
--- Name: my_cards id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: ink_deck_urls id; Type: DEFAULT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.ink_deck_urls ALTER COLUMN id SET DEFAULT nextval('public.ink_deck_urls_id_seq'::regclass);
+
+
+--
+-- Name: my_cards id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.my_cards ALTER COLUMN id SET DEFAULT nextval('public.my_cards_id_seq'::regclass);
 
 
 --
--- Name: special_rarity id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: special_rarity id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.special_rarity ALTER COLUMN id SET DEFAULT nextval('public.special_rarity_id_seq'::regclass);
 
 
 --
--- Name: tcg_price_monitoring id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_price_monitoring ALTER COLUMN id SET DEFAULT nextval('public.tcg_price_monitoring_id_seq'::regclass);
 
 
 --
--- Name: tcg_product_mapping id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_product_mapping ALTER COLUMN id SET DEFAULT nextval('public.tcg_product_mapping_id_seq'::regclass);
 
 
 --
--- Name: varnish_mask_urls id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_urls id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_mask_urls ALTER COLUMN id SET DEFAULT nextval('public.varnish_mask_url_id_seq'::regclass);
 
 
 --
--- Name: varnish_type_map id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_type_map ALTER COLUMN id SET DEFAULT nextval('public.varnish_type_map_id_seq'::regclass);
 
 
 --
--- Name: varnish_types id; Type: DEFAULT; Schema: public; Owner: s0lo_games
+-- Name: varnish_types id; Type: DEFAULT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_types ALTER COLUMN id SET DEFAULT nextval('public.varnish_types_id_seq'::regclass);
 
 
 --
--- Name: card_abilities card_abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_abilities card_abilities_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_abilities
@@ -1598,7 +1686,7 @@ ALTER TABLE ONLY public.card_abilities
 
 
 --
--- Name: card_abilities card_abilities_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_abilities card_abilities_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_abilities
@@ -1606,7 +1694,7 @@ ALTER TABLE ONLY public.card_abilities
 
 
 --
--- Name: card_ability_map card_ability_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map card_ability_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ability_map
@@ -1614,7 +1702,7 @@ ALTER TABLE ONLY public.card_ability_map
 
 
 --
--- Name: card_ability_map card_ability_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map card_ability_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ability_map
@@ -1622,7 +1710,7 @@ ALTER TABLE ONLY public.card_ability_map
 
 
 --
--- Name: card_additional_info card_additional_details_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_additional_info card_additional_details_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_additional_info
@@ -1630,7 +1718,7 @@ ALTER TABLE ONLY public.card_additional_info
 
 
 --
--- Name: card_additional_info card_additional_details_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_additional_info card_additional_details_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_additional_info
@@ -1638,7 +1726,7 @@ ALTER TABLE ONLY public.card_additional_info
 
 
 --
--- Name: card_artist_map card_artist_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map card_artist_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artist_map
@@ -1646,7 +1734,7 @@ ALTER TABLE ONLY public.card_artist_map
 
 
 --
--- Name: card_artist_map card_artist_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map card_artist_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artist_map
@@ -1654,7 +1742,7 @@ ALTER TABLE ONLY public.card_artist_map
 
 
 --
--- Name: card_artists card_artists_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artists card_artists_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artists
@@ -1662,7 +1750,7 @@ ALTER TABLE ONLY public.card_artists
 
 
 --
--- Name: card_artists card_artists_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artists card_artists_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artists
@@ -1670,7 +1758,7 @@ ALTER TABLE ONLY public.card_artists
 
 
 --
--- Name: card_image_sizes card_image_sizes_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes card_image_sizes_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_sizes
@@ -1678,7 +1766,7 @@ ALTER TABLE ONLY public.card_image_sizes
 
 
 --
--- Name: card_image_sizes card_image_sizes_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_sizes card_image_sizes_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_sizes
@@ -1686,7 +1774,7 @@ ALTER TABLE ONLY public.card_image_sizes
 
 
 --
--- Name: card_image_urls card_image_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls card_image_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_urls
@@ -1694,7 +1782,7 @@ ALTER TABLE ONLY public.card_image_urls
 
 
 --
--- Name: card_image_urls card_image_urls_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls card_image_urls_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_urls
@@ -1702,7 +1790,7 @@ ALTER TABLE ONLY public.card_image_urls
 
 
 --
--- Name: card_ink card_ink_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ink card_ink_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ink
@@ -1710,7 +1798,7 @@ ALTER TABLE ONLY public.card_ink
 
 
 --
--- Name: card_ink card_ink_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ink card_ink_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ink
@@ -1718,7 +1806,7 @@ ALTER TABLE ONLY public.card_ink
 
 
 --
--- Name: card_quest_value card_lore_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_quest_value card_lore_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_quest_value
@@ -1726,7 +1814,7 @@ ALTER TABLE ONLY public.card_quest_value
 
 
 --
--- Name: card_quest_value card_lore_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_quest_value card_lore_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_quest_value
@@ -1734,7 +1822,7 @@ ALTER TABLE ONLY public.card_quest_value
 
 
 --
--- Name: card_rarities card_rarities_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_rarities card_rarities_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rarities
@@ -1742,7 +1830,7 @@ ALTER TABLE ONLY public.card_rarities
 
 
 --
--- Name: card_rarities card_rarities_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_rarities card_rarities_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rarities
@@ -1750,7 +1838,7 @@ ALTER TABLE ONLY public.card_rarities
 
 
 --
--- Name: card_rules_text card_rules_text_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text card_rules_text_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rules_text
@@ -1758,7 +1846,7 @@ ALTER TABLE ONLY public.card_rules_text
 
 
 --
--- Name: card_rules_text card_rules_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text card_rules_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rules_text
@@ -1766,7 +1854,7 @@ ALTER TABLE ONLY public.card_rules_text
 
 
 --
--- Name: card_set_map card_set_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_map card_set_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_map
@@ -1774,7 +1862,7 @@ ALTER TABLE ONLY public.card_set_map
 
 
 --
--- Name: card_set_map card_set_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_map card_set_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_map
@@ -1782,7 +1870,7 @@ ALTER TABLE ONLY public.card_set_map
 
 
 --
--- Name: card_set_types card_set_types_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_types card_set_types_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_types
@@ -1790,7 +1878,7 @@ ALTER TABLE ONLY public.card_set_types
 
 
 --
--- Name: card_set_types card_set_types_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_types card_set_types_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_types
@@ -1798,7 +1886,7 @@ ALTER TABLE ONLY public.card_set_types
 
 
 --
--- Name: card_sets card_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_sets card_sets_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_sets
@@ -1806,7 +1894,7 @@ ALTER TABLE ONLY public.card_sets
 
 
 --
--- Name: card_subtitles card_subtitles_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles card_subtitles_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtitles
@@ -1814,7 +1902,7 @@ ALTER TABLE ONLY public.card_subtitles
 
 
 --
--- Name: card_subtitles card_subtitles_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles card_subtitles_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtitles
@@ -1822,7 +1910,7 @@ ALTER TABLE ONLY public.card_subtitles
 
 
 --
--- Name: card_subtype_map card_subtype_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map card_subtype_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtype_map
@@ -1830,7 +1918,7 @@ ALTER TABLE ONLY public.card_subtype_map
 
 
 --
--- Name: card_subtype_map card_subtype_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map card_subtype_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtype_map
@@ -1838,7 +1926,7 @@ ALTER TABLE ONLY public.card_subtype_map
 
 
 --
--- Name: card_willpower card_willpower_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_willpower card_willpower_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_willpower
@@ -1846,7 +1934,7 @@ ALTER TABLE ONLY public.card_willpower
 
 
 --
--- Name: card_strength card_willpower_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_strength card_willpower_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_strength
@@ -1854,7 +1942,7 @@ ALTER TABLE ONLY public.card_strength
 
 
 --
--- Name: card_willpower card_willpower_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_willpower card_willpower_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_willpower
@@ -1862,7 +1950,7 @@ ALTER TABLE ONLY public.card_willpower
 
 
 --
--- Name: card_strength card_willpower_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_strength card_willpower_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_strength
@@ -1870,7 +1958,7 @@ ALTER TABLE ONLY public.card_strength
 
 
 --
--- Name: cards cards_characters_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: cards cards_characters_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.cards
@@ -1878,7 +1966,7 @@ ALTER TABLE ONLY public.cards
 
 
 --
--- Name: card_types cards_types_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_types cards_types_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_types
@@ -1886,7 +1974,7 @@ ALTER TABLE ONLY public.card_types
 
 
 --
--- Name: card_subtypes cards_types_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtypes cards_types_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtypes
@@ -1894,7 +1982,7 @@ ALTER TABLE ONLY public.card_subtypes
 
 
 --
--- Name: cards cards_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: cards cards_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.cards
@@ -1902,7 +1990,7 @@ ALTER TABLE ONLY public.cards
 
 
 --
--- Name: control_table control_table_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: control_table control_table_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.control_table
@@ -1910,7 +1998,7 @@ ALTER TABLE ONLY public.control_table
 
 
 --
--- Name: control_table control_table_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: control_table control_table_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.control_table
@@ -1918,7 +2006,7 @@ ALTER TABLE ONLY public.control_table
 
 
 --
--- Name: deck_building_limits deck_limit_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits deck_limit_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_building_limits
@@ -1926,7 +2014,7 @@ ALTER TABLE ONLY public.deck_building_limits
 
 
 --
--- Name: deck_building_limits deck_limit_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits deck_limit_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_building_limits
@@ -1934,7 +2022,31 @@ ALTER TABLE ONLY public.deck_building_limits
 
 
 --
--- Name: deck_cards dreamborn_deck_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_sources deck_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.deck_sources
+    ADD CONSTRAINT deck_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: deck_sources deck_sources_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.deck_sources
+    ADD CONSTRAINT deck_sources_unique UNIQUE (name);
+
+
+--
+-- Name: deck_sources deck_sources_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.deck_sources
+    ADD CONSTRAINT deck_sources_unique_1 UNIQUE (url);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_cards
@@ -1942,7 +2054,7 @@ ALTER TABLE ONLY public.deck_cards
 
 
 --
--- Name: deck_cards dreamborn_deck_cards_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_cards dreamborn_deck_cards_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_cards
@@ -1950,7 +2062,7 @@ ALTER TABLE ONLY public.deck_cards
 
 
 --
--- Name: decks dreamborn_decks_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: decks dreamborn_decks_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.decks
@@ -1958,7 +2070,7 @@ ALTER TABLE ONLY public.decks
 
 
 --
--- Name: decks dreamborn_decks_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: decks dreamborn_decks_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.decks
@@ -1966,7 +2078,7 @@ ALTER TABLE ONLY public.decks
 
 
 --
--- Name: foil_mask_urls foil_mask_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls foil_mask_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_mask_urls
@@ -1974,7 +2086,7 @@ ALTER TABLE ONLY public.foil_mask_urls
 
 
 --
--- Name: card_flavor_text foil_mask_urls_pkey_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text foil_mask_urls_pkey_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_flavor_text
@@ -1982,7 +2094,7 @@ ALTER TABLE ONLY public.card_flavor_text
 
 
 --
--- Name: foil_mask_urls foil_mask_urls_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls foil_mask_urls_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_mask_urls
@@ -1990,7 +2102,7 @@ ALTER TABLE ONLY public.foil_mask_urls
 
 
 --
--- Name: card_flavor_text foil_mask_urls_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text foil_mask_urls_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_flavor_text
@@ -1998,7 +2110,7 @@ ALTER TABLE ONLY public.card_flavor_text
 
 
 --
--- Name: foil_type_map foil_type_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map foil_type_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_type_map
@@ -2006,7 +2118,7 @@ ALTER TABLE ONLY public.foil_type_map
 
 
 --
--- Name: foil_type_map foil_type_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map foil_type_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_type_map
@@ -2014,7 +2126,7 @@ ALTER TABLE ONLY public.foil_type_map
 
 
 --
--- Name: foil_types foil_types_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_types foil_types_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_types
@@ -2022,7 +2134,7 @@ ALTER TABLE ONLY public.foil_types
 
 
 --
--- Name: foil_types foil_types_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_types foil_types_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_types
@@ -2030,7 +2142,23 @@ ALTER TABLE ONLY public.foil_types
 
 
 --
--- Name: card_move_cost move_cost_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: ink_deck_urls ink_deck_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.ink_deck_urls
+    ADD CONSTRAINT ink_deck_urls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ink_deck_urls ink_deck_urls_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.ink_deck_urls
+    ADD CONSTRAINT ink_deck_urls_unique UNIQUE (url);
+
+
+--
+-- Name: card_move_cost move_cost_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_move_cost
@@ -2038,7 +2166,7 @@ ALTER TABLE ONLY public.card_move_cost
 
 
 --
--- Name: card_move_cost move_cost_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost move_cost_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_move_cost
@@ -2046,7 +2174,7 @@ ALTER TABLE ONLY public.card_move_cost
 
 
 --
--- Name: my_cards my_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: my_cards my_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.my_cards
@@ -2054,7 +2182,7 @@ ALTER TABLE ONLY public.my_cards
 
 
 --
--- Name: special_rarity special_rarity_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: special_rarity special_rarity_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.special_rarity
@@ -2062,7 +2190,7 @@ ALTER TABLE ONLY public.special_rarity
 
 
 --
--- Name: special_rarity special_rarity_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: special_rarity special_rarity_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.special_rarity
@@ -2070,7 +2198,7 @@ ALTER TABLE ONLY public.special_rarity
 
 
 --
--- Name: tcg_price_monitoring tcg_price_monitoring_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring tcg_price_monitoring_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_price_monitoring
@@ -2078,7 +2206,7 @@ ALTER TABLE ONLY public.tcg_price_monitoring
 
 
 --
--- Name: tcg_product_mapping tcg_product_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping tcg_product_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_product_mapping
@@ -2086,7 +2214,7 @@ ALTER TABLE ONLY public.tcg_product_mapping
 
 
 --
--- Name: tcg_product_mapping tcg_product_mapping_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping tcg_product_mapping_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_product_mapping
@@ -2094,7 +2222,7 @@ ALTER TABLE ONLY public.tcg_product_mapping
 
 
 --
--- Name: tcg_product_mapping tcg_product_mapping_unique_1; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping tcg_product_mapping_unique_1; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_product_mapping
@@ -2102,7 +2230,7 @@ ALTER TABLE ONLY public.tcg_product_mapping
 
 
 --
--- Name: varnish_mask_urls varnish_mask_url_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_urls varnish_mask_url_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_mask_urls
@@ -2110,7 +2238,7 @@ ALTER TABLE ONLY public.varnish_mask_urls
 
 
 --
--- Name: varnish_mask_urls varnish_mask_urls_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_urls varnish_mask_urls_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_mask_urls
@@ -2118,7 +2246,7 @@ ALTER TABLE ONLY public.varnish_mask_urls
 
 
 --
--- Name: varnish_type_map varnish_type_map_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map varnish_type_map_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_type_map
@@ -2126,7 +2254,7 @@ ALTER TABLE ONLY public.varnish_type_map
 
 
 --
--- Name: varnish_type_map varnish_type_map_unique; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map varnish_type_map_unique; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_type_map
@@ -2134,7 +2262,7 @@ ALTER TABLE ONLY public.varnish_type_map
 
 
 --
--- Name: varnish_types varnish_types_pkey; Type: CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_types varnish_types_pkey; Type: CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_types
@@ -2142,21 +2270,21 @@ ALTER TABLE ONLY public.varnish_types
 
 
 --
--- Name: cards_card_identifier_idx; Type: INDEX; Schema: public; Owner: s0lo_games
+-- Name: cards_card_identifier_idx; Type: INDEX; Schema: public; Owner: lorcana_33
 --
 
 CREATE INDEX cards_card_identifier_idx ON public.cards USING btree (card_identifier);
 
 
 --
--- Name: cards_deck_building_id_idx; Type: INDEX; Schema: public; Owner: s0lo_games
+-- Name: cards_deck_building_id_idx; Type: INDEX; Schema: public; Owner: lorcana_33
 --
 
 CREATE INDEX cards_deck_building_id_idx ON public.cards USING btree (deck_building_id);
 
 
 --
--- Name: card_ability_map card_ability_map_card_abilities_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map card_ability_map_card_abilities_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ability_map
@@ -2164,7 +2292,7 @@ ALTER TABLE ONLY public.card_ability_map
 
 
 --
--- Name: card_ability_map card_ability_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_ability_map card_ability_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_ability_map
@@ -2172,7 +2300,7 @@ ALTER TABLE ONLY public.card_ability_map
 
 
 --
--- Name: card_additional_info card_additional_details_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_additional_info card_additional_details_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_additional_info
@@ -2180,7 +2308,7 @@ ALTER TABLE ONLY public.card_additional_info
 
 
 --
--- Name: card_artist_map card_artist_map_card_artists_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map card_artist_map_card_artists_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artist_map
@@ -2188,7 +2316,7 @@ ALTER TABLE ONLY public.card_artist_map
 
 
 --
--- Name: card_artist_map card_artist_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_artist_map card_artist_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_artist_map
@@ -2196,7 +2324,7 @@ ALTER TABLE ONLY public.card_artist_map
 
 
 --
--- Name: card_flavor_text card_flavor_text_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_flavor_text card_flavor_text_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_flavor_text
@@ -2204,7 +2332,7 @@ ALTER TABLE ONLY public.card_flavor_text
 
 
 --
--- Name: card_image_urls card_image_urls_card_image_sizes_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls card_image_urls_card_image_sizes_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_urls
@@ -2212,7 +2340,7 @@ ALTER TABLE ONLY public.card_image_urls
 
 
 --
--- Name: card_image_urls card_image_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_image_urls card_image_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_image_urls
@@ -2220,7 +2348,7 @@ ALTER TABLE ONLY public.card_image_urls
 
 
 --
--- Name: card_quest_value card_lore_value_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_quest_value card_lore_value_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_quest_value
@@ -2228,7 +2356,7 @@ ALTER TABLE ONLY public.card_quest_value
 
 
 --
--- Name: card_move_cost card_move_cost_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_move_cost card_move_cost_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_move_cost
@@ -2236,7 +2364,7 @@ ALTER TABLE ONLY public.card_move_cost
 
 
 --
--- Name: card_rules_text card_rules_text_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_rules_text card_rules_text_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_rules_text
@@ -2244,7 +2372,7 @@ ALTER TABLE ONLY public.card_rules_text
 
 
 --
--- Name: card_set_map card_set_map_card_sets_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_map card_set_map_card_sets_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_map
@@ -2252,7 +2380,7 @@ ALTER TABLE ONLY public.card_set_map
 
 
 --
--- Name: card_set_map card_set_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_set_map card_set_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_set_map
@@ -2260,7 +2388,7 @@ ALTER TABLE ONLY public.card_set_map
 
 
 --
--- Name: card_sets card_sets_card_set_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_sets card_sets_card_set_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_sets
@@ -2268,7 +2396,7 @@ ALTER TABLE ONLY public.card_sets
 
 
 --
--- Name: card_strength card_strength_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_strength card_strength_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_strength
@@ -2276,7 +2404,7 @@ ALTER TABLE ONLY public.card_strength
 
 
 --
--- Name: card_subtitles card_subtitles_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtitles card_subtitles_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtitles
@@ -2284,7 +2412,7 @@ ALTER TABLE ONLY public.card_subtitles
 
 
 --
--- Name: card_subtype_map card_subtype_map_card_subtypes_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map card_subtype_map_card_subtypes_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtype_map
@@ -2292,7 +2420,7 @@ ALTER TABLE ONLY public.card_subtype_map
 
 
 --
--- Name: card_subtype_map card_subtype_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_subtype_map card_subtype_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_subtype_map
@@ -2300,7 +2428,7 @@ ALTER TABLE ONLY public.card_subtype_map
 
 
 --
--- Name: card_willpower card_willpower_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: card_willpower card_willpower_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.card_willpower
@@ -2308,7 +2436,7 @@ ALTER TABLE ONLY public.card_willpower
 
 
 --
--- Name: cards cards_card_rarities_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: cards cards_card_rarities_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.cards
@@ -2316,7 +2444,7 @@ ALTER TABLE ONLY public.cards
 
 
 --
--- Name: cards cards_card_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: cards cards_card_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.cards
@@ -2324,7 +2452,7 @@ ALTER TABLE ONLY public.cards
 
 
 --
--- Name: deck_building_limits deck_building_limits_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_building_limits deck_building_limits_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_building_limits
@@ -2332,7 +2460,15 @@ ALTER TABLE ONLY public.deck_building_limits
 
 
 --
--- Name: deck_cards dreamborn_deck_cards_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: decks decks_deck_sources_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
+--
+
+ALTER TABLE ONLY public.decks
+    ADD CONSTRAINT decks_deck_sources_fk FOREIGN KEY (deck_source) REFERENCES public.deck_sources(id);
+
+
+--
+-- Name: deck_cards dreamborn_deck_cards_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_cards
@@ -2340,7 +2476,7 @@ ALTER TABLE ONLY public.deck_cards
 
 
 --
--- Name: deck_cards dreamborn_deck_cards_dreamborn_decks_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: deck_cards dreamborn_deck_cards_dreamborn_decks_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.deck_cards
@@ -2348,7 +2484,7 @@ ALTER TABLE ONLY public.deck_cards
 
 
 --
--- Name: decks dreamborn_decks_card_ink_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: decks dreamborn_decks_card_ink_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.decks
@@ -2356,7 +2492,7 @@ ALTER TABLE ONLY public.decks
 
 
 --
--- Name: decks dreamborn_decks_card_ink_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: decks dreamborn_decks_card_ink_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.decks
@@ -2364,7 +2500,7 @@ ALTER TABLE ONLY public.decks
 
 
 --
--- Name: foil_mask_urls foil_mask_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_mask_urls foil_mask_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_mask_urls
@@ -2372,7 +2508,7 @@ ALTER TABLE ONLY public.foil_mask_urls
 
 
 --
--- Name: foil_type_map foil_type_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map foil_type_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_type_map
@@ -2380,7 +2516,7 @@ ALTER TABLE ONLY public.foil_type_map
 
 
 --
--- Name: foil_type_map foil_type_map_foil_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: foil_type_map foil_type_map_foil_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.foil_type_map
@@ -2388,7 +2524,7 @@ ALTER TABLE ONLY public.foil_type_map
 
 
 --
--- Name: special_rarity special_rarity_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: special_rarity special_rarity_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.special_rarity
@@ -2396,15 +2532,15 @@ ALTER TABLE ONLY public.special_rarity
 
 
 --
--- Name: tcg_price_monitoring tcg_price_monitoring_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_price_monitoring tcg_price_monitoring_tcg_product_mapping_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_price_monitoring
-    ADD CONSTRAINT tcg_price_monitoring_cards_fk FOREIGN KEY (card_id) REFERENCES public.cards(id);
+    ADD CONSTRAINT tcg_price_monitoring_tcg_product_mapping_fk FOREIGN KEY (product_id) REFERENCES public.tcg_product_mapping(id);
 
 
 --
--- Name: tcg_product_mapping tcg_product_mapping_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: tcg_product_mapping tcg_product_mapping_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.tcg_product_mapping
@@ -2412,7 +2548,7 @@ ALTER TABLE ONLY public.tcg_product_mapping
 
 
 --
--- Name: varnish_mask_urls varnish_mask_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_mask_urls varnish_mask_urls_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_mask_urls
@@ -2420,7 +2556,7 @@ ALTER TABLE ONLY public.varnish_mask_urls
 
 
 --
--- Name: varnish_type_map varnish_type_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map varnish_type_map_cards_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_type_map
@@ -2428,7 +2564,7 @@ ALTER TABLE ONLY public.varnish_type_map
 
 
 --
--- Name: varnish_type_map varnish_type_map_varnish_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: s0lo_games
+-- Name: varnish_type_map varnish_type_map_varnish_types_fk; Type: FK CONSTRAINT; Schema: public; Owner: lorcana_33
 --
 
 ALTER TABLE ONLY public.varnish_type_map
@@ -2442,12 +2578,7 @@ ALTER TABLE ONLY public.varnish_type_map
 REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
---
--- INSERT INTO control_table(name, string_value) VALUES('db_schema_version', '1.0.3');
---
-
 
 --
 -- PostgreSQL database dump complete
 --
-

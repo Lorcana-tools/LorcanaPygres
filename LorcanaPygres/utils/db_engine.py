@@ -16,11 +16,18 @@ def create_engine():
     db_user = os.getenv('db_user')
     db_secret = os.getenv('db_secret')
     db_url = f'postgresql+psycopg2://{db_user}:{db_secret}@{db_server}:{db_port}/{db_name}'
-    engine = sqlalchemy.create_engine(url=db_url, pool_size=20, max_overflow=0)
+
+    # Configure pool_size, max_overflow, and pool_timeout to handle connection loads gracefully
+    engine = sqlalchemy.create_engine(
+        url=db_url,
+        pool_size=20,
+        max_overflow=0,
+        pool_timeout=30,
+        pool_recycle=1800
+    )
     return engine
 
-
-
+# Singleton engine instance
 engine = create_engine()
 
 def execute_db(query, force_refresh=False):
